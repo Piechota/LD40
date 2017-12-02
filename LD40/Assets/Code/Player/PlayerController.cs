@@ -1,4 +1,5 @@
 ﻿
+using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(PlayerInputController))]
@@ -47,6 +48,8 @@ public class PlayerController : CachedMonoBehaviour
 
 	public bool IsInputBlocked { get; private set; }
 
+	private List<GirlAI> m_PickupOptions = new List<GirlAI>();
+
 	private static int M_LAYER = -1;
 	public static int LAYER
 	{
@@ -79,6 +82,15 @@ public class PlayerController : CachedMonoBehaviour
             Input.UpdateBehaviour();
         }
 
+		if (m_PickupOptions.Count != 0)
+		{
+			GirlAI closest = GetClosestPickupOption();
+			if (UnityEngine.Input.GetKeyDown(KeyCode.Space))
+			{
+				closest.ToggleFollowing();
+			}
+		}
+
         Locomotion.UpdateBehaviour();
         Animation.UpdateBehaviour();
     }
@@ -89,4 +101,37 @@ public class PlayerController : CachedMonoBehaviour
         Locomotion.Initialize(this);
 		Animation.Initialize(this);
     }
+
+	public void AddPickupOption(GirlAI girl)
+	{
+		if (!m_PickupOptions.Contains(girl))
+		{
+			m_PickupOptions.Add(girl);
+		}
+	}
+
+	public void RemovePickupOption(GirlAI girl)
+	{
+		m_PickupOptions.Remove(girl);
+	}
+
+	private GirlAI GetClosestPickupOption()
+	{
+		GirlAI closest = m_PickupOptions[0];
+		float closestDist = Vector3.Distance(closest.transform.position, CachedTransform.position);
+
+		for (int i = 1; i < m_PickupOptions.Count; ++i)
+		{
+			GirlAI girl = m_PickupOptions[i];
+			float dist = Vector3.Distance(girl.transform.position, CachedTransform.position);
+
+			if (dist < closestDist)
+			{
+				closest = girl;
+				closestDist = dist;
+			}
+		}
+
+		return closest;
+	}
 }
