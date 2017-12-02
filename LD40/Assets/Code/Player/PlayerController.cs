@@ -50,7 +50,7 @@ public class PlayerController : CachedMonoBehaviour
 
 	private List<GirlAI> m_PickupOptions = new List<GirlAI>();
 	private GirlAI m_CurrentFollower;
-	public bool HasFollower { get { return m_CurrentFollower != null; } }
+	public bool IsEscorting { get { return m_CurrentFollower != null; } }
 
 	private static int M_LAYER = -1;
 	public static int LAYER
