@@ -33,6 +33,19 @@ public class PlayerController : CachedMonoBehaviour
 
 	public bool IsInputBlocked { get; private set; }
 
+	private static int M_LAYER = -1;
+	public static int LAYER
+	{
+		get
+		{
+			if (M_LAYER == -1)
+			{
+				M_LAYER = LayerMask.NameToLayer("Player");
+			}
+			return M_LAYER;
+		}
+	}
+
 	private void Awake()
 	{
 		Reset();
