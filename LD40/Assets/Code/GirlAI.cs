@@ -1,11 +1,21 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
+
+[RequireComponent(typeof(NavMeshAgent))]
 public class GirlAI : CachedMonoBehaviour
 {
     public Material ConeMaterial;
-    private bool Catched;
+    private bool m_Catched;
+    public bool IsFollowing;
+
+    private NavMeshAgent m_Agent;
+    [Header("Following")]
+    [SerializeField]
+    private float m_FollowingDistance;
+
     // Use this for initialization
     void Start() {
 
@@ -13,19 +23,20 @@ public class GirlAI : CachedMonoBehaviour
 
     private void DrawCone( Color color )
     {
+        FieldOfView fieldOfView = GirlsManager.Instance.FieldOfView;
         const int triangleNum = 20;
 
-        float deltaDegree = 2f * GameManager.Instance.FieldOfView.ConeDegree * Mathf.Deg2Rad / (float)triangleNum;
+        float deltaDegree = 2f * fieldOfView.ConeDegree * Mathf.Deg2Rad / (float)triangleNum;
         float cosDelta = Mathf.Cos(deltaDegree);
         float sinDelta = Mathf.Sin(deltaDegree);
 
-        float coneCos = Mathf.Cos(-GameManager.Instance.FieldOfView.ConeDegree * Mathf.Deg2Rad);
-        float coneSin = Mathf.Sin(-GameManager.Instance.FieldOfView.ConeDegree * Mathf.Deg2Rad);
+        float coneCos = Mathf.Cos(-fieldOfView.ConeDegree * Mathf.Deg2Rad);
+        float coneSin = Mathf.Sin(-fieldOfView.ConeDegree * Mathf.Deg2Rad);
 
         Vector3 initDir = new Vector3(coneSin * CachedTransform.forward.z + coneCos * CachedTransform.forward.x, 0f, coneCos * CachedTransform.forward.z - coneSin * CachedTransform.forward.x);
         initDir.Normalize();
         Vector3 pos0 = CachedTransform.position;
-        float coneRadius = GameManager.Instance.FieldOfView.RaysDistance;
+        float coneRadius = fieldOfView.RaysDistance;
         GL.Begin(GL.TRIANGLES);
         ConeMaterial.SetPass(0);
         ConeMaterial.color = color;
@@ -45,13 +56,38 @@ public class GirlAI : CachedMonoBehaviour
         }
         GL.End();
     }
+
+    private void FollowPlayer()
+    {
+
+    }
+
     void OnRenderObject()
     {
-        DrawCone(Catched ? Color.red : Color.blue);
+        DrawCone(m_Catched ? Color.red : Color.blue);
     }
     // Update is called once per frame
     void Update ()
     {
-        Catched = GameManager.Instance.FieldOfView.TestCollision(CachedTransform.position, CachedTransform.forward);
+        if (!IsFollowing)
+        {
+            m_Catched = GirlsManager.Instance.FieldOfView.TestCollision(CachedTransform.position, CachedTransform.forward);
+        }
+        else
+        {
+            FollowPlayer(); 
+        }
 	}
+
+    public void StopFollowing()
+    {
+        IsFollowing = false;
+        m_Agent.isStopped = true;
+    }
+
+    public void StartFollowing()
+    {
+        IsFollowing = true;
+        m_Agent.isStopped = false;
+    }
 }
