@@ -9,7 +9,7 @@ public class GirlAI : CachedMonoBehaviour
 {
     public Material ConeMaterial;
     private bool m_Catched;
-    public bool IsFollowing;
+    public bool IsFollowing { get; set; }
 
     private NavMeshAgent m_Agent;
     [Header("Following")]
@@ -18,7 +18,8 @@ public class GirlAI : CachedMonoBehaviour
 
     // Use this for initialization
     void Start() {
-
+        m_Agent = GetComponent<NavMeshAgent>();
+        IsFollowing = false;
     }
 
     private void DrawCone( Color color )
@@ -59,7 +60,19 @@ public class GirlAI : CachedMonoBehaviour
 
     private void FollowPlayer()
     {
+        PlayerController player = GameManager.Instance.Player;
+        Vector3 playerPosition = player.CachedTransform.position;
+        Vector3 positionRight = playerPosition + player.CachedTransform.right * m_FollowingDistance;
+        Vector3 positionLeft = playerPosition - player.CachedTransform.right * m_FollowingDistance;
 
+        if ( Vector3.SqrMagnitude( CachedTransform.position - positionRight ) < Vector3.SqrMagnitude(CachedTransform.position - positionLeft))
+        {
+            m_Agent.SetDestination(positionRight);
+        }
+        else
+        {
+            m_Agent.SetDestination(positionLeft);
+        }
     }
 
     void OnRenderObject()
