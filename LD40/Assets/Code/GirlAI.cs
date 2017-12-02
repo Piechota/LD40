@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 using UnityEngine.AI;
 
 [RequireComponent(typeof(NavMeshAgent))]
@@ -37,7 +38,8 @@ public class GirlAI : CachedMonoBehaviour
 	[SerializeField]
 	private float m_FollowingDistance;
 
-	public SpawnPoint OriginPoint;
+    private SpawnPoint m_OriginPoint;
+    private List<SpawnPoint> m_DestinationPoint; 
 
 	private void Awake()
 	{
@@ -54,17 +56,21 @@ public class GirlAI : CachedMonoBehaviour
 	{
 	}
 
-	public void Initialize(SpawnPoint origin)
-	{
-		IsInitialized = true;
+	public void Initialize(SpawnPoint spawnPoint, List<SpawnPoint> destinationPoints)
+    {
+        m_OriginPoint = spawnPoint;
+        m_DestinationPoint = destinationPoints;
+        m_OriginPoint.IsUsed = true;
+        gameObject.SetActive(true);
+        IsInitialized = true;
 		m_WaitTimer = m_WaitDuration;
-		OriginPoint = origin;
 
 		m_FSM.TransitionTo(m_IdleState.Id);
 		m_IdleState.OnWaitFinished.AddListener(HandleIdleWaitFinished);
-	}
+		UIManager.Instance.CreatePartnerTimer(this);
+    }
 
-	public void Uninitialize()
+    public void Uninitialize()
 	{
 		IsInitialized = false;
 		StopPair();
@@ -176,7 +182,7 @@ public class GirlAI : CachedMonoBehaviour
 	public void StartFollowing()
 	{
 		m_Agent.isStopped = false;
-		OriginPoint.IsUsed = false;
+		m_OriginPoint.IsUsed = false;
 	}
 
 	public void StopFollowing()
@@ -187,13 +193,13 @@ public class GirlAI : CachedMonoBehaviour
 	public void UpdateWaitTimer()
 	{
 		m_WaitTimer -= Time.deltaTime;
-	}
+    }
 
-	public void DateFinished()
-	{
-		GirlsManager.Instance.AddGirlToPool(this);
-		OriginPoint.IsUsed = false; //just in case
-	}
+    public void DateFinished()
+    {
+        GirlsManager.Instance.AddGirlToPool(this);
+        m_OriginPoint.IsUsed = false; //just in case
+    }
 
 	private void HandleIdleWaitFinished()
 	{

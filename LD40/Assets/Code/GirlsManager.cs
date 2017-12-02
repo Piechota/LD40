@@ -4,7 +4,7 @@ using UnityEngine.AI;
 
 public class GirlsManager : ASingleton<GirlsManager>
 {
-    private List<SpawnPoint> m_SpawnPoints;
+    private Dictionary<int, List<SpawnPoint>> m_SpawnPoints;
     private List<GirlAI> m_GirlsPool;
     public GirlFOV FieldOfView;
     public GameObject GirlPrefab;
@@ -13,13 +13,24 @@ public class GirlsManager : ASingleton<GirlsManager>
 
     public GirlsManager()
     {
-        m_SpawnPoints = new List<SpawnPoint>();
+        m_SpawnPoints = new Dictionary<int, List<SpawnPoint>>();
+        m_SpawnPoints[0] = new List<SpawnPoint>();
         m_GirlsPool = new List<GirlAI>();
     }
 
     public void RegisterSpawnPoint(SpawnPoint spawnPoint)
     {
-        m_SpawnPoints.Add(spawnPoint);
+        m_SpawnPoints[0].Add( spawnPoint );
+        int tagsNum = spawnPoint.Tags.Length;
+        for ( int i = 0; i < tagsNum; ++i )
+        {
+            int tag = (int)spawnPoint.Tags[i];
+            if ( m_SpawnPoints[tag] == null )
+            {
+                m_SpawnPoints[tag] = new List<SpawnPoint>();
+            }
+            m_SpawnPoints[tag].Add( spawnPoint );
+        }
     }
 
     void Start()
@@ -37,21 +48,74 @@ public class GirlsManager : ASingleton<GirlsManager>
         }
     }
 
+    private void GenerateMission( GirlAI girl, SpawnPoint spawnPoint )
+    {
+        List<SpawnPoint> destinationPoints = null;
+
+        int index = Random.Range(0, SpawnPoint.TagsNum);
+        SpawnPoint.ETag tag = (SpawnPoint.ETag)index;
+        List<SpawnPoint> spawnPoints = m_SpawnPoints[index];
+        if (spawnPoints == null)
+        {
+            for (int i = 1; i < SpawnPoint.TagsNum; ++i)
+            {
+                spawnPoints = m_SpawnPoints[(index + i) % SpawnPoint.TagsNum];
+                if ( spawnPoint != null)
+                {
+                    break;
+                }
+            }
+        }
+        if (spawnPoints != null)
+        {
+            int tagsNum = spawnPoint.Tags.Length;
+            bool needCheck = false;
+            for ( int i = 0; i < tagsNum; ++i)
+            {
+                if (spawnPoint.Tags[i] == tag)
+                {
+                    needCheck = true;
+                    break;
+                }
+            }
+
+            if ( needCheck )
+            {
+                destinationPoints = new List<SpawnPoint>();
+                int spawnPointsNum = spawnPoints.Count;
+                destinationPoints.Capacity = spawnPointsNum;
+                for ( int i = 0; i < spawnPointsNum; ++i)
+                {
+                    if ( spawnPoint != spawnPoints[i] )
+                    {
+                        destinationPoints.Add(spawnPoints[i]);
+                    }
+                }
+            }
+            else
+            {
+                destinationPoints = spawnPoints;
+            }
+            girl.Initialize(spawnPoint, destinationPoints);
+        }
+    }
+
     public void SpawnGirl(GirlAI girl)
     {
-        int spawnPointsNum = m_SpawnPoints.Count;
+        List < SpawnPoint > allSpawnPoints = m_SpawnPoints[0];
+        int spawnPointsNum = allSpawnPoints.Count;
         if (0 < spawnPointsNum)
         {
             int index = Random.Range(0, spawnPointsNum);
 
-            while (index < spawnPointsNum && m_SpawnPoints[index].IsUsed == true )
+            while (index < spawnPointsNum && allSpawnPoints[index].IsUsed == true )
             {
                 ++index;
             }
 
             if (index < spawnPointsNum)
             {
-                Vector3 spawnPosition = m_SpawnPoints[index].CachedTransform.position;
+                Vector3 spawnPosition = allSpawnPoints[index].CachedTransform.position;
                 spawnPosition.y = 0f;
 
                 NavMeshHit hitInfo;
@@ -59,17 +123,13 @@ public class GirlsManager : ASingleton<GirlsManager>
                 {
                     if (girl == null)
                     {
-                        girl = Instantiate(GirlPrefab, hitInfo.position, m_SpawnPoints[index].CachedTransform.rotation).GetComponent<GirlAI>();
+                        girl = Instantiate(GirlPrefab, hitInfo.position, allSpawnPoints[index].CachedTransform.rotation).GetComponent<GirlAI>();
                     }
                     else
                     {
                         girl.CachedTransform.position = hitInfo.position;
-                        girl.CachedTransform.rotation = m_SpawnPoints[index].CachedTransform.rotation;
+                        girl.CachedTransform.rotation = allSpawnPoints[index].CachedTransform.rotation;
                     }
-		    girl.Initialize(m_SpawnPoints[index]);
-                    m_SpawnPoints[index].IsUsed = true;
-
-					UIManager.Instance.CreatePartnerTimer(girl);
                 }
             }
         }
@@ -89,7 +149,6 @@ public class GirlsManager : ASingleton<GirlsManager>
             if (index < girlPoolNum)
             {
                 SpawnGirl(m_GirlsPool[index]);
-                m_GirlsPool[index].gameObject.SetActive( true );
                 return true;
             }
         }
