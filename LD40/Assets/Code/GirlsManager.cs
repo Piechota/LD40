@@ -4,7 +4,7 @@ using UnityEngine.AI;
 
 public class GirlsManager : ASingleton<GirlsManager>
 {
-    private Dictionary<int, List<SpawnPoint>> m_SpawnPoints;
+    private List<SpawnPoint>[] m_SpawnPoints;
     private List<GirlAI> m_GirlsPool;
     public GirlFOV FieldOfView;
     public GameObject GirlPrefab;
@@ -13,7 +13,7 @@ public class GirlsManager : ASingleton<GirlsManager>
 
     public GirlsManager()
     {
-        m_SpawnPoints = new Dictionary<int, List<SpawnPoint>>();
+        m_SpawnPoints = new List<SpawnPoint>[SpawnPoint.TagsNum];
         m_SpawnPoints[0] = new List<SpawnPoint>();
         m_GirlsPool = new List<GirlAI>();
     }
@@ -130,6 +130,7 @@ public class GirlsManager : ASingleton<GirlsManager>
                         girl.CachedTransform.position = hitInfo.position;
                         girl.CachedTransform.rotation = allSpawnPoints[index].CachedTransform.rotation;
                     }
+                    GenerateMission(girl, allSpawnPoints[index]);
                 }
             }
         }
