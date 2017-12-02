@@ -6,6 +6,7 @@ public class SpawnPoint : CachedMonoBehaviour
 {
     public enum ETag
     {
+        None,
         Food,
         Cinema,
         Shop
