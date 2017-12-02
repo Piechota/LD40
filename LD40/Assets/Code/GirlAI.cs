@@ -148,6 +148,11 @@ public class GirlAI : CachedMonoBehaviour
 		}
 	}
 
+	public void SetTargetForward(Vector3 forward)
+	{
+		CachedTransform.forward = forward;
+	}
+
 	public void StartPair()
 	{
 		m_FSM.TransitionTo(m_FollowState);
