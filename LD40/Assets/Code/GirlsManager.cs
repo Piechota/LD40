@@ -5,6 +5,7 @@ using UnityEngine.AI;
 public class GirlsManager : ASingleton<GirlsManager>
 {
     private List<SpawnPoint> m_SpawnPoints;
+    private List<GirlAI> m_GirlsPool;
     public GirlFOV FieldOfView;
     public GameObject GirlPrefab;
     public float SpawnDelay = 2f;
@@ -13,6 +14,7 @@ public class GirlsManager : ASingleton<GirlsManager>
     public GirlsManager()
     {
         m_SpawnPoints = new List<SpawnPoint>();
+        m_GirlsPool = new List<GirlAI>();
     }
 
     public void RegisterSpawnPoint(SpawnPoint spawnPoint)
@@ -30,12 +32,12 @@ public class GirlsManager : ASingleton<GirlsManager>
         CurrentSpawnTime -= Time.deltaTime;
         if (CurrentSpawnTime < 0f)
         {
-            SpawnGirl();
+            SpawnGirl(null);
             CurrentSpawnTime = SpawnDelay;
         }
     }
 
-    public void SpawnGirl()
+    public void SpawnGirl(GirlAI girl)
     {
         int spawnPointsNum = m_SpawnPoints.Count;
         if (0 < spawnPointsNum)
@@ -55,13 +57,49 @@ public class GirlsManager : ASingleton<GirlsManager>
                 NavMeshHit hitInfo;
                 if (NavMesh.SamplePosition(spawnPosition, out hitInfo, 2f, NavMesh.AllAreas))
                 {
-                    GirlAI girl = Instantiate(GirlPrefab, hitInfo.position, m_SpawnPoints[index].CachedTransform.rotation).GetComponent<GirlAI>();
-					girl.Initialize(m_SpawnPoints[index]);
+                    if (girl == null)
+                    {
+                        girl = Instantiate(GirlPrefab, hitInfo.position, m_SpawnPoints[index].CachedTransform.rotation).GetComponent<GirlAI>();
+                    }
+                    else
+                    {
+                        girl.CachedTransform.position = hitInfo.position;
+                        girl.CachedTransform.rotation = m_SpawnPoints[index].CachedTransform.rotation;
+                    }
+		    girl.Initialize(m_SpawnPoints[index]);
                     m_SpawnPoints[index].IsUsed = true;
 
 					UIManager.Instance.CreatePartnerTimer(girl);
                 }
             }
         }
+    }
+
+    public bool SpawnGirlFromPool()
+    {
+        int girlPoolNum = m_GirlsPool.Count;
+        if ( 0 < girlPoolNum )
+        {
+            int index = Random.Range(0, girlPoolNum);
+            while (index < girlPoolNum && m_GirlsPool[index].gameObject.activeSelf == false)
+            {
+                ++index;
+            }
+
+            if (index < girlPoolNum)
+            {
+                SpawnGirl(m_GirlsPool[index]);
+                m_GirlsPool[index].gameObject.SetActive( true );
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public void AddGirlToPool( GirlAI girl )
+    {
+        m_GirlsPool.Add(girl);
+        girl.gameObject.SetActive( false );
     }
 }

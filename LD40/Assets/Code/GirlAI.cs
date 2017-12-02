@@ -152,16 +152,22 @@ public class GirlAI : CachedMonoBehaviour
 		IsFollowing = true;
 		m_Agent.isStopped = false;
 		OnFollowStarted.Invoke();
+        OriginPoint.IsUsed = false;
 	}
 
 	public void StopFollowing()
 	{
 		IsFollowing = false;
 		m_Agent.isStopped = true;
-		OnFollowStopped.Invoke();
 	}
 
-	private void HandlePickupTriggerEntered(Collider col)
+    public void DateFinished()
+    {
+        GirlsManager.Instance.AddGirlToPool(this);
+        OriginPoint.IsUsed = false; //just in case
+    }
+
+    private void HandlePickupTriggerEntered(Collider col)
 	{
 		if (col.gameObject.layer == PlayerController.LAYER)
 		{
