@@ -39,7 +39,7 @@ public class GirlAI : CachedMonoBehaviour
 	private float m_FollowingDistance;
 
     private SpawnPoint m_OriginPoint;
-    private List<SpawnPoint> m_DestinationPoint; 
+    private List<SpawnPoint> m_DestinationPoint;
 
 	private void Awake()
 	{
@@ -134,6 +134,11 @@ public class GirlAI : CachedMonoBehaviour
 		{
 			m_PlayerDetected = GirlsManager.Instance.FieldOfView.TestCollision(CachedTransform.position, CachedTransform.forward);
 			DrawCone(m_PlayerDetected ? Color.red : Color.blue);
+
+			if (m_PlayerDetected && GameManager.Instance.Player.IsEscorting)
+			{
+				GameManager.Instance.SetGameOver();
+			}
 		}
 	}
 

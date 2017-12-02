@@ -150,8 +150,11 @@ public class PlayerController : CachedMonoBehaviour
 	{
 		GirlAI follower = m_CurrentFollower;
 		m_CurrentFollower = null;
-		follower.StopPair();
+		follower.DateFinished();
+	}
 
-		Destroy(follower.gameObject);		// #TODO LS request to girl manager (pooling)
+	public void SetInputLock(bool set)
+	{
+		IsInputBlocked = set;
 	}
 }
