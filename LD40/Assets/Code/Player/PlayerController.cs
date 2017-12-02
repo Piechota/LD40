@@ -3,6 +3,7 @@ using UnityEngine;
 
 [RequireComponent(typeof(PlayerInputController))]
 [RequireComponent(typeof(PlayerLocomotionController))]
+[RequireComponent(typeof(PlayerAnimationController))]
 public class PlayerController : CachedMonoBehaviour
 {
 	private PlayerInputController m_Input;
@@ -31,6 +32,19 @@ public class PlayerController : CachedMonoBehaviour
 		}
 	}
 
+	private PlayerAnimationController m_Animation;
+	public PlayerAnimationController Animation
+	{
+		get
+		{
+			if (m_Animation == null)
+			{
+				m_Animation = GetComponent<PlayerAnimationController>();
+			}
+			return m_Animation;
+		}
+	}
+
 	public bool IsInputBlocked { get; private set; }
 
 	private static int M_LAYER = -1;
@@ -55,6 +69,7 @@ public class PlayerController : CachedMonoBehaviour
 	{
 		Input.Uninitialize();
 		Locomotion.Uninitialize();
+		Animation.Uninitialize();
 	}
 
 	private void Update()
@@ -65,11 +80,13 @@ public class PlayerController : CachedMonoBehaviour
         }
 
         Locomotion.UpdateBehaviour();
+        Animation.UpdateBehaviour();
     }
 
     public void Reset()
     {
         Input.Initialize(this);
         Locomotion.Initialize(this);
+		Animation.Initialize(this);
     }
 }

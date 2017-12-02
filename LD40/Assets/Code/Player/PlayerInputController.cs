@@ -3,12 +3,15 @@
 public class PlayerInputController : APlayerComponent
 {
 	public Vector3 InputVector { private set; get; }
+	public Vector3 DirectionVector { private set; get; }		// last non-zero input vector
 
 	private const string HORIZONTAL_AXIS = "Horizontal";
 	private const string VERTICAL_AXIS = "Vertical";
 
 	protected override void HandleInitialization(PlayerController player)
 	{
+		InputVector = Vector3.right;
+		DirectionVector = Vector3.right;
 	}
 
 	protected override void HandleUninitialization()
@@ -28,6 +31,11 @@ public class PlayerInputController : APlayerComponent
 		if (InputVector.magnitude > 1)
 		{
 			InputVector = InputVector.normalized;
+		}
+
+		if (InputVector.magnitude > 0)
+		{
+			DirectionVector = InputVector;
 		}
 	}
 
