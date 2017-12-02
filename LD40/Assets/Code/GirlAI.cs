@@ -19,6 +19,7 @@ public class GirlAI : CachedMonoBehaviour
 	[SerializeField]
 	private float m_FollowingDistance;
 
+    public SpawnPoint OriginPoint;
 	private void Awake()
 	{
 		m_Agent = GetComponent<NavMeshAgent>();
