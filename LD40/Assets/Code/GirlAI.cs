@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 using UnityEngine.AI;
 
 
@@ -19,8 +20,9 @@ public class GirlAI : CachedMonoBehaviour
 	[SerializeField]
 	private float m_FollowingDistance;
 
-    public SpawnPoint OriginPoint;
-	private void Awake()
+    private SpawnPoint m_OriginPoint;
+    private List<SpawnPoint> m_DestinationPoint; 
+    private void Awake()
 	{
 		m_Agent = GetComponent<NavMeshAgent>();
 		m_PickupTrigger.OnTriggerEntered.AddListener(HandlePickupTriggerEntered);
@@ -126,13 +128,13 @@ public class GirlAI : CachedMonoBehaviour
 	{
 		IsFollowing = true;
 		m_Agent.isStopped = false;
-        OriginPoint.IsUsed = false;
+        m_OriginPoint.IsUsed = false;
     }
 
     public void DateFinished()
     {
         GirlsManager.Instance.AddGirlToPool(this);
-        OriginPoint.IsUsed = false; //just in case
+        m_OriginPoint.IsUsed = false; //just in case
     }
 
     private void HandlePickupTriggerEntered(Collider col)
@@ -150,4 +152,11 @@ public class GirlAI : CachedMonoBehaviour
 			GameManager.Instance.Player.RemovePickupOption(this);
 		}
 	}
+
+    public void Spawn( SpawnPoint spawnPoint, List<SpawnPoint> destinationPoints )
+    {
+        m_OriginPoint = spawnPoint;
+        m_DestinationPoint = destinationPoints;
+        gameObject.SetActive( true );
+    }
 }
