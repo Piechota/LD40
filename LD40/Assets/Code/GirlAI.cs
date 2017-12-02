@@ -1,18 +1,26 @@
 ﻿using UnityEngine;
 using UnityEngine.AI;
 
-
 [RequireComponent(typeof(NavMeshAgent))]
 public class GirlAI : CachedMonoBehaviour
 {
+	public readonly AEvent OnFollowStarted = new AEvent();
+	public readonly AEvent OnFollowStopped = new AEvent();
+
 	[SerializeField]
 	private EventCollider m_PickupTrigger;
 
 	[SerializeField]
 	public Material ConeMaterial;
 
-	private bool m_Catched;
-	public bool IsFollowing { get; set; }
+	private float m_WaitTimer = 0f;
+	private float m_WaitDuration = 30f;
+	public float TimerValue { get { return Mathf.Clamp01(m_WaitTimer / m_WaitDuration); } }
+
+	public bool IsInitialized { get; private set; }
+
+	private bool m_PlayerDetected;
+	public bool IsFollowing { get; private set; }
 
 	private NavMeshAgent m_Agent;
 	[Header("Following")]
@@ -20,6 +28,7 @@ public class GirlAI : CachedMonoBehaviour
 	private float m_FollowingDistance;
 
     public SpawnPoint OriginPoint;
+
 	private void Awake()
 	{
 		m_Agent = GetComponent<NavMeshAgent>();
@@ -28,18 +37,47 @@ public class GirlAI : CachedMonoBehaviour
 		IsFollowing = false;
 	}
 
+	private void Update()
+	{
+		if (IsInitialized)
+		{
+			if (!IsFollowing)
+			{
+				m_WaitTimer -= Time.deltaTime;
+				m_PlayerDetected = GirlsManager.Instance.FieldOfView.TestCollision(CachedTransform.position, CachedTransform.forward);
+			}
+			else
+			{
+				FollowPlayer();
+			}
+		}
+	}
+
 	private void OnDestroy()
 	{
 		m_PickupTrigger.OnTriggerEntered.RemoveListener(HandlePickupTriggerEntered);
 		m_PickupTrigger.OnTriggerExited.RemoveListener(HandlePickupTriggerExited);
 	}
 
+	public void Initialize(SpawnPoint origin)
+	{
+		IsInitialized = true;
+		m_WaitTimer = m_WaitDuration;
+		OriginPoint = origin;
+	}
+
+	public void Uninitialize()
+	{
+		IsInitialized = false;
+		StopFollowing();
+	}
+
 	private void DrawCone(Color color)
 	{
-		FieldOfView fieldOfView = GirlsManager.Instance.FieldOfView;
+		GirlFOV fieldOfView = GirlsManager.Instance.FieldOfView;
 		const int triangleNum = 20;
 
-		float deltaDegree = 2f * fieldOfView.ConeDegree * Mathf.Deg2Rad / (float)triangleNum;
+		float deltaDegree = 2f * fieldOfView.ConeDegree * Mathf.Deg2Rad / triangleNum;
 		float cosDelta = Mathf.Cos(deltaDegree);
 		float sinDelta = Mathf.Sin(deltaDegree);
 
@@ -89,23 +127,16 @@ public class GirlAI : CachedMonoBehaviour
 
 	void OnRenderObject()
 	{
-		DrawCone(m_Catched ? Color.red : Color.blue);
-	}
-	// Update is called once per frame
-	void Update()
-	{
-		if (!IsFollowing)
-		{
-			m_Catched = GirlsManager.Instance.FieldOfView.TestCollision(CachedTransform.position, CachedTransform.forward);
-		}
-		else
-		{
-			FollowPlayer();
-		}
+		DrawCone(m_PlayerDetected ? Color.red : Color.blue);
 	}
 
 	public void ToggleFollowing()
 	{
+		if (!IsInitialized)
+		{
+			return;
+		}
+
 		if (!IsFollowing)
 		{
 			StartFollowing();
@@ -116,16 +147,18 @@ public class GirlAI : CachedMonoBehaviour
 		}
 	}
 
-	public void StopFollowing()
-	{
-		IsFollowing = false;
-		m_Agent.isStopped = true;
-	}
-
 	public void StartFollowing()
 	{
 		IsFollowing = true;
 		m_Agent.isStopped = false;
+		OnFollowStarted.Invoke();
+	}
+
+	public void StopFollowing()
+	{
+		IsFollowing = false;
+		m_Agent.isStopped = true;
+		OnFollowStopped.Invoke();
 	}
 
 	private void HandlePickupTriggerEntered(Collider col)
