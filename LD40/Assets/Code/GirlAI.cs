@@ -4,59 +4,54 @@ using UnityEngine.AI;
 [RequireComponent(typeof(NavMeshAgent))]
 public class GirlAI : CachedMonoBehaviour
 {
-	public readonly AEvent OnFollowStarted = new AEvent();
-	public readonly AEvent OnFollowStopped = new AEvent();
+	public readonly AEvent OnPairStarted = new AEvent();
+	public readonly AEvent OnPairStopped = new AEvent();
 
 	[SerializeField]
 	private EventCollider m_PickupTrigger;
+	public EventCollider PickupTrigger { get { return m_PickupTrigger; } }
 
 	[SerializeField]
 	public Material ConeMaterial;
 
 	private float m_WaitTimer = 0f;
-	private float m_WaitDuration = 30f;
+	private float m_WaitDuration = 10f;
 	public float TimerValue { get { return Mathf.Clamp01(m_WaitTimer / m_WaitDuration); } }
 
 	public bool IsInitialized { get; private set; }
 
 	private bool m_PlayerDetected;
-	public bool IsFollowing { get; private set; }
+	public bool IsPaired { get { return m_FSM.CurrentStateId == (int)EPartnerStateID.Pair; } }
+	public bool IsAngry { get { return m_FSM.CurrentStateId == (int)EPartnerStateID.Angry; } }
+
+	private FiniteStateMachine m_FSM;
+	public FiniteStateMachine FSM { get { return m_FSM; } }
+	private PartnerIdleState m_IdleState;
+	private PartnerPairState m_FollowState;
+	private PartnerAngryState m_AngryState;
 
 	private NavMeshAgent m_Agent;
+	public NavMeshAgent Agent { get { return m_Agent; } }
+
 	[Header("Following")]
 	[SerializeField]
 	private float m_FollowingDistance;
 
-    public SpawnPoint OriginPoint;
+	public SpawnPoint OriginPoint;
 
 	private void Awake()
 	{
 		m_Agent = GetComponent<NavMeshAgent>();
-		m_PickupTrigger.OnTriggerEntered.AddListener(HandlePickupTriggerEntered);
-		m_PickupTrigger.OnTriggerExited.AddListener(HandlePickupTriggerExited);
-		IsFollowing = false;
+		PrepareStateMachine();
 	}
 
 	private void Update()
 	{
-		if (IsInitialized)
-		{
-			if (!IsFollowing)
-			{
-				m_WaitTimer -= Time.deltaTime;
-				m_PlayerDetected = GirlsManager.Instance.FieldOfView.TestCollision(CachedTransform.position, CachedTransform.forward);
-			}
-			else
-			{
-				FollowPlayer();
-			}
-		}
+		m_FSM.Update();
 	}
 
 	private void OnDestroy()
 	{
-		m_PickupTrigger.OnTriggerEntered.RemoveListener(HandlePickupTriggerEntered);
-		m_PickupTrigger.OnTriggerExited.RemoveListener(HandlePickupTriggerExited);
 	}
 
 	public void Initialize(SpawnPoint origin)
@@ -64,12 +59,31 @@ public class GirlAI : CachedMonoBehaviour
 		IsInitialized = true;
 		m_WaitTimer = m_WaitDuration;
 		OriginPoint = origin;
+
+		m_FSM.TransitionTo(m_IdleState.Id);
+		m_IdleState.OnWaitFinished.AddListener(HandleIdleWaitFinished);
 	}
 
 	public void Uninitialize()
 	{
 		IsInitialized = false;
-		StopFollowing();
+		StopPair();
+		m_FSM.Reset();
+		m_IdleState.OnWaitFinished.RemoveListener(HandleIdleWaitFinished);
+	}
+
+	private void PrepareStateMachine()
+	{
+		m_FSM = new FiniteStateMachine();
+
+		m_IdleState = new PartnerIdleState(this);
+		m_FSM.AddState(m_IdleState);
+
+		m_FollowState = new PartnerPairState(this);
+		m_FSM.AddState(m_FollowState);
+
+		m_AngryState = new PartnerAngryState(this);
+		m_FSM.AddState(m_AngryState);
 	}
 
 	private void DrawCone(Color color)
@@ -108,7 +122,16 @@ public class GirlAI : CachedMonoBehaviour
 		GL.End();
 	}
 
-	private void FollowPlayer()
+	private void OnRenderObject()
+	{
+		if (m_FSM.CurrentStateId != (int)EPartnerStateID.Pair)
+		{
+			m_PlayerDetected = GirlsManager.Instance.FieldOfView.TestCollision(CachedTransform.position, CachedTransform.forward);
+			DrawCone(m_PlayerDetected ? Color.red : Color.blue);
+		}
+	}
+
+	public void FollowPlayer()
 	{
 		PlayerController player = GameManager.Instance.Player;
 		Vector3 playerPosition = player.CachedTransform.position;
@@ -125,61 +148,50 @@ public class GirlAI : CachedMonoBehaviour
 		}
 	}
 
-	void OnRenderObject()
+	public void StartPair()
 	{
-		DrawCone(m_PlayerDetected ? Color.red : Color.blue);
+		m_FSM.TransitionTo(m_FollowState);
+		OnPairStarted.Invoke();
 	}
 
-	public void ToggleFollowing()
+	public void StopPair()
 	{
-		if (!IsInitialized)
+		if (m_WaitTimer > 0)
 		{
-			return;
-		}
-
-		if (!IsFollowing)
-		{
-			StartFollowing();
+			m_FSM.TransitionTo(m_IdleState);
 		}
 		else
 		{
-			StopFollowing();
+			m_FSM.TransitionTo(m_AngryState);
 		}
+
+		OnPairStopped.Invoke();
 	}
 
 	public void StartFollowing()
 	{
-		IsFollowing = true;
 		m_Agent.isStopped = false;
-		OnFollowStarted.Invoke();
-        OriginPoint.IsUsed = false;
+		OriginPoint.IsUsed = false;
 	}
 
 	public void StopFollowing()
 	{
-		IsFollowing = false;
 		m_Agent.isStopped = true;
 	}
 
-    public void DateFinished()
-    {
-        GirlsManager.Instance.AddGirlToPool(this);
-        OriginPoint.IsUsed = false; //just in case
-    }
-
-    private void HandlePickupTriggerEntered(Collider col)
+	public void UpdateWaitTimer()
 	{
-		if (col.gameObject.layer == PlayerController.LAYER)
-		{
-			GameManager.Instance.Player.AddPickupOption(this);
-		}
+		m_WaitTimer -= Time.deltaTime;
 	}
 
-	private void HandlePickupTriggerExited(Collider col)
+	public void DateFinished()
 	{
-		if (col.gameObject.layer == PlayerController.LAYER)
-		{
-			GameManager.Instance.Player.RemovePickupOption(this);
-		}
+		GirlsManager.Instance.AddGirlToPool(this);
+		OriginPoint.IsUsed = false; //just in case
+	}
+
+	private void HandleIdleWaitFinished()
+	{
+		m_FSM.TransitionTo(m_AngryState);
 	}
 }

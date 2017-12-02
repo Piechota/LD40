@@ -29,14 +29,14 @@ public class UIPartnerTimer : CachedUIBehaviour
 		HandleFollowStopped();
 
 		m_Partner = partner;
-		m_Partner.OnFollowStarted.AddListener(HandleFollowStarted);
-		m_Partner.OnFollowStopped.AddListener(HandleFollowStopped);
+		m_Partner.OnPairStarted.AddListener(HandleFollowStarted);
+		m_Partner.OnPairStopped.AddListener(HandleFollowStopped);
 	}
 
 	public void Uninitialize()
 	{
-		m_Partner.OnFollowStarted.RemoveListener(HandleFollowStarted);
-		m_Partner.OnFollowStopped.RemoveListener(HandleFollowStopped);
+		m_Partner.OnPairStarted.RemoveListener(HandleFollowStarted);
+		m_Partner.OnPairStopped.RemoveListener(HandleFollowStopped);
 
 		m_Partner = null;
 		IsInitialized = false;

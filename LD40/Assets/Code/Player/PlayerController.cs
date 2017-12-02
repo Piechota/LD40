@@ -92,12 +92,12 @@ public class PlayerController : CachedMonoBehaviour
 				{
 					GirlAI closest = GetClosestPickupOption();
 					m_CurrentFollower = closest;
-					closest.StartFollowing();
+					closest.StartPair();
 				}
 			}
 			else
 			{
-				m_CurrentFollower.StopFollowing();
+				m_CurrentFollower.StopPair();
 				m_CurrentFollower = null;
 			}
 		}
@@ -150,7 +150,7 @@ public class PlayerController : CachedMonoBehaviour
 	{
 		GirlAI follower = m_CurrentFollower;
 		m_CurrentFollower = null;
-		follower.StopFollowing();
+		follower.StopPair();
 
 		Destroy(follower.gameObject);		// #TODO LS request to girl manager (pooling)
 	}
