@@ -25,7 +25,7 @@ public class Location : MonoBehaviour
 		if (col.gameObject.layer == PlayerController.LAYER)
 		{
 			PlayerController player = GameManager.Instance.Player;
-			if (player.HasFollower)
+			if (player.IsEscorting)
 			{
 				player.PerformDate(this);
 			}
