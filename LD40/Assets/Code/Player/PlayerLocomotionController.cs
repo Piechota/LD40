@@ -72,12 +72,12 @@ public class PlayerLocomotionController : APlayerComponent
 
 		// modify velocity
 		Vector3 velocityDiff = targetVelocity - m_CurrentVelocity;
-		m_CurrentVelocity += velocityDiff * acceleration * Time.deltaTime;
+		m_CurrentVelocity += velocityDiff * acceleration * GameManager.Instance.DeltaTime;
 	}
 
 	private void UpdateNavmesh()
 	{
-		Vector3 offset = m_CurrentVelocity * Time.deltaTime;
+		Vector3 offset = m_CurrentVelocity * GameManager.Instance.DeltaTime;
 		m_TargetPosition = CachedTransform.localPosition + offset;
 
 		NavMeshHit hit;

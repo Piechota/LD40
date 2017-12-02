@@ -79,6 +79,11 @@ public class PlayerController : CachedMonoBehaviour
 
 	private void Update()
     {
+		if (GameManager.Instance.IsGameOver)
+		{
+			return;
+		}
+
         if (!IsInputBlocked)
         {
             Input.UpdateBehaviour();

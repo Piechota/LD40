@@ -34,7 +34,7 @@ public class PartnerIdleState : APartnerState
 
 	private void UpdateTargetRotation()
 	{
-		m_RotationTimer -= Time.deltaTime;
+		m_RotationTimer -= GameManager.Instance.DeltaTime;
 		if (m_RotationTimer <= 0)
 		{
 			m_RotationTimer = Random.Range(m_RotationDelay.x, m_RotationDelay.y);
@@ -43,7 +43,7 @@ public class PartnerIdleState : APartnerState
 			m_TargetForward = new Vector3(circleForward.x, 0, circleForward.y).normalized;
 		}
 
-		Vector3 forward = Vector3.Lerp(m_Partner.CachedTransform.forward, m_TargetForward, Time.deltaTime * m_RotationSpeed);
+		Vector3 forward = Vector3.Lerp(m_Partner.CachedTransform.forward, m_TargetForward, GameManager.Instance.DeltaTime * m_RotationSpeed);
 		m_Partner.SetTargetForward(forward);
 	}
 

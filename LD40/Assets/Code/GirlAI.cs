@@ -197,7 +197,7 @@ public class GirlAI : CachedMonoBehaviour
 
 	public void UpdateWaitTimer()
 	{
-		m_WaitTimer -= Time.deltaTime;
+		m_WaitTimer -= GameManager.Instance.DeltaTime;
     }
 
     public void DateFinished()

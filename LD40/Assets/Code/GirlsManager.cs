@@ -40,7 +40,7 @@ public class GirlsManager : ASingleton<GirlsManager>
 
     void Update()
     {
-        CurrentSpawnTime -= Time.deltaTime;
+        CurrentSpawnTime -= GameManager.Instance.DeltaTime;
         if (CurrentSpawnTime < 0f)
         {
             SpawnGirl(null);
