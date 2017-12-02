@@ -24,7 +24,11 @@ public class Location : MonoBehaviour
 	{
 		if (col.gameObject.layer == PlayerController.LAYER)
 		{
-			Debug.Log("Player can enter location");
+			PlayerController player = GameManager.Instance.Player;
+			if (player.HasFollower)
+			{
+				player.PerformDate(this);
+			}
 		}
 	}
 }

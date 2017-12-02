@@ -49,6 +49,8 @@ public class PlayerController : CachedMonoBehaviour
 	public bool IsInputBlocked { get; private set; }
 
 	private List<GirlAI> m_PickupOptions = new List<GirlAI>();
+	private GirlAI m_CurrentFollower;
+	public bool HasFollower { get { return m_CurrentFollower != null; } }
 
 	private static int M_LAYER = -1;
 	public static int LAYER
@@ -82,12 +84,21 @@ public class PlayerController : CachedMonoBehaviour
             Input.UpdateBehaviour();
         }
 
-		if (m_PickupOptions.Count != 0)
+		if (UnityEngine.Input.GetKeyDown(KeyCode.Space))		// #TODO LS update this
 		{
-			GirlAI closest = GetClosestPickupOption();
-			if (UnityEngine.Input.GetKeyDown(KeyCode.Space))
+			if (m_CurrentFollower == null)
 			{
-				closest.ToggleFollowing();
+				if (m_PickupOptions.Count != 0)
+				{
+					GirlAI closest = GetClosestPickupOption();
+					m_CurrentFollower = closest;
+					closest.StartFollowing();
+				}
+			}
+			else
+			{
+				m_CurrentFollower.StopFollowing();
+				m_CurrentFollower = null;
 			}
 		}
 
@@ -133,5 +144,14 @@ public class PlayerController : CachedMonoBehaviour
 		}
 
 		return closest;
+	}
+
+	public void PerformDate(Location loc)
+	{
+		GirlAI follower = m_CurrentFollower;
+		m_CurrentFollower = null;
+		follower.StopFollowing();
+
+		Destroy(follower.gameObject);		// #TODO LS request to girl manager (pooling)
 	}
 }
