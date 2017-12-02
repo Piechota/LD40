@@ -56,6 +56,7 @@ GameObject:
   - component: {fileID: 65107290374645934}
   - component: {fileID: 114991150665215224}
   - component: {fileID: 54192330554356894}
+  - component: {fileID: 114200127986118076}
   m_Layer: 0
   m_Name: EntranceCollider
   m_TagString: Untagged
@@ -256,6 +257,17 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &114200127986118076
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1791455762555898}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c907748b4e2a870479479a1adf65667b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114349900285017482
 MonoBehaviour:
   m_ObjectHideFlags: 1
