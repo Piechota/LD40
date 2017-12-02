@@ -9,30 +9,33 @@ public class FieldOfView
 
     public bool TestCollision(Vector3 position, Vector3 lookDir)
     {
-        float playerRadius = GameManager.Instance.PlayerCollider.radius;
-        float coneDot = Mathf.Cos(ConeDegree * Mathf.Deg2Rad);
-        Vector3 playerPosition = GameManager.Instance.Player.transform.position;
-        Vector3 dir = playerPosition - position;
-        if (Vector3.Distance(playerPosition - dir.normalized * playerRadius, position) <= RaysDistance)
+        if (GameManager.Instance.PlayerCollider != null)
         {
-            Vector3 perpendicularDir = new Vector3(dir.z, 0.0f, -dir.x);
-            perpendicularDir.Normalize();
-            Vector3 testPosition = playerPosition + perpendicularDir * playerRadius;
-
-            float delta = (2.0f * playerRadius) / (float)RaysNum;
-            for (int i = 0; i < RaysNum; ++i)
+            float playerRadius = GameManager.Instance.PlayerCollider.radius;
+            float coneDot = Mathf.Cos(ConeDegree * Mathf.Deg2Rad);
+            Vector3 playerPosition = GameManager.Instance.Player.transform.position;
+            Vector3 dir = playerPosition - position;
+            if (Vector3.Distance(playerPosition - dir.normalized * playerRadius, position) <= RaysDistance)
             {
-                dir = testPosition - position;
-                dir.Normalize();
+                Vector3 perpendicularDir = new Vector3(dir.z, 0.0f, -dir.x);
+                perpendicularDir.Normalize();
+                Vector3 testPosition = playerPosition + perpendicularDir * playerRadius;
 
-                if (coneDot < Vector3.Dot(dir, lookDir))
+                float delta = (2.0f * playerRadius) / (float)RaysNum;
+                for (int i = 0; i < RaysNum; ++i)
                 {
-                    if (Physics.Raycast(position, dir, RaysDistance))
+                    dir = testPosition - position;
+                    dir.Normalize();
+
+                    if (coneDot < Vector3.Dot(dir, lookDir))
                     {
-                        return true;
+                        if (Physics.Raycast(position, dir, RaysDistance))
+                        {
+                            return true;
+                        }
                     }
+                    testPosition -= perpendicularDir * delta;
                 }
-                testPosition -= perpendicularDir * delta;
             }
         }
         return false;
