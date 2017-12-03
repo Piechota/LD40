@@ -8,12 +8,15 @@ public class GirlsManager : ASingleton<GirlsManager>
 	public GameObject GirlPrefab;
 	public float SpawnDelay = 2f;
 	private float CurrentSpawnTime;
+    [SerializeField]
+    private int SpawnOnAwakeNum = 10;
 
 	private List<GirlAI> m_ActiveFans = new List<GirlAI>();
 
 	private void Awake()
 	{
 		CurrentSpawnTime = SpawnDelay;
+        SpawnGirl(SpawnOnAwakeNum);
 	}
 
 	private void Update()
