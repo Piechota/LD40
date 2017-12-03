@@ -63,5 +63,6 @@ public class POIManager : ASingleton<POIManager>
 		TargetLocation = null;
 		OnMissionCompleted.Invoke();
 		GenerateMission();
+        GirlsManager.Instance.SpawnGirl(5);
 	}
 }

@@ -6,8 +6,6 @@ public class GirlsManager : ASingleton<GirlsManager>
 {
 	public GirlFOV FieldOfView;
 	public GameObject GirlPrefab;
-	public float SpawnDelay = 2f;
-	private float CurrentSpawnTime;
     [SerializeField]
     private int SpawnOnAwakeNum = 10;
 
@@ -15,19 +13,11 @@ public class GirlsManager : ASingleton<GirlsManager>
 
 	private void Awake()
 	{
-		CurrentSpawnTime = SpawnDelay;
         SpawnGirl(SpawnOnAwakeNum);
 	}
 
 	private void Update()
 	{
-		CurrentSpawnTime -= GameManager.Instance.DeltaTime;
-		if (CurrentSpawnTime < 0f)
-		{
-			SpawnGirl(1);
-			CurrentSpawnTime = SpawnDelay;
-		}
-
 		CheckPlayerExposed();
 	}
 
