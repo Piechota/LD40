@@ -897,6 +897,21 @@ Prefab:
       propertyPath: m_RootOrder
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 114804978368180090, guid: 0c09657dcd41a554998992b3e0ed06da,
+        type: 2}
+      propertyPath: m_havePropertiesChanged
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114804978368180090, guid: 0c09657dcd41a554998992b3e0ed06da,
+        type: 2}
+      propertyPath: m_isInputParsingRequired
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 33647464636399894, guid: 0c09657dcd41a554998992b3e0ed06da,
+        type: 2}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 0c09657dcd41a554998992b3e0ed06da, type: 2}
   m_IsPrefabParent: 0
@@ -1560,12 +1575,12 @@ Prefab:
     - target: {fileID: 224682820371047708, guid: 978cef1389c3ba24c94868b8cddc1de9,
         type: 2}
       propertyPath: m_LocalPosition.x
-      value: 478
+      value: 719
       objectReference: {fileID: 0}
     - target: {fileID: 224682820371047708, guid: 978cef1389c3ba24c94868b8cddc1de9,
         type: 2}
       propertyPath: m_LocalPosition.y
-      value: 225
+      value: 404.5
       objectReference: {fileID: 0}
     - target: {fileID: 224682820371047708, guid: 978cef1389c3ba24c94868b8cddc1de9,
         type: 2}
@@ -3448,6 +3463,11 @@ Prefab:
       propertyPath: m_Name
       value: Cinema (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 33333386755195248, guid: ee5097a572d00154183c63d25aab8b9a,
+        type: 2}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: ee5097a572d00154183c63d25aab8b9a, type: 2}
   m_IsPrefabParent: 0
@@ -4223,6 +4243,11 @@ Prefab:
       propertyPath: m_Name
       value: Subtrain (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 33647464636399894, guid: 0c09657dcd41a554998992b3e0ed06da,
+        type: 2}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 0c09657dcd41a554998992b3e0ed06da, type: 2}
   m_IsPrefabParent: 0
@@ -4505,6 +4530,11 @@ Prefab:
     - target: {fileID: 1620958831191098, guid: ee5097a572d00154183c63d25aab8b9a, type: 2}
       propertyPath: m_Name
       value: Cinema (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 33333386755195248, guid: ee5097a572d00154183c63d25aab8b9a,
+        type: 2}
+      propertyPath: m_Mesh
+      value: 
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: ee5097a572d00154183c63d25aab8b9a, type: 2}
@@ -5288,6 +5318,21 @@ Prefab:
       propertyPath: m_RootOrder
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 114673540559605334, guid: ee5097a572d00154183c63d25aab8b9a,
+        type: 2}
+      propertyPath: m_havePropertiesChanged
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114673540559605334, guid: ee5097a572d00154183c63d25aab8b9a,
+        type: 2}
+      propertyPath: m_isInputParsingRequired
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 33333386755195248, guid: ee5097a572d00154183c63d25aab8b9a,
+        type: 2}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: ee5097a572d00154183c63d25aab8b9a, type: 2}
   m_IsPrefabParent: 0
@@ -5457,6 +5502,11 @@ Prefab:
     - target: {fileID: 1640532166979310, guid: 0c09657dcd41a554998992b3e0ed06da, type: 2}
       propertyPath: m_Name
       value: Subtrain (3)
+      objectReference: {fileID: 0}
+    - target: {fileID: 33647464636399894, guid: 0c09657dcd41a554998992b3e0ed06da,
+        type: 2}
+      propertyPath: m_Mesh
+      value: 
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 0c09657dcd41a554998992b3e0ed06da, type: 2}
@@ -5935,6 +5985,11 @@ Prefab:
     - target: {fileID: 1620958831191098, guid: ee5097a572d00154183c63d25aab8b9a, type: 2}
       propertyPath: m_Name
       value: Cinema (4)
+      objectReference: {fileID: 0}
+    - target: {fileID: 33333386755195248, guid: ee5097a572d00154183c63d25aab8b9a,
+        type: 2}
+      propertyPath: m_Mesh
+      value: 
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: ee5097a572d00154183c63d25aab8b9a, type: 2}

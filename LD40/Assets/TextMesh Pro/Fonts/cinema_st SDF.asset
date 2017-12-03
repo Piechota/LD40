@@ -11,19 +11,19 @@ MonoBehaviour:
   m_Script: {fileID: -667331979, guid: 89f0137620f6af44b9ba852b4190e64e, type: 3}
   m_Name: cinema_st SDF
   m_EditorClassIdentifier: 
-  hashCode: 0
+  hashCode: 527962852
   material: {fileID: 21035083428648746}
-  materialHashCode: 0
+  materialHashCode: -1820751377
   fontAssetType: 1
   m_fontInfo:
     Name: Cinema St
     PointSize: 53
-    Scale: 0
+    Scale: 1
     CharacterCount: 97
     LineHeight: 61
     Baseline: 0
     Ascender: 44.75
-    CapHeight: 0
+    CapHeight: 44.75
     Descender: 0
     CenterLine: 0
     SuperscriptOffset: 44.75
@@ -33,7 +33,7 @@ MonoBehaviour:
     UnderlineThickness: 3.881836
     strikethrough: 16.272728
     strikethroughThickness: 3.881836
-    TabWidth: 0
+    TabWidth: 445
     Padding: 5
     AtlasWidth: 512
     AtlasHeight: 512
@@ -1025,9 +1025,9 @@ Material:
     - _OutlineWidth: 0
     - _PerspectiveFilter: 0.875
     - _Reflectivity: 10
-    - _ScaleRatioA: 1
-    - _ScaleRatioB: 1
-    - _ScaleRatioC: 1
+    - _ScaleRatioA: 0.8333333
+    - _ScaleRatioB: 0.6770833
+    - _ScaleRatioC: 0.6770833
     - _ScaleX: 1
     - _ScaleY: 1
     - _ShaderFlags: 0
