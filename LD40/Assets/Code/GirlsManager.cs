@@ -33,8 +33,8 @@ public class GirlsManager : ASingleton<GirlsManager>
         Transform worldBox = GameManager.Instance.WorldBox.transform;
         Vector3 offset = worldBox.localScale;
         offset.y = 0f;
-        offset.x *= 0.5f * Random.value;
-        offset.z *= 0.5f * Random.value;
+        offset.x *= 0.5f * ( Random.value * 2f - 1f);
+        offset.z *= 0.5f * ( Random.value * 2f - 1f);
 
 		Vector3 spawnPosition = worldBox.position + offset;
 		NavMeshHit hitInfo;
