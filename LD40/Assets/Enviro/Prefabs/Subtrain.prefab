@@ -25,24 +25,8 @@ GameObject:
   m_Name: Cube.003
   m_TagString: Untagged
   m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 4294967295
-  m_IsActive: 1
---- !u!1 &1379871312155558
-GameObject:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  serializedVersion: 5
-  m_Component:
-  - component: {fileID: 4125483587233866}
-  - component: {fileID: 65042250992370778}
-  m_Layer: 0
-  m_Name: Collider
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 4294967295
+  m_NavMeshLayer: 1
+  m_StaticEditorFlags: 4294967263
   m_IsActive: 1
 --- !u!1 &1416840477992486
 GameObject:
@@ -58,8 +42,8 @@ GameObject:
   m_Name: Cube.002
   m_TagString: Untagged
   m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 4294967295
+  m_NavMeshLayer: 1
+  m_StaticEditorFlags: 4294967263
   m_IsActive: 1
 --- !u!1 &1473797719709748
 GameObject:
@@ -75,8 +59,8 @@ GameObject:
   m_Name: Cube.006
   m_TagString: Untagged
   m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 4294967295
+  m_NavMeshLayer: 1
+  m_StaticEditorFlags: 4294967263
   m_IsActive: 1
 --- !u!1 &1640532166979310
 GameObject:
@@ -107,8 +91,8 @@ GameObject:
   m_Name: Cube.005
   m_TagString: Untagged
   m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 4294967295
+  m_NavMeshLayer: 1
+  m_StaticEditorFlags: 4294967263
   m_IsActive: 1
 --- !u!1 &1901122575756428
 GameObject:
@@ -159,19 +143,6 @@ Transform:
   m_Father: {fileID: 4511542268443958}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!4 &4125483587233866
-Transform:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1379871312155558}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 2.84, y: 5.17, z: 5.91}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 4511542268443958}
-  m_RootOrder: 6
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4180766948411312
 Transform:
   m_ObjectHideFlags: 1
@@ -205,8 +176,8 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1640532166979310}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -23.2, y: -0.13, z: 4.81}
-  m_LocalScale: {x: 0.67734, y: 0.67734, z: 0.67734}
+  m_LocalPosition: {x: 25.55, y: -0.13, z: 4.81}
+  m_LocalScale: {x: 0.53427035, y: 0.67734, z: 0.67734}
   m_Children:
   - {fileID: 4681817664742232}
   - {fileID: 4980383748617364}
@@ -214,7 +185,6 @@ Transform:
   - {fileID: 4072259075201130}
   - {fileID: 4180766948411312}
   - {fileID: 224519696310733610}
-  - {fileID: 4125483587233866}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -292,7 +262,7 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_Materials:
-  - {fileID: 2100000, guid: 74ecc6fe51e50e2499791245d3074410, type: 2}
+  - {fileID: 2100000, guid: ab2c1fde2ffc7094d986a1f8355a3b6c, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -490,18 +460,6 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1473797719709748}
   m_Mesh: {fileID: 4300006, guid: a183aa2050794094e9e8ceb5cddb657b, type: 3}
---- !u!65 &65042250992370778
-BoxCollider:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1379871312155558}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 21.5, y: 10.15, z: 13.5}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &114804978368180090
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -521,7 +479,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_text: <color=#dddddd>*UB<color=#C6E510>TRAIN
+  m_text: <color=#dddddd>BOWLING
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8c3401608459fbe4997175efd1a8e951, type: 2}
   m_sharedMaterial: {fileID: 21013317326451816, guid: 8c3401608459fbe4997175efd1a8e951,
@@ -589,7 +547,7 @@ MonoBehaviour:
   m_margin: {x: 0, y: 0, z: 0, w: 0}
   m_textInfo:
     textComponent: {fileID: 114804978368180090}
-    characterCount: 8
+    characterCount: 7
     spriteCount: 0
     spaceCount: 0
     wordCount: 1
