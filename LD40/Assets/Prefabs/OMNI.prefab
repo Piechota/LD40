@@ -203,8 +203,8 @@ MonoBehaviour:
   LastDistanceTime: 3
   LastDistanceOffset: 0.1
   MaxWaitTime: {x: 3, y: 10}
-  m_MaxNPC: 100
-  m_DistanceFromPlayer: {x: 30, y: 60}
+  m_StartNPCNum: 400
+  m_DistanceFromPlayer: {x: 60, y: 80}
 --- !u!114 &114853315271392370
 MonoBehaviour:
   m_ObjectHideFlags: 1
