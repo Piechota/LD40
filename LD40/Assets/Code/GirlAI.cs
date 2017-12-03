@@ -167,6 +167,11 @@ public class GirlAI : CachedMonoBehaviour
         m_FSM.TransitionTo(m_RoamingState);
     }
 
+    public void Alert(Vector3 position)
+    {
+
+    }
+
     private void HandlePlayerSpotted()
 	{
 		m_FSM.TransitionTo(m_SpottedState);
@@ -207,4 +212,9 @@ public class GirlAI : CachedMonoBehaviour
 		}
 		GL.End();
 	}
+
+    private void Shout()
+    {
+
+    }
 }
