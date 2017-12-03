@@ -11,6 +11,9 @@ public class PlayerLocomotionController : APlayerComponent
 	[SerializeField]
 	private float m_Deceleration = 15f;
 
+	private int m_CurrentMovementPenalty = 0;
+	private float m_PenaltyMod = 0.6f;
+
     private Vector3 m_CurrentVelocity;
 	private Vector3 m_TargetDirection;
 	private Vector3 m_TargetPosition;
@@ -58,6 +61,11 @@ public class PlayerLocomotionController : APlayerComponent
 		m_CurrentVelocity += velocity;
 	}
 
+	public void AddMovementPenalty()
+	{
+		m_CurrentMovementPenalty++;
+	}
+
 	private void UpdateVelocity()
 	{
 		float movementMod = m_RunSpeed;
@@ -71,6 +79,10 @@ public class PlayerLocomotionController : APlayerComponent
 		// modify velocity
 		Vector3 velocityDiff = targetVelocity - m_CurrentVelocity;
 		m_CurrentVelocity += velocityDiff * acceleration * GameManager.Instance.DeltaTime;
+
+		float penalty = Mathf.Pow(m_PenaltyMod, m_CurrentMovementPenalty);
+		m_CurrentMovementPenalty = 0;
+		m_CurrentVelocity *= penalty;
 	}
 
 	private void UpdateNavmesh()

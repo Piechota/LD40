@@ -2,7 +2,8 @@
 
 public class FanSpottedState : AFanState
 {
-	private const float SPOTTED_SPEED = 7f;
+	private const float SPOTTED_SPEED = 11f;
+	private const float SPOTTED_ATTACK_DISTANCE = 1f;
 
 	public FanSpottedState(GirlAI fan) : base(EFanStateID.Spotted, fan)
 	{
@@ -21,6 +22,12 @@ public class FanSpottedState : AFanState
 		PlayerController player = GameManager.Instance.Player;
 		Vector3 playerPosition = player.CachedTransform.position;
 		m_Fan.SetTargetDestination(playerPosition);
+
+		float dist = Vector3.Distance(player.CachedTransform.position, m_Fan.CachedTransform.position);
+		if (dist <= SPOTTED_ATTACK_DISTANCE)
+		{
+			player.ReceiveAttack();
+		}
 	}
 
 	protected override void HandleLeave(AState nextState)
