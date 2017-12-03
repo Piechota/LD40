@@ -38,12 +38,28 @@ public abstract class AUIMarker : CachedUIBehaviour
 	{
 		Vector3 pivotPoint = m_Target.position + VERTICAL_OFFSET;
 		Vector3 screenPoint = m_MainCamera.WorldToScreenPoint(pivotPoint);
-
 		float halfWidth = CachedTransform.rect.width / 2f;
-		screenPoint.x = Mathf.Clamp(screenPoint.x, halfWidth, Screen.width - halfWidth);
 		float halfHeight = CachedTransform.rect.height / 2f;
-		screenPoint.y = Mathf.Clamp(screenPoint.y, halfHeight, Screen.height - halfHeight);
 
-		transform.position = screenPoint;
+		// WITHIN BOUNDS
+		if (screenPoint.z > 0
+			&& screenPoint.x > halfWidth && screenPoint.x < Screen.width - halfWidth
+			&& screenPoint.x > halfHeight && screenPoint.x < Screen.height - halfHeight)
+		{
+			transform.position = screenPoint;
+		}
+		// OFFSCREEN
+		else
+		{
+			if (screenPoint.z < 0)
+			{
+				screenPoint *= -1;
+			}
+
+			screenPoint.x = Mathf.Clamp(screenPoint.x, halfWidth, Screen.width - halfWidth);
+			screenPoint.y = Mathf.Clamp(screenPoint.y, halfHeight, Screen.height - halfHeight);
+			transform.position = screenPoint;
+		}
+
 	}
 }
