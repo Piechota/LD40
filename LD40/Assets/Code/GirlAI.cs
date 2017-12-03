@@ -8,8 +8,8 @@ public class GirlAI : CachedMonoBehaviour
 	public readonly AEvent OnPairStopped = new AEvent();
 
 	[SerializeField]
-	private EventCollider m_PickupTrigger;
-	public EventCollider PickupTrigger { get { return m_PickupTrigger; } }
+	private FanParams m_Params;
+	public FanParams Params { get { return m_Params; } }
 
 	[SerializeField]
 	private Material m_ConeMaterial;
@@ -33,14 +33,10 @@ public class GirlAI : CachedMonoBehaviour
 	private NavMeshAgent m_Agent;
 	public NavMeshAgent Agent { get { return m_Agent; } }
 
-	[Header("Following")]
-	[SerializeField]
-	private float m_FollowingDistance;
-
 	private bool m_PlayerDetected = false;
 	private bool m_ShowCone = false;
 
-	private const float SPOT_SPEED = 3f;
+	private const float SPOT_SPEED = 4f;
 	private const string TINT_COLOR_PROPERTY = "_TintColor";
 
 	private void Awake()
