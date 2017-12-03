@@ -23,6 +23,15 @@ public class FiniteStateMachine
 		}
 	}
 
+	public void FixedUpdate()
+	{
+		AState currentState = GetCurrentState();
+		if (currentState != null)
+		{
+			currentState.FixedUpdate();
+		}
+	}
+
 	public void AddState(AState state)
 	{
 		state.SetParent(this);

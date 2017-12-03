@@ -15,5 +15,6 @@ MonoBehaviour:
   SpotSpeed: 4
   IdleRotationSpeed: 11
   IdleRotationDelay: {x: 3, y: 5}
-  RunSpeed: 11
+  IdleRandomTime: {x: 6, y: 10}
+  RunSpeed: 9
   SpottedAttackDistance: 1.5
