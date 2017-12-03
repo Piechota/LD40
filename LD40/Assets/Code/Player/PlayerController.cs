@@ -98,4 +98,9 @@ public class PlayerController : CachedMonoBehaviour
 	{
 		IsInputBlocked = set;
 	}
+
+	public void ReceiveAttack()
+	{
+		Locomotion.AddMovementPenalty();
+	}
 }

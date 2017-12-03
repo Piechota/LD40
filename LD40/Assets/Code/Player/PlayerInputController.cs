@@ -3,7 +3,7 @@
 public class PlayerInputController : APlayerComponent
 {
 	public Vector3 InputVector { private set; get; }
-	public Vector3 DirectionVector { private set; get; }		// last non-zero input vector
+	public Vector3 DirectionVector { private set; get; }        // last non-zero input vector
 
 	private const string HORIZONTAL_AXIS = "Horizontal";
 	private const string VERTICAL_AXIS = "Vertical";
