@@ -76,7 +76,7 @@ public class GirlAI : CachedMonoBehaviour
         m_OriginPoint.IsUsed = true;
         gameObject.SetActive(true);
         IsInitialized = true;
-		UIManager.Instance.CreateMarker(this);
+		UIManager.Instance.CreateFanMarker(this);
 
 		if (Random.Range(0, 1f) > 0.5f)
 		{

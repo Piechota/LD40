@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class Location : MonoBehaviour
+public class Location : CachedMonoBehaviour
 {
 	[SerializeField]
 	private EventCollider m_Collider;
