@@ -52,6 +52,11 @@ public class GirlAI : CachedMonoBehaviour
 		m_FSM.Update();
 	}
 
+	private void FixedUpdate()
+	{
+		m_FSM.FixedUpdate();
+	}
+
 	private void OnRenderObject()
 	{
 		if (m_ShowCone)

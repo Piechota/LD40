@@ -38,7 +38,21 @@
 		}
 	}
 
+	public void FixedUpdate()
+	{
+		HandleFixedUpdate();
+
+		if (FSM.IsActive())
+		{
+			FSM.FixedUpdate();
+		}
+	}
+
 	protected virtual void HandleUpdate()
+	{
+	}
+
+	protected virtual void HandleFixedUpdate()
 	{
 	}
 

@@ -16,7 +16,5 @@ MonoBehaviour:
   IdleRotationSpeed: 11
   IdleRotationDelay: {x: 3, y: 5}
   IdleRandomTime: {x: 6, y: 10}
-  RunSpeed: 11
+  RunSpeed: 9
   SpottedAttackDistance: 1.5
-  ShoutRadius: 10
-  ShoutTime: 1
