@@ -4,8 +4,9 @@ public class PlayerInputController : APlayerComponent
 {
 	public Vector3 InputVector { private set; get; }
 	public Vector3 DirectionVector { private set; get; }        // last non-zero input vector
+    public bool ShootAutograph { private set; get; }
 
-	private const string HORIZONTAL_AXIS = "Horizontal";
+    private const string HORIZONTAL_AXIS = "Horizontal";
 	private const string VERTICAL_AXIS = "Vertical";
 
 	protected override void HandleInitialization(PlayerController player)
@@ -37,6 +38,8 @@ public class PlayerInputController : APlayerComponent
 		{
 			DirectionVector = InputVector;
 		}
+
+        ShootAutograph = Input.GetButtonUp("Fire1");
 	}
 
 #if UNITY_EDITOR

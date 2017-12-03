@@ -5,5 +5,6 @@
 	Spotted,
 	Alerted,
 	Engaging,
-    Shout
+    Shout,
+    Autographed
 }

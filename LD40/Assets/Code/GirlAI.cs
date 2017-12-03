@@ -30,8 +30,9 @@ public class GirlAI : CachedMonoBehaviour
 	private FanRoamingState m_RoamingState;
 	private FanSpottedState m_SpottedState;
     private FanShoutState m_ShoutState;
+    private FanAutographedState m_AutographedState;
 
-	private NavMeshAgent m_Agent;
+    private NavMeshAgent m_Agent;
 	public NavMeshAgent Agent { get { return m_Agent; } }
 
 	private bool m_PlayerDetected = false;
@@ -99,9 +100,12 @@ public class GirlAI : CachedMonoBehaviour
 
         m_ShoutState = new FanShoutState(this);
         m_FSM.AddState(m_ShoutState);
+
+        m_AutographedState = new FanAutographedState(this);
+        m_FSM.AddState(m_AutographedState);
     }
 
-	public void DetectPlayer()
+    public void DetectPlayer()
 	{
 		m_PlayerDetected = GirlsManager.Instance.FieldOfView.TestCollision(CachedTransform.position, CachedTransform.forward);
 		m_ShowCone = true;
@@ -187,6 +191,11 @@ public class GirlAI : CachedMonoBehaviour
             SetTargetDestination(position);
         }
     }
+    public void GetAutographed()
+    {
+        m_FSM.TransitionTo(m_AutographedState);
+    }
+
     public float GetDistance()
     {
         return m_Agent.remainingDistance;
