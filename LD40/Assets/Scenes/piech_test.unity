@@ -319,6 +319,21 @@ Prefab:
       propertyPath: m_RootOrder
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 114298050174009830, guid: 4c69321b689f0424aac1149db7f3852f,
+        type: 2}
+      propertyPath: m_MaxWaitTime
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 114298050174009830, guid: 4c69321b689f0424aac1149db7f3852f,
+        type: 2}
+      propertyPath: m_MaxWayPoints
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 114298050174009830, guid: 4c69321b689f0424aac1149db7f3852f,
+        type: 2}
+      propertyPath: m_MaxNPC
+      value: 100
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 4c69321b689f0424aac1149db7f3852f, type: 2}
   m_IsPrefabParent: 0
@@ -864,6 +879,12 @@ Prefab:
       propertyPath: m_LocalPosition.x
       value: -0.000030517578
       objectReference: {fileID: 0}
+    - target: {fileID: 114250084553912020, guid: 978cef1389c3ba24c94868b8cddc1de9,
+        type: 2}
+      propertyPath: m_FanMarkerPrefab
+      value: 
+      objectReference: {fileID: 114753666936744718, guid: b5d0d025f36113b4ba00a43cc375a371,
+        type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 978cef1389c3ba24c94868b8cddc1de9, type: 2}
   m_IsPrefabParent: 0

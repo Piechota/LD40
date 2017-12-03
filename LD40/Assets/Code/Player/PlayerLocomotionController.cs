@@ -79,7 +79,7 @@ public class PlayerLocomotionController : APlayerComponent
 		m_TargetPosition = CachedTransform.localPosition + offset;
 
 		NavMeshHit hit;
-		if (NavMesh.SamplePosition(m_TargetPosition, out hit, 1f, NavMesh.AllAreas))
+		if (NavMesh.SamplePosition(m_TargetPosition, out hit, 1f, 1))
 		{
 			m_TargetPosition = hit.position;
 		}
