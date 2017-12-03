@@ -41,25 +41,13 @@ public abstract class AUIMarker : CachedUIBehaviour
 		float halfWidth = CachedTransform.rect.width / 2f;
 		float halfHeight = CachedTransform.rect.height / 2f;
 
-		// WITHIN BOUNDS
-		if (screenPoint.z > 0
-			&& screenPoint.x > halfWidth && screenPoint.x < Screen.width - halfWidth
-			&& screenPoint.x > halfHeight && screenPoint.x < Screen.height - halfHeight)
+		if (screenPoint.z < 0)
 		{
-			transform.position = screenPoint;
-		}
-		// OFFSCREEN
-		else
-		{
-			if (screenPoint.z < 0)
-			{
-				screenPoint *= -1;
-			}
-
-			screenPoint.x = Mathf.Clamp(screenPoint.x, halfWidth, Screen.width - halfWidth);
-			screenPoint.y = Mathf.Clamp(screenPoint.y, halfHeight, Screen.height - halfHeight);
-			transform.position = screenPoint;
+			screenPoint *= -1;
 		}
 
+		screenPoint.x = Mathf.Clamp(screenPoint.x, halfWidth, Screen.width - halfWidth);
+		screenPoint.y = Mathf.Clamp(screenPoint.y, halfHeight, Screen.height - halfHeight);
+		transform.position = screenPoint;
 	}
 }
