@@ -2,6 +2,7 @@
 {
 	Idle,
 	Roaming,
+	Spotted,
 	Alerted,
-	Spotted
+	Engaging
 }

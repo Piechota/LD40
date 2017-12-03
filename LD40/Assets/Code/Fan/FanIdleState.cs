@@ -2,13 +2,10 @@
 
 public class FanIdleState : AFanState
 {
-	public AEvent OnPlayerSpotted = new AEvent();
-
 	private float m_RotationTimer = 0f;
 	private Vector3 m_TargetForward;
 	private readonly static Vector2 m_RotationDelay = new Vector2(3f, 5f);
 	private const float m_RotationSpeed = 5f;
-	private const float m_SpotSpeed = 3f;
 
 	public FanIdleState(GirlAI partner) : base(EFanStateID.Idle, partner)
 	{
@@ -16,6 +13,7 @@ public class FanIdleState : AFanState
 
 	protected override void HandleEnter(AState prevState)
 	{
+		m_Fan.SetConeActive(true);
 	}
 
 	protected override void HandleUpdate()
@@ -23,7 +21,7 @@ public class FanIdleState : AFanState
 		base.HandleUpdate();
 
 		UpdateTargetRotation();
-		DetectPlayer();
+		m_Fan.DetectPlayer();
 	}
 
 	private void UpdateTargetRotation()
@@ -43,23 +41,6 @@ public class FanIdleState : AFanState
 
 	protected override void HandleLeave(AState nextState)
 	{
-	}
-
-	private void DetectPlayer()
-	{
-		float spotValue = GameManager.Instance.DeltaTime * m_SpotSpeed;
-		if (m_Fan.DetectPlayer())
-		{
-			m_Fan.UpdateSpotValue(spotValue);
-			if (m_Fan.SpotValue >= 1)
-			{
-				m_Fan.ResetSpotValue();
-				OnPlayerSpotted.Invoke();
-			}
-		}
-		else
-		{
-			m_Fan.UpdateSpotValue(-spotValue);
-		}
+		m_Fan.SetConeActive(false);
 	}
 }

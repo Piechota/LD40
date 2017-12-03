@@ -1,8 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-public class SpawnPoint : CachedMonoBehaviour
+﻿public class SpawnPoint : CachedMonoBehaviour
 {
     public enum ETag
     {

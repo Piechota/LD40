@@ -26,6 +26,7 @@ public class GirlAI : CachedMonoBehaviour
 	private FiniteStateMachine m_FSM;
 	public FiniteStateMachine FSM { get { return m_FSM; } }
 	private FanIdleState m_IdleState;
+	private FanRoamingState m_RoamingState;
 	private FanSpottedState m_SpottedState;
 
 	private NavMeshAgent m_Agent;
@@ -40,6 +41,7 @@ public class GirlAI : CachedMonoBehaviour
 	private bool m_PlayerDetected = false;
 	private bool m_ShowCone = false;
 
+	private const float SPOT_SPEED = 3f;
 	private const string TINT_COLOR_PROPERTY = "_TintColor";
 
 	private void Awake()
@@ -72,17 +74,22 @@ public class GirlAI : CachedMonoBehaviour
         m_OriginPoint.IsUsed = true;
         gameObject.SetActive(true);
         IsInitialized = true;
-
-		m_FSM.TransitionTo(m_IdleState.Id);
-		m_IdleState.OnPlayerSpotted.AddListener(HandlePlayerSpotted);
 		UIManager.Instance.CreateMarker(this);
+
+		if (Random.Range(0, 1f) > 0.5f)
+		{
+			m_FSM.TransitionTo(m_IdleState);
+		}
+		else
+		{
+			m_FSM.TransitionTo(m_RoamingState);
+		}
 	}
 
 	public void Uninitialize()
 	{
 		IsInitialized = false;
 		m_FSM.Reset();
-		m_IdleState.OnPlayerSpotted.RemoveListener(HandlePlayerSpotted);
 	}
 
 	private void PrepareStateMachine()
@@ -92,16 +99,32 @@ public class GirlAI : CachedMonoBehaviour
 		m_IdleState = new FanIdleState(this);
 		m_FSM.AddState(m_IdleState);
 
+		m_RoamingState = new FanRoamingState(this);
+		m_FSM.AddState(m_RoamingState);
+
 		m_SpottedState = new FanSpottedState(this);
 		m_FSM.AddState(m_SpottedState);
 	}
 
-	public bool DetectPlayer()
+	public void DetectPlayer()
 	{
 		m_PlayerDetected = GirlsManager.Instance.FieldOfView.TestCollision(CachedTransform.position, CachedTransform.forward);
 		m_ShowCone = true;
 
-		return m_PlayerDetected;
+		float spotValue = GameManager.Instance.DeltaTime * SPOT_SPEED;
+		if (m_PlayerDetected)
+		{
+			UpdateSpotValue(spotValue);
+			if (SpotValue >= 1)
+			{
+				ResetSpotValue();
+				m_FSM.TransitionTo(m_SpottedState);
+			}
+		}
+		else
+		{
+			UpdateSpotValue(-spotValue);
+		}
 	}
 
 	public void UpdateSpotValue(float add)
@@ -115,11 +138,9 @@ public class GirlAI : CachedMonoBehaviour
 		SpotValue = 0;
 	}
 
-	public void FollowPlayer()
+	public void SetTargetDestination(Vector3 position)
 	{
-		PlayerController player = GameManager.Instance.Player;
-		Vector3 playerPosition = player.CachedTransform.position;
-		m_Agent.SetDestination(playerPosition);
+		m_Agent.SetDestination(position);
 	}
 
 	public void SetTargetForward(Vector3 forward)
@@ -127,17 +148,25 @@ public class GirlAI : CachedMonoBehaviour
 		CachedTransform.forward = forward;
 	}
 
-	public void StartFollowing()
+	public void UnlockNavigation()
 	{
 		m_Agent.isStopped = false;
 		m_OriginPoint.IsUsed = false;
-		m_ShowCone = false;
 	}
 
-	public void StopFollowing()
+	public void LockNavigation()
 	{
 		m_Agent.isStopped = true;
-		m_ShowCone = true;
+	}
+
+	public void SetConeActive(bool set)
+	{
+		m_ShowCone = set;
+	}
+
+	public void SetAgentSpeed(float speed)
+	{
+		m_Agent.speed = speed;
 	}
 
 	public void Release()
