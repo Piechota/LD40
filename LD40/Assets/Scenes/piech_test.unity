@@ -939,7 +939,8 @@ Prefab:
       propertyPath: m_Name
       value: Club (3)
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 114200127986118076, guid: 72f999237c884f14ba15f4c030645c5b, type: 2}
   m_ParentPrefab: {fileID: 100100000, guid: 72f999237c884f14ba15f4c030645c5b, type: 2}
   m_IsPrefabParent: 0
 --- !u!4 &362104790 stripped
@@ -1692,7 +1693,8 @@ Prefab:
       propertyPath: m_Name
       value: Club (2)
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 114200127986118076, guid: 72f999237c884f14ba15f4c030645c5b, type: 2}
   m_ParentPrefab: {fileID: 100100000, guid: 72f999237c884f14ba15f4c030645c5b, type: 2}
   m_IsPrefabParent: 0
 --- !u!4 &529277903 stripped
@@ -3785,7 +3787,8 @@ Prefab:
       propertyPath: m_Name
       value: Club
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 114200127986118076, guid: 72f999237c884f14ba15f4c030645c5b, type: 2}
   m_ParentPrefab: {fileID: 100100000, guid: 72f999237c884f14ba15f4c030645c5b, type: 2}
   m_IsPrefabParent: 0
 --- !u!1 &1155198562
@@ -4164,6 +4167,11 @@ Prefab:
     - target: {fileID: 4911699395343556, guid: 4c69321b689f0424aac1149db7f3852f, type: 2}
       propertyPath: m_RootOrder
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 65612970010768440, guid: 4c69321b689f0424aac1149db7f3852f,
+        type: 2}
+      propertyPath: m_Enabled
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 4c69321b689f0424aac1149db7f3852f, type: 2}
@@ -6010,7 +6018,8 @@ Prefab:
       propertyPath: m_Name
       value: Club (1)
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 114200127986118076, guid: 72f999237c884f14ba15f4c030645c5b, type: 2}
   m_ParentPrefab: {fileID: 100100000, guid: 72f999237c884f14ba15f4c030645c5b, type: 2}
   m_IsPrefabParent: 0
 --- !u!4 &2107593443 stripped
