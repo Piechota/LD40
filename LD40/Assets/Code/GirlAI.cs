@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.AI;
 
 [RequireComponent(typeof(NavMeshAgent))]
@@ -13,15 +12,21 @@ public class GirlAI : CachedMonoBehaviour
 	public EventCollider PickupTrigger { get { return m_PickupTrigger; } }
 
 	[SerializeField]
-	public Material ConeMaterial;
+	private Material m_ConeMaterial;
+	[SerializeField]
+	private Color m_ConeMaterialIdle = Color.magenta;
+	[SerializeField]
+	private Color m_ConeMaterialSpotted = Color.red;
 
 	public bool IsInitialized { get; private set; }
 
+	public float SpotValue { get; private set; }
 	public bool HasSpotted { get { return m_FSM.CurrentStateId == (int)EFanStateID.Spotted; } }
 
 	private FiniteStateMachine m_FSM;
 	public FiniteStateMachine FSM { get { return m_FSM; } }
 	private FanIdleState m_IdleState;
+	private FanRoamingState m_RoamingState;
 	private FanSpottedState m_SpottedState;
 
 	private NavMeshAgent m_Agent;
@@ -35,6 +40,9 @@ public class GirlAI : CachedMonoBehaviour
 
 	private bool m_PlayerDetected = false;
 	private bool m_ShowCone = false;
+
+	private const float SPOT_SPEED = 3f;
+	private const string TINT_COLOR_PROPERTY = "_TintColor";
 
 	private void Awake()
 	{
@@ -51,7 +59,8 @@ public class GirlAI : CachedMonoBehaviour
 	{
 		if (m_ShowCone)
 		{
-			DrawCone(m_PlayerDetected ? Color.red : Color.blue);
+			Color spotColor = Color.Lerp(m_ConeMaterialIdle, m_ConeMaterialSpotted, SpotValue);
+			DrawCone(spotColor);
 		}
 	}
 
@@ -65,17 +74,22 @@ public class GirlAI : CachedMonoBehaviour
         m_OriginPoint.IsUsed = true;
         gameObject.SetActive(true);
         IsInitialized = true;
-
-		m_FSM.TransitionTo(m_IdleState.Id);
-		m_IdleState.OnPlayerSpotted.AddListener(HandlePlayerSpotted);
 		UIManager.Instance.CreateMarker(this);
+
+		if (Random.Range(0, 1f) > 0.5f)
+		{
+			m_FSM.TransitionTo(m_IdleState);
+		}
+		else
+		{
+			m_FSM.TransitionTo(m_RoamingState);
+		}
 	}
 
 	public void Uninitialize()
 	{
 		IsInitialized = false;
 		m_FSM.Reset();
-		m_IdleState.OnPlayerSpotted.RemoveListener(HandlePlayerSpotted);
 	}
 
 	private void PrepareStateMachine()
@@ -85,16 +99,85 @@ public class GirlAI : CachedMonoBehaviour
 		m_IdleState = new FanIdleState(this);
 		m_FSM.AddState(m_IdleState);
 
+		m_RoamingState = new FanRoamingState(this);
+		m_FSM.AddState(m_RoamingState);
+
 		m_SpottedState = new FanSpottedState(this);
 		m_FSM.AddState(m_SpottedState);
 	}
 
-	public bool DetectPlayer()
+	public void DetectPlayer()
 	{
 		m_PlayerDetected = GirlsManager.Instance.FieldOfView.TestCollision(CachedTransform.position, CachedTransform.forward);
 		m_ShowCone = true;
 
-		return m_PlayerDetected;
+		float spotValue = GameManager.Instance.DeltaTime * SPOT_SPEED;
+		if (m_PlayerDetected)
+		{
+			UpdateSpotValue(spotValue);
+			if (SpotValue >= 1)
+			{
+				ResetSpotValue();
+				m_FSM.TransitionTo(m_SpottedState);
+			}
+		}
+		else
+		{
+			UpdateSpotValue(-spotValue);
+		}
+	}
+
+	public void UpdateSpotValue(float add)
+	{
+		SpotValue += add;
+		SpotValue = Mathf.Clamp01(SpotValue);
+	}
+
+	public void ResetSpotValue()
+	{
+		SpotValue = 0;
+	}
+
+	public void SetTargetDestination(Vector3 position)
+	{
+		m_Agent.SetDestination(position);
+	}
+
+	public void SetTargetForward(Vector3 forward)
+	{
+		CachedTransform.forward = forward;
+	}
+
+	public void UnlockNavigation()
+	{
+		m_Agent.isStopped = false;
+		m_OriginPoint.IsUsed = false;
+	}
+
+	public void LockNavigation()
+	{
+		m_Agent.isStopped = true;
+	}
+
+	public void SetConeActive(bool set)
+	{
+		m_ShowCone = set;
+	}
+
+	public void SetAgentSpeed(float speed)
+	{
+		m_Agent.speed = speed;
+	}
+
+	public void Release()
+	{
+		GirlsManager.Instance.AddGirlToPool(this);
+		m_OriginPoint.IsUsed = false; //just in case
+	}
+
+	private void HandlePlayerSpotted()
+	{
+		m_FSM.TransitionTo(m_SpottedState);
 	}
 
 	private void DrawCone(Color color)
@@ -114,8 +197,8 @@ public class GirlAI : CachedMonoBehaviour
 		Vector3 pos0 = CachedTransform.position;
 		float coneRadius = fieldOfView.RaysDistance;
 		GL.Begin(GL.TRIANGLES);
-		ConeMaterial.SetPass(0);
-		ConeMaterial.color = color;
+		m_ConeMaterial.SetPass(0);
+		m_ConeMaterial.SetColor(TINT_COLOR_PROPERTY, color);
 		GL.Color(Color.white);
 
 		for (int i = 0; i < triangleNum; ++i)
@@ -131,41 +214,5 @@ public class GirlAI : CachedMonoBehaviour
 			GL.Vertex3(pos0.x + initDir.x * coneRadius, pos0.y + initDir.y * coneRadius, pos0.z + initDir.z * coneRadius);
 		}
 		GL.End();
-	}
-
-	public void FollowPlayer()
-	{
-		PlayerController player = GameManager.Instance.Player;
-		Vector3 playerPosition = player.CachedTransform.position;
-		m_Agent.SetDestination(playerPosition);
-	}
-
-	public void SetTargetForward(Vector3 forward)
-	{
-		CachedTransform.forward = forward;
-	}
-
-	public void StartFollowing()
-	{
-		m_Agent.isStopped = false;
-		m_OriginPoint.IsUsed = false;
-		m_ShowCone = false;
-	}
-
-	public void StopFollowing()
-	{
-		m_Agent.isStopped = true;
-		m_ShowCone = true;
-	}
-
-	public void Release()
-	{
-		GirlsManager.Instance.AddGirlToPool(this);
-		m_OriginPoint.IsUsed = false; //just in case
-	}
-
-	private void HandlePlayerSpotted()
-	{
-		m_FSM.TransitionTo(m_SpottedState);
 	}
 }

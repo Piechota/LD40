@@ -2,8 +2,6 @@
 
 public class FanIdleState : AFanState
 {
-	public AEvent OnPlayerSpotted = new AEvent();
-
 	private float m_RotationTimer = 0f;
 	private Vector3 m_TargetForward;
 	private readonly static Vector2 m_RotationDelay = new Vector2(3f, 5f);
@@ -15,6 +13,7 @@ public class FanIdleState : AFanState
 
 	protected override void HandleEnter(AState prevState)
 	{
+		m_Fan.SetConeActive(true);
 	}
 
 	protected override void HandleUpdate()
@@ -22,7 +21,7 @@ public class FanIdleState : AFanState
 		base.HandleUpdate();
 
 		UpdateTargetRotation();
-		DetectPlayer();
+		m_Fan.DetectPlayer();
 	}
 
 	private void UpdateTargetRotation()
@@ -42,13 +41,6 @@ public class FanIdleState : AFanState
 
 	protected override void HandleLeave(AState nextState)
 	{
-	}
-
-	private void DetectPlayer()
-	{
-		if (m_Fan.DetectPlayer())
-		{
-			OnPlayerSpotted.Invoke();
-		}
+		m_Fan.SetConeActive(false);
 	}
 }

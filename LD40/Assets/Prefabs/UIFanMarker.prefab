@@ -85,7 +85,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_CanvasGroup: {fileID: 225997893337389758}
-  m_Image: {fileID: 0}
+  m_Image: {fileID: 114091852233548684}
 --- !u!222 &222531601507831688
 CanvasRenderer:
   m_ObjectHideFlags: 1
@@ -142,7 +142,7 @@ CanvasGroup:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1321937761345820}
   m_Enabled: 1
-  m_Alpha: 1
+  m_Alpha: 0.5
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
