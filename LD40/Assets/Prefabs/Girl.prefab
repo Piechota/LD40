@@ -38,6 +38,7 @@ GameObject:
   - component: {fileID: 4313140070391548}
   - component: {fileID: 114324839792329030}
   - component: {fileID: 195206955896876412}
+  - component: {fileID: 136385819279418540}
   m_Layer: 9
   m_Name: Girl
   m_TagString: Untagged
@@ -534,6 +535,19 @@ MonoBehaviour:
     m_Mode: 0
     m_NumColorKeys: 2
     m_NumAlphaKeys: 2
+--- !u!136 &136385819279418540
+CapsuleCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1180166628288774}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.5
+  m_Height: 1
+  m_Direction: 1
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!195 &195206955896876412
 NavMeshAgent:
   m_ObjectHideFlags: 1

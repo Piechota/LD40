@@ -5,7 +5,6 @@ public class FanRoamingState : AFanState
 {
 	public AEvent OnPlayerSpotted = new AEvent();
 
-	private Vector3 m_TargetPoint;
 	private const float TARGET_DISTANCE = 10f;
 	private const float TARGET_CHANGE_DISTANCE = 1f;
 	private const float ROAMING_SPEED = 4f;
@@ -27,9 +26,7 @@ public class FanRoamingState : AFanState
 		base.HandleUpdate();
 		m_Fan.DetectPlayer();
 
-		m_Fan.SetTargetDestination(m_TargetPoint);
-		float dist = Vector3.Distance(m_Fan.CachedTransform.position, m_TargetPoint);
-		if (dist <= TARGET_CHANGE_DISTANCE)
+		if (m_Fan.GetDistance() <= TARGET_CHANGE_DISTANCE)
 		{
             m_Fan.SetIdleState();
         }
@@ -54,7 +51,7 @@ public class FanRoamingState : AFanState
         Vector3 targetPoint = worldBoxPosition + offset;
         if (NavMesh.SamplePosition(targetPoint, out hitInfo, 2f, NavMesh.AllAreas))
         {
-		    m_TargetPoint = hitInfo.position;
+		    m_Fan.SetTargetDestination( hitInfo.position );
         }
     }
 }

@@ -29,6 +29,7 @@ public class GirlAI : CachedMonoBehaviour
 	private FanIdleState m_IdleState;
 	private FanRoamingState m_RoamingState;
 	private FanSpottedState m_SpottedState;
+    private FanShoutState m_ShoutState;
 
 	private NavMeshAgent m_Agent;
 	public NavMeshAgent Agent { get { return m_Agent; } }
@@ -95,7 +96,10 @@ public class GirlAI : CachedMonoBehaviour
 
 		m_SpottedState = new FanSpottedState(this);
 		m_FSM.AddState(m_SpottedState);
-	}
+
+        m_ShoutState = new FanShoutState(this);
+        m_FSM.AddState(m_ShoutState);
+    }
 
 	public void DetectPlayer()
 	{
@@ -109,7 +113,7 @@ public class GirlAI : CachedMonoBehaviour
 			if (SpotValue >= 1)
 			{
 				ResetSpotValue();
-				m_FSM.TransitionTo(m_SpottedState);
+				m_FSM.TransitionTo(m_ShoutState);
 			}
 		}
 		else
@@ -167,10 +171,25 @@ public class GirlAI : CachedMonoBehaviour
     {
         m_FSM.TransitionTo(m_RoamingState);
     }
-
-    public void Alert(Vector3 position)
+    public void SetSpottedState()
     {
+        m_FSM.TransitionTo(m_SpottedState);
+    }
 
+    public void Achtung(Vector3 position)
+    {
+        if ( m_FSM.CurrentStateId == (int)EFanStateID.Idle)
+        {
+            SetRoamingState();
+        }
+        if (m_FSM.CurrentStateId == (int)EFanStateID.Roaming)
+        {
+            SetTargetDestination(position);
+        }
+    }
+    public float GetDistance()
+    {
+        return m_Agent.remainingDistance;
     }
 
     private void HandlePlayerSpotted()
@@ -213,9 +232,4 @@ public class GirlAI : CachedMonoBehaviour
 		}
 		GL.End();
 	}
-
-    private void Shout()
-    {
-
-    }
 }
