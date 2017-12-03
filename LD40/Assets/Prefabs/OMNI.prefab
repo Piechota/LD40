@@ -152,8 +152,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   FieldOfView:
     RaysNum: 5
-    RaysDistance: 4
-    ConeDegree: 45
+    RaysDistance: 7
+    ConeDegree: 50
   GirlPrefab: {fileID: 1180166628288774, guid: 559e14a3551348b4aa2a6883d4e636b8, type: 2}
   SpawnDelay: 2
 --- !u!114 &114853315271392370
