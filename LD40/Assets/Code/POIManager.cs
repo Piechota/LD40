@@ -78,6 +78,7 @@ public class POIManager : ASingleton<POIManager>
 		int rand = Random.Range(0, m_Locations.Count);
 		TargetLocation = m_Locations[rand];
 		TargetLocation.SetTarget(true);
+		UIManager.Instance.ShowLocationMarker(TargetLocation);
 		OnMissionStarted.Invoke(TargetLocation);
 	}
 
