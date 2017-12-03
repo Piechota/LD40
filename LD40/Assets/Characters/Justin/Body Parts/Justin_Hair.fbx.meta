@@ -1,0 +1,294 @@
+fileFormatVersion: 2
+guid: 3370636e979fed5489c2fd6292c2aea3
+timeCreated: 1512296267
+licenseType: Free
+ModelImporter:
+  serializedVersion: 22
+  fileIDToRecycleName:
+    100000: body_01
+    100002: body_01.001
+    100004: body_01.002
+    100006: body_01.003
+    100008: body_01.004
+    100010: Camera
+    100012: eyes_01
+    100014: eyes_01.001
+    100016: eyes_01.002
+    100018: eyes_01.003
+    100020: eyes_01.004
+    100022: hairs_01
+    100024: hairs_01.001
+    100026: hairs_01.002
+    100028: hairs_01.003
+    100030: //RootNode
+    100032: Lamp
+    100034: Lamp.001
+    100036: Lamp.002
+    100038: Lamp.003
+    100040: skin_01
+    100042: skin_01.001
+    100044: skin_01.002
+    100046: skin_01.003
+    100048: skin_01.004
+    400000: body_01
+    400002: body_01.001
+    400004: body_01.002
+    400006: body_01.003
+    400008: body_01.004
+    400010: Camera
+    400012: eyes_01
+    400014: eyes_01.001
+    400016: eyes_01.002
+    400018: eyes_01.003
+    400020: eyes_01.004
+    400022: hairs_01
+    400024: hairs_01.001
+    400026: hairs_01.002
+    400028: hairs_01.003
+    400030: //RootNode
+    400032: Lamp
+    400034: Lamp.001
+    400036: Lamp.002
+    400038: Lamp.003
+    400040: skin_01
+    400042: skin_01.001
+    400044: skin_01.002
+    400046: skin_01.003
+    400048: skin_01.004
+    2000000: Camera
+    2300000: body_01
+    2300002: body_01.001
+    2300004: body_01.002
+    2300006: body_01.003
+    2300008: body_01.004
+    2300010: eyes_01
+    2300012: eyes_01.001
+    2300014: eyes_01.002
+    2300016: eyes_01.003
+    2300018: eyes_01.004
+    2300020: hairs_01
+    2300022: hairs_01.001
+    2300024: hairs_01.002
+    2300026: hairs_01.003
+    2300028: skin_01
+    2300030: skin_01.001
+    2300032: skin_01.002
+    2300034: skin_01.003
+    2300036: skin_01.004
+    2300038: //RootNode
+    3300000: body_01
+    3300002: body_01.001
+    3300004: body_01.002
+    3300006: body_01.003
+    3300008: body_01.004
+    3300010: eyes_01
+    3300012: eyes_01.001
+    3300014: eyes_01.002
+    3300016: eyes_01.003
+    3300018: eyes_01.004
+    3300020: hairs_01
+    3300022: hairs_01.001
+    3300024: hairs_01.002
+    3300026: hairs_01.003
+    3300028: skin_01
+    3300030: skin_01.001
+    3300032: skin_01.002
+    3300034: skin_01.003
+    3300036: skin_01.004
+    3300038: //RootNode
+    4300000: skin_01
+    4300002: hairs_01
+    4300004: body_01
+    4300006: eyes_01
+    4300008: body_01.001
+    4300010: eyes_01.001
+    4300012: hairs_01.001
+    4300014: skin_01.001
+    4300016: body_01.002
+    4300018: eyes_01.002
+    4300020: hairs_01.002
+    4300022: skin_01.002
+    4300024: body_01.003
+    4300026: eyes_01.003
+    4300028: skin_01.003
+    4300030: body_01.004
+    4300032: eyes_01.004
+    4300034: hairs_01.003
+    4300036: skin_01.004
+    10800000: Lamp
+    10800002: Lamp.001
+    10800004: Lamp.002
+    10800006: Lamp.003
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Man_Body_01
+    second: {fileID: 2100000, guid: 82d0b8c98ddd8d944b98cd70f91357a6, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Man_Body_01.001
+    second: {fileID: 2100000, guid: 71ba10226b5b3a54f80056d088fb2a9a, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Man_Body_01.002
+    second: {fileID: 2100000, guid: 647ef4a25192e3448a2761df068a77e9, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Man_Body_01.003
+    second: {fileID: 2100000, guid: 2824bdf4e2fb4444c87f80297fb18230, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Man_Body_01.004
+    second: {fileID: 2100000, guid: b1d42cf332151d94ea3975313714677f, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Man_Eyes_01
+    second: {fileID: 2100000, guid: 29d9d39cd4eac7142a3e99371957c9e0, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Man_Eyes_01.001
+    second: {fileID: 2100000, guid: f958188ffcac9cc4897f234d7a713362, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Man_Eyes_01.002
+    second: {fileID: 2100000, guid: 88e74cecec9ee2043a1add3106e8324d, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Man_Eyes_01.003
+    second: {fileID: 2100000, guid: 0b7ad896b1957b649bf24e7389597424, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Man_Eyes_01.004
+    second: {fileID: 2100000, guid: 35a7f0ef50b670f48a9ec83455195fdb, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Man_Hair01
+    second: {fileID: 2100000, guid: fc8a513e5ffa5c3408b804271d1b9088, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Man_Hair01.001
+    second: {fileID: 2100000, guid: 64551ffeab45c114e8f6e66aec0e9a03, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Man_Hair01.002
+    second: {fileID: 2100000, guid: c2e6400071f8ab144a98d9f0b518bec5, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Man_Hair01.004
+    second: {fileID: 2100000, guid: 80cacf1329e7d08439af6a7c13e7b885, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Man_Skin_01
+    second: {fileID: 2100000, guid: 847ffb8c15876b040abd8a51aae41076, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Man_Skin_01.001
+    second: {fileID: 2100000, guid: 455c325955ccde74a9ce3fa58bdd0382, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Man_Skin_01.002
+    second: {fileID: 2100000, guid: 23a7c4b3603594e469f763f0215dcc4c, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Man_Skin_01.003
+    second: {fileID: 2100000, guid: dcab439b9a2117d4aa410f64ec9a76e7, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Man_Skin_01.004
+    second: {fileID: 2100000, guid: 2212c3cce13c43f49be06308c20dca05, type: 2}
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+    materialLocation: 0
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 1
+    importLights: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 4
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 0
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
