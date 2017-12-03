@@ -3,20 +3,21 @@
 public abstract class AUIMarker : CachedUIBehaviour
 {
 	public bool IsInitialized { get; private set; }
-	private CachedMonoBehaviour m_Target;
+	private Transform m_Target;
 	private Camera m_MainCamera;
 
 	protected virtual Vector3 VERTICAL_OFFSET { get { return new Vector3(0, 2, 0); }  }
 
-	private void Update()
+	protected virtual void Update()
 	{
 		if (IsInitialized)
 		{
 			UpdatePositioning();
+			HandleUpdate();
 		}
 	}
 
-	public void Initialize(CachedMonoBehaviour target)
+	public void Initialize(Transform target)
 	{
 		IsInitialized = true;
 		m_Target = target;
@@ -29,9 +30,13 @@ public abstract class AUIMarker : CachedUIBehaviour
 		IsInitialized = false;
 	}
 
+	protected virtual void HandleUpdate()
+	{
+	}
+
 	private void UpdatePositioning()
 	{
-		Vector3 pivotPoint = m_Target.CachedTransform.position + VERTICAL_OFFSET;
+		Vector3 pivotPoint = m_Target.position + VERTICAL_OFFSET;
 		Vector3 screenPoint = m_MainCamera.WorldToScreenPoint(pivotPoint);
 
 		float halfWidth = CachedTransform.rect.width / 2f;
