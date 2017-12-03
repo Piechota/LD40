@@ -3,6 +3,10 @@
 public class Location : CachedMonoBehaviour
 {
 	[SerializeField]
+	private Transform m_MarkerSpawnPoint;
+	public Transform MarkerSpawnPoint { get { return m_MarkerSpawnPoint; } }
+
+	[SerializeField]
 	private EventCollider m_Collider;
 
 	private void Awake()
@@ -14,7 +18,6 @@ public class Location : CachedMonoBehaviour
 
 	private void Update()
 	{
-
 	}
 
 	private void OnDestroy()

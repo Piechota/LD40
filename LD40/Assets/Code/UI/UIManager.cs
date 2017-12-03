@@ -26,13 +26,13 @@ public class UIManager : ASingleton<UIManager>
 	public void CreateFanMarker(GirlAI fan)
 	{
 		UIFanMarker marker = Instantiate(m_FanMarkerPrefab, CachedTransform);
-		marker.Initialize(fan);
+		marker.Initialize(fan.CachedTransform);
 	}
 
 	public void ShowLocationMarker(Location loc)
 	{
 		m_LocationMarker.gameObject.SetActive(true);
-		m_LocationMarker.Initialize(loc);
+		m_LocationMarker.Initialize(loc.MarkerSpawnPoint);
 	}
 
 	public void ShowGameOverPanel()
