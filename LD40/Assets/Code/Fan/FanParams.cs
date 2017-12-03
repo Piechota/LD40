@@ -17,4 +17,9 @@ public class FanParams : ScriptableObject
     [Header("Shout")]
     public float ShoutRadius = 10f;
     public float ShoutTime = 1f;
+
+    [Header("Autographed")]
+    public Vector2 AutographedTime = new Vector2(3f, 5f);
+    public Vector2 AutographedRotationDelay = new Vector2(0.2f, 0.5f);
+    public float AutographedRotationSpeed = 20f;
 }

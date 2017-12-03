@@ -14,6 +14,11 @@ ModelImporter:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
+      name: Floor_01
+    second: {fileID: 2100000, guid: 03927b1c692e9464297d9c1f3b71e431, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
       name: No Name
     second: {fileID: 2100000, guid: ab2c1fde2ffc7094d986a1f8355a3b6c, type: 2}
   materials:
@@ -53,7 +58,7 @@ ModelImporter:
     importCameras: 1
     importLights: 1
     swapUVChannels: 0
-    generateSecondaryUV: 0
+    generateSecondaryUV: 1
     useFileUnits: 1
     optimizeMeshForGPU: 1
     keepQuads: 0

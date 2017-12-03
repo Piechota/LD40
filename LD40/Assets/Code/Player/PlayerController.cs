@@ -5,7 +5,17 @@
 [RequireComponent(typeof(PlayerAnimationController))]
 public class PlayerController : CachedMonoBehaviour
 {
-	private PlayerInputController m_Input;
+    [SerializeField]
+    private GameObject m_AutographPrefab;
+    [SerializeField]
+    private float m_AutographRadius;
+    [SerializeField]
+    private UICoolDown m_UICoolDown;
+    [SerializeField]
+    private float m_AutographDelay = 10f;
+    private float m_AutographCooldown = 0f;
+
+    private PlayerInputController m_Input;
     public PlayerInputController Input
 	{
 		get
@@ -85,6 +95,13 @@ public class PlayerController : CachedMonoBehaviour
 
         Locomotion.UpdateBehaviour();
         Animation.UpdateBehaviour();
+
+        m_AutographCooldown -= GameManager.Instance.DeltaTime;
+        UpdateUICoolDown();
+        if ( Input.ShootAutograph && m_AutographCooldown < 0f)
+        {
+            ShootAutograph();
+        }
     }
 
     public void Reset()
@@ -92,6 +109,9 @@ public class PlayerController : CachedMonoBehaviour
         Input.Initialize(this);
         Locomotion.Initialize(this);
 		Animation.Initialize(this);
+
+        m_AutographCooldown = 0f;
+        UpdateUICoolDown();
     }
 
 	public void SetInputLock(bool set)
@@ -103,4 +123,34 @@ public class PlayerController : CachedMonoBehaviour
 	{
 		Locomotion.AddMovementPenalty();
 	}
+
+    public void ShootAutograph()
+    {
+        if ( m_AutographPrefab)
+        {
+            Instantiate(m_AutographPrefab, CachedTransform.position, CachedTransform.rotation);
+        }
+
+        Collider[] girls = Physics.OverlapSphere(CachedTransform.position, m_AutographRadius, 1 << 9);
+        int girlsNum = girls.Length;
+        for (int i = 0; i < girlsNum; ++i)
+        {
+            GirlAI girlAI = girls[i].GetComponent<GirlAI>();
+            girlAI.GetAutographed();
+        }
+        m_AutographCooldown = m_AutographDelay;
+    }
+
+    public float GetAutographNorm()
+    {
+        return Mathf.Clamp01(m_AutographCooldown / m_AutographDelay);
+    }
+
+    private void UpdateUICoolDown()
+    {
+        if (m_UICoolDown)
+        {
+            m_UICoolDown.UpdateCoolDown(GetAutographNorm());
+        }
+    }
 }

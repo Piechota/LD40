@@ -777,6 +777,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c8825a3699d69bc4d8229e810c9ebf81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_AutographPrefab: {fileID: 0}
+  m_AutographRadius: 5
+  m_UICoolDown: {fileID: 0}
+  m_AutographDelay: 10
 --- !u!114 &114634228454147076
 MonoBehaviour:
   m_ObjectHideFlags: 1

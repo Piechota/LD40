@@ -1,6 +1,6 @@
 fileFormatVersion: 2
-guid: 48ad1b3aabbb3374cb12e966acf711d8
-timeCreated: 1512231034
+guid: b55f2e40ad8a6d7459d700689e4ae372
+timeCreated: 1512335127
 licenseType: Free
 ModelImporter:
   serializedVersion: 22
@@ -9,13 +9,13 @@ ModelImporter:
     400000: //RootNode
     2300000: //RootNode
     3300000: //RootNode
-    4300000: Sphere
+    4300000: Plane
   externalObjects:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: Door_01
-    second: {fileID: 2100000, guid: 88ba40b9d23c27d458477ca2bb2a1e33, type: 2}
+      name: No Name
+    second: {fileID: 2100000, guid: 74ecc6fe51e50e2499791245d3074410, type: 2}
   materials:
     importMaterials: 1
     materialName: 0
