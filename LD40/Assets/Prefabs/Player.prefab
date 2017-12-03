@@ -139,6 +139,7 @@ GameObject:
   - component: {fileID: 114686350050891668}
   - component: {fileID: 114634228454147076}
   - component: {fileID: 95429073064100718}
+  - component: {fileID: 208468910745662666}
   m_Layer: 8
   m_Name: Player
   m_TagString: Untagged
@@ -614,7 +615,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 71372ec37d9d596479d5171dac3ffda5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_MovementSpeed: 10
+  m_RunSpeed: 10
   m_Acceleration: 10
   m_Deceleration: 15
 --- !u!136 &136594624928177652
@@ -630,3 +631,18 @@ CapsuleCollider:
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: 0.6, z: 0}
+--- !u!208 &208468910745662666
+NavMeshObstacle:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1854724779952522}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 0
+  m_Extents: {x: 0.5, y: 1, z: 0.5}
+  m_MoveThreshold: 0.1
+  m_Carve: 0
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 0, z: 0}
+  m_TimeToStationary: 0.5
