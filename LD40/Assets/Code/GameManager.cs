@@ -4,6 +4,7 @@ using UnityEngine.SceneManagement;
 public class GameManager : ASingleton<GameManager>
 {
 	public AEvent OnGameOver = new AEvent();
+    public Transform WorldBox;
 
     private PlayerController m_Player;
 	public PlayerController Player

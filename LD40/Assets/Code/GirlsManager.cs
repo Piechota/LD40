@@ -9,7 +9,6 @@ public class GirlsManager : ASingleton<GirlsManager>
 	public float SpawnDelay = 2f;
 	private float CurrentSpawnTime;
 
-	private List<GirlAI> m_FanPool = new List<GirlAI>();
 	private List<GirlAI> m_ActiveFans = new List<GirlAI>();
 
 	private void Awake()
@@ -22,66 +21,29 @@ public class GirlsManager : ASingleton<GirlsManager>
 		CurrentSpawnTime -= GameManager.Instance.DeltaTime;
 		if (CurrentSpawnTime < 0f)
 		{
-			SpawnGirl(null);
+			SpawnGirl();
 			CurrentSpawnTime = SpawnDelay;
 		}
 
 		CheckPlayerExposed();
 	}
 
-	public bool SpawnGirlFromPool()
+	private void SpawnGirl()
 	{
-		int girlPoolNum = m_FanPool.Count;
-		if (0 < girlPoolNum)
+        Transform worldBox = GameManager.Instance.WorldBox.transform;
+        Vector3 offset = worldBox.localScale;
+        offset.y = 0f;
+        offset.x *= 0.5f * Random.value;
+        offset.z *= 0.5f * Random.value;
+
+		Vector3 spawnPosition = worldBox.position + offset;
+		NavMeshHit hitInfo;
+		if (NavMesh.SamplePosition(spawnPosition, out hitInfo, 2f, NavMesh.AllAreas))
 		{
-			int index = Random.Range(0, girlPoolNum);
-			while (index < girlPoolNum && m_FanPool[index].gameObject.activeSelf == false)
-			{
-				++index;
-			}
-
-			if (index < girlPoolNum)
-			{
-				SpawnGirl(m_FanPool[index]);
-				return true;
-			}
+			GirlAI girl = Instantiate(GirlPrefab, hitInfo.position, Random.rotation).GetComponent<GirlAI>();
+			girl.Initialize();
+			m_ActiveFans.Add(girl);
 		}
-
-		return false;
-	}
-
-	private void SpawnGirl(GirlAI girl)
-	{
-		SpawnPoint spawnPoint = POIManager.Instance.GetFreeSpawnPoint();
-
-		if (spawnPoint != null)
-		{
-			Vector3 spawnPosition = spawnPoint.CachedTransform.position;
-			spawnPosition.y = 0f;
-
-			NavMeshHit hitInfo;
-			if (NavMesh.SamplePosition(spawnPosition, out hitInfo, 2f, NavMesh.AllAreas))
-			{
-				if (girl == null)
-				{
-					girl = Instantiate(GirlPrefab, hitInfo.position, spawnPoint.CachedTransform.rotation).GetComponent<GirlAI>();
-				}
-				else
-				{
-					girl.CachedTransform.position = hitInfo.position;
-					girl.CachedTransform.rotation = spawnPoint.CachedTransform.rotation;
-				}
-				girl.Initialize(spawnPoint);
-				m_ActiveFans.Add(girl);
-			}
-		}
-	}
-
-	public void AddGirlToPool(GirlAI girl)
-	{
-		m_FanPool.Add(girl);
-		m_ActiveFans.Remove(girl);
-		girl.gameObject.SetActive(false);
 	}
 
 	private void CheckPlayerExposed()

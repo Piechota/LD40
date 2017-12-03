@@ -37,8 +37,6 @@ public class GirlAI : CachedMonoBehaviour
 	[SerializeField]
 	private float m_FollowingDistance;
 
-    private SpawnPoint m_OriginPoint;
-
 	private bool m_PlayerDetected = false;
 	private bool m_ShowCone = false;
 
@@ -70,10 +68,8 @@ public class GirlAI : CachedMonoBehaviour
 	{
 	}
 
-	public void Initialize(SpawnPoint spawnPoint)
+	public void Initialize()
     {
-        m_OriginPoint = spawnPoint;
-        m_OriginPoint.IsUsed = true;
         gameObject.SetActive(true);
         IsInitialized = true;
 		UIManager.Instance.CreateFanMarker(this);
@@ -153,7 +149,6 @@ public class GirlAI : CachedMonoBehaviour
 	public void UnlockNavigation()
 	{
 		m_Agent.isStopped = false;
-		m_OriginPoint.IsUsed = false;
 	}
 
 	public void LockNavigation()
@@ -169,12 +164,6 @@ public class GirlAI : CachedMonoBehaviour
 	public void SetAgentSpeed(float speed)
 	{
 		m_Agent.speed = speed;
-	}
-
-	public void Release()
-	{
-		GirlsManager.Instance.AddGirlToPool(this);
-		m_OriginPoint.IsUsed = false; //just in case
 	}
 
 	private void HandlePlayerSpotted()
