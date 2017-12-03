@@ -123,7 +123,7 @@ Camera:
     width: 1
     height: 1
   near clip plane: 0.1
-  far clip plane: 5000
+  far clip plane: 50
   field of view: 40
   orthographic: 0
   orthographic size: 10
@@ -196,10 +196,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   FieldOfView:
     RaysNum: 5
-    RaysDistance: 7
-    ConeDegree: 50
+    RaysDistance: 8
+    ConeDegree: 40
   GirlPrefab: {fileID: 1180166628288774, guid: 559e14a3551348b4aa2a6883d4e636b8, type: 2}
   SpawnDelay: 2
+  SpawnOnAwakeNum: 10
 --- !u!114 &114298050174009830
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -217,7 +218,6 @@ MonoBehaviour:
   LastDistanceOffset: 0.1
   MaxWaitTime: {x: 3, y: 10}
   m_StartNPCNum: 400
-  m_DistanceFromPlayer: 0
 --- !u!114 &114853315271392370
 MonoBehaviour:
   m_ObjectHideFlags: 1

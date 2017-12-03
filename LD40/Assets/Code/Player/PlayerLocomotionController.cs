@@ -12,7 +12,7 @@ public class PlayerLocomotionController : APlayerComponent
 	private float m_Deceleration = 15f;
 
 	private int m_CurrentMovementPenalty = 0;
-	private float m_PenaltyMod = 0.6f;
+	private float m_PenaltyMod = 0.8f;
 
     private Vector3 m_CurrentVelocity;
 	private Vector3 m_TargetDirection;
@@ -64,6 +64,11 @@ public class PlayerLocomotionController : APlayerComponent
 	public void AddMovementPenalty()
 	{
 		m_CurrentMovementPenalty++;
+	}
+
+	public Vector3 GetTargetPositionForCurrentVelocity()
+	{
+		return CachedTransform.position + m_CurrentVelocity * GameManager.Instance.DeltaTime;
 	}
 
 	private void UpdateVelocity()
