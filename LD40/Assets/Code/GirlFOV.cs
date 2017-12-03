@@ -7,6 +7,8 @@ public class GirlFOV
 	public float RaysDistance;
 	public float ConeDegree;
 
+    private const int m_LayerMask = ~(1 << 9);
+
 	public bool TestCollision(Vector3 position, Vector3 lookDir)
 	{
 		if (GameManager.Instance.PlayerCollider != null)
@@ -29,7 +31,7 @@ public class GirlFOV
 
 					if (coneDot < Vector3.Dot(dir, lookDir))
 					{
-						if (Physics.Raycast(position, dir, out hitInfo, RaysDistance))
+						if (Physics.Raycast(position, dir, out hitInfo, RaysDistance, m_LayerMask))
 						{
 							if (hitInfo.transform.gameObject.layer == GameManager.Instance.Player.gameObject.layer)
 							{

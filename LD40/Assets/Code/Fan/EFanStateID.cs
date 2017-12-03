@@ -4,5 +4,6 @@
 	Roaming,
 	Spotted,
 	Alerted,
-	Engaging
+	Engaging,
+    Shout
 }

@@ -7,7 +7,6 @@ public class GirlsManager : ASingleton<GirlsManager>
 	public GirlFOV FieldOfView;
 	public GameObject GirlPrefab;
 	public float SpawnDelay = 2f;
-    public float ShoutRadius = 10f;
 	private float CurrentSpawnTime;
     [SerializeField]
     private int SpawnOnAwakeNum = 10;

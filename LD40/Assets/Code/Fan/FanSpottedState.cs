@@ -9,7 +9,7 @@ public class FanSpottedState : AFanState
 	protected override void HandleEnter(AState prevState)
 	{
 		m_Fan.UnlockNavigation();
-	}
+	}   
 
 	protected override void HandleUpdate()
 	{
