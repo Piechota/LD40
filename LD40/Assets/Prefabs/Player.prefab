@@ -779,6 +779,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_AutographPrefab: {fileID: 0}
   m_AutographRadius: 5
+  m_UICoolDown: {fileID: 0}
   m_AutographDelay: 10
 --- !u!114 &114634228454147076
 MonoBehaviour:
