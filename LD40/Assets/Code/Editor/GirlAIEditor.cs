@@ -38,10 +38,13 @@ public class GirlAIEditor : Editor
 
 	private void DrawStateMachine(FiniteStateMachine stateMachine)
 	{
-		foreach (AState state in stateMachine.GetStates().Values)
+		if (stateMachine != null)
 		{
-			bool isCurrent = (stateMachine.CurrentStateId == state.Id);
-			DrawState(state, isCurrent);
+			foreach (AState state in stateMachine.GetStates().Values)
+			{
+				bool isCurrent = (stateMachine.CurrentStateId == state.Id);
+				DrawState(state, isCurrent);
+			}
 		}
 	}
 

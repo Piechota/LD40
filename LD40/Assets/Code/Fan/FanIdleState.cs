@@ -8,6 +8,7 @@ public class FanIdleState : AFanState
 	private Vector3 m_TargetForward;
 	private readonly static Vector2 m_RotationDelay = new Vector2(3f, 5f);
 	private const float m_RotationSpeed = 5f;
+	private const float m_SpotSpeed = 3f;
 
 	public FanIdleState(GirlAI partner) : base(EFanStateID.Idle, partner)
 	{
@@ -46,9 +47,19 @@ public class FanIdleState : AFanState
 
 	private void DetectPlayer()
 	{
+		float spotValue = GameManager.Instance.DeltaTime * m_SpotSpeed;
 		if (m_Fan.DetectPlayer())
 		{
-			OnPlayerSpotted.Invoke();
+			m_Fan.UpdateSpotValue(spotValue);
+			if (m_Fan.SpotValue >= 1)
+			{
+				m_Fan.ResetSpotValue();
+				OnPlayerSpotted.Invoke();
+			}
+		}
+		else
+		{
+			m_Fan.UpdateSpotValue(-spotValue);
 		}
 	}
 }

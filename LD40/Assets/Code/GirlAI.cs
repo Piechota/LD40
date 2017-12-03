@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.AI;
 
 [RequireComponent(typeof(NavMeshAgent))]
@@ -13,10 +12,15 @@ public class GirlAI : CachedMonoBehaviour
 	public EventCollider PickupTrigger { get { return m_PickupTrigger; } }
 
 	[SerializeField]
-	public Material ConeMaterial;
+	private Material m_ConeMaterial;
+	[SerializeField]
+	private Color m_ConeMaterialIdle = Color.magenta;
+	[SerializeField]
+	private Color m_ConeMaterialSpotted = Color.red;
 
 	public bool IsInitialized { get; private set; }
 
+	public float SpotValue { get; private set; }
 	public bool HasSpotted { get { return m_FSM.CurrentStateId == (int)EFanStateID.Spotted; } }
 
 	private FiniteStateMachine m_FSM;
@@ -36,6 +40,8 @@ public class GirlAI : CachedMonoBehaviour
 	private bool m_PlayerDetected = false;
 	private bool m_ShowCone = false;
 
+	private const string TINT_COLOR_PROPERTY = "_TintColor";
+
 	private void Awake()
 	{
 		m_Agent = GetComponent<NavMeshAgent>();
@@ -51,7 +57,8 @@ public class GirlAI : CachedMonoBehaviour
 	{
 		if (m_ShowCone)
 		{
-			DrawCone(m_PlayerDetected ? Color.red : Color.blue);
+			Color spotColor = Color.Lerp(m_ConeMaterialIdle, m_ConeMaterialSpotted, SpotValue);
+			DrawCone(spotColor);
 		}
 	}
 
@@ -97,40 +104,15 @@ public class GirlAI : CachedMonoBehaviour
 		return m_PlayerDetected;
 	}
 
-	private void DrawCone(Color color)
+	public void UpdateSpotValue(float add)
 	{
-		GirlFOV fieldOfView = GirlsManager.Instance.FieldOfView;
-		const int triangleNum = 20;
+		SpotValue += add;
+		SpotValue = Mathf.Clamp01(SpotValue);
+	}
 
-		float deltaDegree = 2f * fieldOfView.ConeDegree * Mathf.Deg2Rad / triangleNum;
-		float cosDelta = Mathf.Cos(deltaDegree);
-		float sinDelta = Mathf.Sin(deltaDegree);
-
-		float coneCos = Mathf.Cos(-fieldOfView.ConeDegree * Mathf.Deg2Rad);
-		float coneSin = Mathf.Sin(-fieldOfView.ConeDegree * Mathf.Deg2Rad);
-
-		Vector3 initDir = new Vector3(coneSin * CachedTransform.forward.z + coneCos * CachedTransform.forward.x, 0f, coneCos * CachedTransform.forward.z - coneSin * CachedTransform.forward.x);
-		initDir.Normalize();
-		Vector3 pos0 = CachedTransform.position;
-		float coneRadius = fieldOfView.RaysDistance;
-		GL.Begin(GL.TRIANGLES);
-		ConeMaterial.SetPass(0);
-		ConeMaterial.color = color;
-		GL.Color(Color.white);
-
-		for (int i = 0; i < triangleNum; ++i)
-		{
-			GL.Vertex3(pos0.x, pos0.y, pos0.z);
-			GL.Vertex3(pos0.x + initDir.x * coneRadius, pos0.y + initDir.y * coneRadius, pos0.z + initDir.z * coneRadius);
-
-			float x = sinDelta * initDir.z + cosDelta * initDir.x;
-			float z = cosDelta * initDir.z - sinDelta * initDir.x;
-			initDir.x = x;
-			initDir.z = z;
-
-			GL.Vertex3(pos0.x + initDir.x * coneRadius, pos0.y + initDir.y * coneRadius, pos0.z + initDir.z * coneRadius);
-		}
-		GL.End();
+	public void ResetSpotValue()
+	{
+		SpotValue = 0;
 	}
 
 	public void FollowPlayer()
@@ -167,5 +149,41 @@ public class GirlAI : CachedMonoBehaviour
 	private void HandlePlayerSpotted()
 	{
 		m_FSM.TransitionTo(m_SpottedState);
+	}
+
+	private void DrawCone(Color color)
+	{
+		GirlFOV fieldOfView = GirlsManager.Instance.FieldOfView;
+		const int triangleNum = 20;
+
+		float deltaDegree = 2f * fieldOfView.ConeDegree * Mathf.Deg2Rad / triangleNum;
+		float cosDelta = Mathf.Cos(deltaDegree);
+		float sinDelta = Mathf.Sin(deltaDegree);
+
+		float coneCos = Mathf.Cos(-fieldOfView.ConeDegree * Mathf.Deg2Rad);
+		float coneSin = Mathf.Sin(-fieldOfView.ConeDegree * Mathf.Deg2Rad);
+
+		Vector3 initDir = new Vector3(coneSin * CachedTransform.forward.z + coneCos * CachedTransform.forward.x, 0f, coneCos * CachedTransform.forward.z - coneSin * CachedTransform.forward.x);
+		initDir.Normalize();
+		Vector3 pos0 = CachedTransform.position;
+		float coneRadius = fieldOfView.RaysDistance;
+		GL.Begin(GL.TRIANGLES);
+		m_ConeMaterial.SetPass(0);
+		m_ConeMaterial.SetColor(TINT_COLOR_PROPERTY, color);
+		GL.Color(Color.white);
+
+		for (int i = 0; i < triangleNum; ++i)
+		{
+			GL.Vertex3(pos0.x, pos0.y, pos0.z);
+			GL.Vertex3(pos0.x + initDir.x * coneRadius, pos0.y + initDir.y * coneRadius, pos0.z + initDir.z * coneRadius);
+
+			float x = sinDelta * initDir.z + cosDelta * initDir.x;
+			float z = cosDelta * initDir.z - sinDelta * initDir.x;
+			initDir.x = x;
+			initDir.z = z;
+
+			GL.Vertex3(pos0.x + initDir.x * coneRadius, pos0.y + initDir.y * coneRadius, pos0.z + initDir.z * coneRadius);
+		}
+		GL.End();
 	}
 }

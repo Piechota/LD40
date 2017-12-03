@@ -578,7 +578,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_PickupTrigger: {fileID: 114962187903637344}
-  ConeMaterial: {fileID: 2100000, guid: c04256198372af643990d7263307a071, type: 2}
+  m_ConeMaterial: {fileID: 2100000, guid: c04256198372af643990d7263307a071, type: 2}
+  m_ConeMaterialIdle: {r: 1, g: 0, b: 1, a: 0.5019608}
+  m_ConeMaterialSpotted: {r: 1, g: 0, b: 0, a: 1}
   m_FollowingDistance: 1.5
 --- !u!114 &114962187903637344
 MonoBehaviour:
