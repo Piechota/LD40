@@ -4,11 +4,13 @@ using UnityEngine;
 public class POIManager : ASingleton<POIManager>
 {
     private List<SpawnPoint>[] m_SpawnPoints;
+    private List<NPCPoint> m_NPCPoints;
 
     public POIManager()
     {
         m_SpawnPoints = new List<SpawnPoint>[SpawnPoint.TagsNum];
         m_SpawnPoints[0] = new List<SpawnPoint>();
+        m_NPCPoints = new List<NPCPoint>();
     }
 
     public void RegisterSpawnPoint(SpawnPoint spawnPoint)
@@ -24,6 +26,21 @@ public class POIManager : ASingleton<POIManager>
             }
             m_SpawnPoints[tag].Add(spawnPoint);
         }
+    }
+
+
+    public void RegisterNPCPoint(NPCPoint npcPoint)
+    {
+        m_NPCPoints.Add(npcPoint);
+    }
+
+    public NPCPoint GetRandomNPCPoint()
+    {
+        if (0 < m_NPCPoints.Count)
+        {
+            return m_NPCPoints[Random.Range(0, m_NPCPoints.Count)];
+        }
+        return null;
     }
 
     public SpawnPoint GetFreeSpawnPoint()

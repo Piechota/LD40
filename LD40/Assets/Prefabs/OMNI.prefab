@@ -30,6 +30,21 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!1 &1547281188031232
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4014040060679194}
+  m_Layer: 0
+  m_Name: WorldBox
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
 --- !u!1 &1616342936710828
 GameObject:
   m_ObjectHideFlags: 0
@@ -41,6 +56,7 @@ GameObject:
   - component: {fileID: 114095872687777334}
   - component: {fileID: 114138398369864716}
   - component: {fileID: 114080196351519778}
+  - component: {fileID: 114298050174009830}
   m_Layer: 0
   m_Name: OMNI
   m_TagString: Untagged
@@ -48,6 +64,19 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!4 &4014040060679194
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1547281188031232}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 139.82602, y: 8.232208, z: 139.82614}
+  m_Children: []
+  m_Father: {fileID: 4911699395343556}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4822596979541722
 Transform:
   m_ObjectHideFlags: 1
@@ -72,6 +101,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4822596979541722}
+  - {fileID: 4014040060679194}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -156,6 +186,25 @@ MonoBehaviour:
     ConeDegree: 50
   GirlPrefab: {fileID: 1180166628288774, guid: 559e14a3551348b4aa2a6883d4e636b8, type: 2}
   SpawnDelay: 2
+--- !u!114 &114298050174009830
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1616342936710828}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0d175908a3eb12041bdc7913aae4fb56, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_NPCPrefab: {fileID: 1339499197698656, guid: 8828586c2f57fae4b88f564bc7ee8d9d,
+    type: 2}
+  m_WorldBox: {fileID: 4014040060679194}
+  LastDistanceTime: 3
+  LastDistanceOffset: 0.1
+  MaxWaitTime: {x: 3, y: 10}
+  m_MaxNPC: 100
+  m_DistanceFromPlayer: {x: 30, y: 60}
 --- !u!114 &114853315271392370
 MonoBehaviour:
   m_ObjectHideFlags: 1
