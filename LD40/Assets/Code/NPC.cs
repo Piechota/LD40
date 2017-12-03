@@ -5,55 +5,62 @@ using UnityEngine.AI;
 
 [RequireComponent(typeof(NavMeshAgent))]
 public class NPC : CachedMonoBehaviour {
-    public struct WayPoint
-    {
-        public Vector3 Position;
-        public float WaitTime;
+    [SerializeField]
+    private GameObject[] m_Meshes;
 
-        public WayPoint(Vector3 position, float waitTime)
-        {
-            Position = position;
-            WaitTime = waitTime;
-        }
-    }
-    private List<WayPoint> m_WayPoints;
-    private int m_CurrentWaypoint;
     private float m_WaitTime;
     private NavMeshAgent m_Agent;
-    public void Init( List<WayPoint> wayPoints )
+    private float m_LastDistance;
+    private float m_LastDistanceTime;
+    public void Init( Vector3 position )
     {
-        m_WayPoints = wayPoints;
-        CachedTransform.position = wayPoints[0].Position;
-        m_CurrentWaypoint = 0;
+        CachedTransform.position = position;
         m_WaitTime = -1f;
     }
     // Use this for initialization
     void Start () {
         m_Agent = GetComponent<NavMeshAgent>();
+        Instantiate(m_Meshes[Random.Range(0, m_Meshes.Length)], CachedTransform);
     }
 	
 	// Update is called once per frame
 	void Update ()
     {
-		if ( m_Agent.remainingDistance < 0.1f)
+		if ( m_Agent.remainingDistance < 0.1f )
         {
             m_WaitTime -= GameManager.Instance.DeltaTime;
             if ( m_WaitTime < 0f )
             {
-                do
-                {
-                    ++m_CurrentWaypoint;
-                    if (m_CurrentWaypoint < m_WayPoints.Count)
-                    {
-                        m_WaitTime = m_WayPoints[m_CurrentWaypoint].WaitTime;
-                    }
-                    else
-                    {
-                        CrowdManager.Instance.AddNPCToPool(this);
-                        return;
-                    }
-                } while (!m_Agent.SetDestination(m_WayPoints[m_CurrentWaypoint].Position));
+                NewDestination();
             }
         }
+        else
+        {
+            if ( Mathf.Abs(m_Agent.remainingDistance - m_LastDistance ) < CrowdManager.Instance.LastDistanceOffset )
+            {
+                m_LastDistanceTime -= GameManager.Instance.DeltaTime;
+                if (m_LastDistanceTime < 0f)
+                {
+                    NewDestination();
+                }
+            }
+            else
+            {
+                m_LastDistanceTime = CrowdManager.Instance.LastDistanceTime;
+            }
+
+            m_LastDistance = m_Agent.remainingDistance;
+        }
 	}
+
+    private void NewDestination()
+    {
+        NPCPoint npcPoint = POIManager.Instance.GetRandomNPCPoint();
+        if (npcPoint)
+        {
+            m_Agent.SetDestination(npcPoint.CachedTransform.position);
+            m_WaitTime = CrowdManager.Instance.MaxWaitTime.x + Random.value * (CrowdManager.Instance.MaxWaitTime.y - CrowdManager.Instance.MaxWaitTime.x);
+            m_LastDistance = m_Agent.remainingDistance;
+        }
+    }
 }

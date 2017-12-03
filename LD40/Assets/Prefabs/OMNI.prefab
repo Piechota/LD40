@@ -200,9 +200,11 @@ MonoBehaviour:
   m_NPCPrefab: {fileID: 1339499197698656, guid: 8828586c2f57fae4b88f564bc7ee8d9d,
     type: 2}
   m_WorldBox: {fileID: 4014040060679194}
-  m_MaxWaitTime: 4
-  m_MaxWayPoints: 4
+  LastDistanceTime: 3
+  LastDistanceOffset: 0.1
+  MaxWaitTime: {x: 3, y: 10}
   m_MaxNPC: 100
+  m_DistanceFromPlayer: {x: 30, y: 60}
 --- !u!114 &114853315271392370
 MonoBehaviour:
   m_ObjectHideFlags: 1

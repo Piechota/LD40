@@ -12,13 +12,14 @@ public class CrowdManager : ASingleton<CrowdManager>
     [SerializeField]
     private Transform m_WorldBox;
 
-    [SerializeField]
-    private float m_MaxWaitTime;
-    [SerializeField]
-    private int m_MaxWayPoints;
+    public float LastDistanceTime;
+    public float LastDistanceOffset;
+    public Vector2 MaxWaitTime;
     [SerializeField]
     private int m_MaxNPC;
     private int m_CurrentNPCNum = 0;
+    [SerializeField]
+    private Vector2 m_DistanceFromPlayer;
 
     public void AddNPCToPool( NPC npc )
     {
@@ -27,91 +28,49 @@ public class CrowdManager : ASingleton<CrowdManager>
         --m_CurrentNPCNum;
     }
 
-    private bool RandomNavMeshPoint( int areaMask, out Vector3 point)
-    {
-        Vector3 offset = m_WorldBox.localScale;
-        offset.x *= 0.5f * (Random.value * 2f - 1f);
-        offset.z *= 0.5f * (Random.value * 2f - 1f);
-        offset.y = 0f;
-
-        Vector3 position = m_WorldBox.position + offset;
-        NavMeshHit hitInfo;
-        if (NavMesh.SamplePosition(position, out hitInfo, 100f, areaMask))
-        {
-            point = hitInfo.position;
-            return true; 
-        }
-        point = Vector3.one;
-        return false;
-    }
     private void SpawnNPC()
     {
         if (m_MaxNPC <= m_CurrentNPCNum)
         {
             return;
         }
-        Vector3 navMeshPoint;
-        float waitTime = 0f;
 
-        if ( RandomNavMeshPoint(8, out navMeshPoint ) )
+        Vector3 dir = Random.onUnitSphere;
+        dir.y = 0f;
+        dir.Normalize();
+
+        Vector3 position = GameManager.Instance.Player.CachedTransform.position + dir * ( m_DistanceFromPlayer.x + Random.value * (m_DistanceFromPlayer.y - m_DistanceFromPlayer.x) );
+
+        NPC npc = null;
+        int poolSize = m_NPCPool.Count;
+        if ( 0 < poolSize )
         {
-            List<NPC.WayPoint> wayPoints = new List<NPC.WayPoint>();
-            wayPoints.Add(new NPC.WayPoint( navMeshPoint, waitTime ) );
+            int index = Random.Range(0, poolSize);
+            npc = m_NPCPool[index];
+            m_NPCPool[index] = m_NPCPool[poolSize - 1];
+            m_NPCPool.RemoveAt(poolSize - 1);
 
-            int wayPointsNum = Random.Range(0, m_MaxWayPoints);
-            for ( int i = 0; i < wayPointsNum; ++i)
-            {
-                if (RandomNavMeshPoint(NavMesh.AllAreas, out navMeshPoint))
-                {
-                    waitTime = Random.value * m_MaxWaitTime;
-                    wayPoints.Add(new NPC.WayPoint(navMeshPoint, waitTime));
-                }
-            }
-
-            if (RandomNavMeshPoint(8, out navMeshPoint))
-            {
-                wayPoints.Add(new NPC.WayPoint(navMeshPoint, 0f));
-            }
-            else
-            {
-                wayPoints.Add(wayPoints[0]);
-            }
-
-            NPC npc = null;
-            int poolSize = m_NPCPool.Count;
-            if ( 0 < poolSize )
-            {
-                int index = Random.Range(0, poolSize);
-                npc = m_NPCPool[index];
-                m_NPCPool[index] = m_NPCPool[poolSize - 1];
-                m_NPCPool.RemoveAt(poolSize - 1);
-
-                npc.gameObject.SetActive(true);
-            }
-
-            if ( npc == null )
-            {
-                npc = Instantiate(m_NPCPrefab).GetComponent<NPC>();
-            }
-
-            ++m_CurrentNPCNum;
-            npc.Init(wayPoints);
+            npc.gameObject.SetActive(true);
         }
+
+        if ( npc == null )
+        {
+            npc = Instantiate(m_NPCPrefab).GetComponent<NPC>();
+        }
+
+        ++m_CurrentNPCNum;
+        npc.Init(position);
     }
 
     public CrowdManager()
     {
         m_NPCPool = new List<NPC>();
     }
-
-float time = -1f;
-    void Update()
+    void Start()
     {
-        time -= Time.deltaTime;
-        if ( time < 0f )
+        for ( int i = 0; i < m_MaxNPC; ++i)
         {
             SpawnNPC();
-            time = 5f;
         }
     }
 }
