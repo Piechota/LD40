@@ -28,7 +28,7 @@ public class CrowdManager : ASingleton<CrowdManager>
         --m_CurrentNPCNum;
     }
 
-    private void SpawnNPC()
+    public void SpawnNPC()
     {
         if (m_MaxNPC <= m_CurrentNPCNum)
         {
