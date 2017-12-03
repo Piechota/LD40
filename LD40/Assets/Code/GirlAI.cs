@@ -39,7 +39,6 @@ public class GirlAI : CachedMonoBehaviour
 	private float m_FollowingDistance;
 
     private SpawnPoint m_OriginPoint;
-    private List<SpawnPoint> m_DestinationPoint;
 
 	private void Awake()
 	{
@@ -56,10 +55,9 @@ public class GirlAI : CachedMonoBehaviour
 	{
 	}
 
-	public void Initialize(SpawnPoint spawnPoint, List<SpawnPoint> destinationPoints)
+	public void Initialize(SpawnPoint spawnPoint)
     {
         m_OriginPoint = spawnPoint;
-        m_DestinationPoint = destinationPoints;
         m_OriginPoint.IsUsed = true;
         gameObject.SetActive(true);
         IsInitialized = true;
