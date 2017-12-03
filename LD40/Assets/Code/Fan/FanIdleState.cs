@@ -4,6 +4,7 @@ public class FanIdleState : AFanState
 {
 	private float m_RotationTimer = 0f;
 	private Vector3 m_TargetForward;
+	private float m_IdleTime = 0f;
 
     public FanIdleState(GirlAI partner) : base(EFanStateID.Idle, partner)
 	{
@@ -12,7 +13,7 @@ public class FanIdleState : AFanState
 	protected override void HandleEnter(AState prevState)
 	{
 		m_Fan.SetConeActive(true);
-        m_IdleTime = Random.Range(m_IdleRandom.x, m_IdleRandom.y);
+        m_IdleTime = Random.Range(m_Fan.Params.IdleRandomTime.x, m_Fan.Params.IdleRandomTime.y);
 	}
 
 	protected override void HandleUpdate()
