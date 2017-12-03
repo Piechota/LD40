@@ -31,8 +31,15 @@ public class UIManager : ASingleton<UIManager>
 
 	public void ShowLocationMarker(Location loc)
 	{
-		m_LocationMarker.gameObject.SetActive(true);
-		m_LocationMarker.Initialize(loc.MarkerSpawnPoint);
+		if (loc != null)
+		{
+			m_LocationMarker.gameObject.SetActive(true);
+			m_LocationMarker.Initialize(loc.MarkerSpawnPoint);
+		}
+		else
+		{
+			m_LocationMarker.gameObject.SetActive(false);
+		}
 	}
 
 	public void ShowGameOverPanel()

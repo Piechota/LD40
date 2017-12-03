@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class GameManager : ASingleton<GameManager>
 {
@@ -39,10 +38,19 @@ public class GameManager : ASingleton<GameManager>
 	public float DeltaTime { get; private set; }			// these timers are using the in-game clock
 	public float FixedDeltaTime { get; private set; }
 
+	private FiniteStateMachine m_FSM;
+	public FiniteStateMachine FSM { get { return m_FSM; } }
+
+	private GameDefaultState m_DefaultState;
+	private GameConcertState m_ConcertState;
+	private GameGameOverState m_GameOverState;
+
 	private void Awake()
 	{
 		IsGameOver = false;
 		IsGameTimerPaused = false;
+
+		InitializeStateMachine();
 	}
 
 	private void Start()
@@ -56,23 +64,49 @@ public class GameManager : ASingleton<GameManager>
 		DeltaTime = shouldUpdateTimer ? Time.deltaTime : 0;
 		FixedDeltaTime = shouldUpdateTimer ? Time.fixedDeltaTime : 0;
 
-		if (IsGameOver && Input.anyKey)
-		{
-			Restart();
-		}
+		m_FSM.Update();
+	}
+
+	private void FixedUpdate()
+	{
+		m_FSM.FixedUpdate();
+	}
+
+	public void StartConcert(Location location)
+	{
+		m_ConcertState.SetLocation(location);
+		m_ConcertState.OnConcertFinished.AddListener(HandleConcertFinished);
+		m_FSM.TransitionTo(m_ConcertState);
+	}
+
+	private void HandleConcertFinished()
+	{
+		m_ConcertState.OnConcertFinished.RemoveListener(HandleConcertFinished);
+		m_FSM.TransitionTo(m_DefaultState);
 	}
 
 	public void SetGameOver()
 	{
-		IsGameOver = true;
-		IsGameTimerPaused = true;
-
-		Player.SetInputLock(true);
+		m_FSM.TransitionTo(m_GameOverState);
 		OnGameOver.Invoke();
 	}
 
-	private void Restart()
+	public void SetGameTimerPause(bool set)
 	{
-		SceneManager.LoadScene(0);
+		IsGameTimerPaused = set;
+	}
+
+	private void InitializeStateMachine()
+	{
+		m_FSM = new FiniteStateMachine();
+
+		m_DefaultState = new GameDefaultState();
+		m_FSM.AddState(m_DefaultState);
+
+		m_ConcertState = new GameConcertState();
+		m_FSM.AddState(m_ConcertState);
+
+		m_GameOverState = new GameGameOverState();
+		m_FSM.AddState(m_GameOverState);
 	}
 }

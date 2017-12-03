@@ -1,10 +1,14 @@
-﻿using System.Collections.Generic;
+﻿using Cinemachine;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class POIManager : ASingleton<POIManager>
 {
 	public readonly AEvent<Location> OnMissionStarted = new AEvent<Location>();
 	public readonly AEvent OnMissionCompleted = new AEvent();
+
+	[SerializeField]
+	private CinemachineVirtualCamera m_CutsceneCamera;
 
 	private List<Location> m_Locations = new List<Location>();
 	public Location TargetLocation { get; private set; }
@@ -59,9 +63,15 @@ public class POIManager : ASingleton<POIManager>
 
 	public void CompleteActiveMission()
 	{
+		UIManager.Instance.ShowLocationMarker(null);
 		TargetLocation.SetTarget(false);
-		TargetLocation = null;
 		OnMissionCompleted.Invoke();
-		GenerateMission();
+		GameManager.Instance.StartConcert(TargetLocation);
+		TargetLocation = null;
+	}
+
+	public void SetCutsceneCameraActive(bool set)
+	{
+		m_CutsceneCamera.gameObject.SetActive(set);
 	}
 }
