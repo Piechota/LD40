@@ -12,7 +12,7 @@
     public ETag[] Tags;
     public bool IsUsed { get; set; }
 
-	void Start () {
+	void Awake () {
         POIManager.Instance.RegisterSpawnPoint(this);
         IsUsed = false;
     }

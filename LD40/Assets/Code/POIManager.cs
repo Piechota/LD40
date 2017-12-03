@@ -3,65 +3,89 @@ using UnityEngine;
 
 public class POIManager : ASingleton<POIManager>
 {
-    private List<SpawnPoint>[] m_SpawnPoints;
-    private List<NPCPoint> m_NPCPoints;
+	public readonly AEvent<Location> OnMissionStarted = new AEvent<Location>();
+	public readonly AEvent OnMissionCompleted = new AEvent();
 
-    public POIManager()
-    {
-        m_SpawnPoints = new List<SpawnPoint>[SpawnPoint.TagsNum];
-        m_SpawnPoints[0] = new List<SpawnPoint>();
-        m_NPCPoints = new List<NPCPoint>();
-    }
+	public Location TargetLocation { get; private set; }
+	private List<Location> m_Locations = new List<Location>();
 
-    public void RegisterSpawnPoint(SpawnPoint spawnPoint)
-    {
-        m_SpawnPoints[0].Add(spawnPoint);
-        int tagsNum = spawnPoint.Tags.Length;
-        for (int i = 0; i < tagsNum; ++i)
-        {
-            int tag = (int)spawnPoint.Tags[i];
-            if (m_SpawnPoints[tag] == null)
-            {
-                m_SpawnPoints[tag] = new List<SpawnPoint>();
-            }
-            m_SpawnPoints[tag].Add(spawnPoint);
-        }
-    }
+	private List<SpawnPoint>[] m_SpawnPoints = new List<SpawnPoint>[SpawnPoint.TagsNum];
+	private List<NPCPoint> m_NPCPoints = new List<NPCPoint>();
 
+	public POIManager()
+	{
+		m_SpawnPoints[0] = new List<SpawnPoint>();
+	}
 
-    public void RegisterNPCPoint(NPCPoint npcPoint)
-    {
-        m_NPCPoints.Add(npcPoint);
-    }
+	public void RegisterLocation(Location loc)
+	{
+		m_Locations.Add(loc);
+	}
 
-    public NPCPoint GetRandomNPCPoint()
-    {
-        if (0 < m_NPCPoints.Count)
-        {
-            return m_NPCPoints[Random.Range(0, m_NPCPoints.Count)];
-        }
-        return null;
-    }
+	public void RegisterSpawnPoint(SpawnPoint spawnPoint)
+	{
+		m_SpawnPoints[0].Add(spawnPoint);
+		int tagsNum = spawnPoint.Tags.Length;
+		for (int i = 0; i < tagsNum; ++i)
+		{
+			int tag = (int)spawnPoint.Tags[i];
+			if (m_SpawnPoints[tag] == null)
+			{
+				m_SpawnPoints[tag] = new List<SpawnPoint>();
+			}
+			m_SpawnPoints[tag].Add(spawnPoint);
+		}
+	}
 
-    public SpawnPoint GetFreeSpawnPoint()
-    {
-        List<SpawnPoint> allSpawnPoints = m_SpawnPoints[0];
-        int spawnPointsNum = allSpawnPoints.Count;
-        if (0 < spawnPointsNum)
-        {
-            int index = Random.Range(0, spawnPointsNum);
+	public void RegisterNPCPoint(NPCPoint npcPoint)
+	{
+		m_NPCPoints.Add(npcPoint);
+	}
 
-            while (index < spawnPointsNum && allSpawnPoints[index].IsUsed == true)
-            {
-                ++index;
-            }
+	public NPCPoint GetRandomNPCPoint()
+	{
+		if (0 < m_NPCPoints.Count)
+		{
+			return m_NPCPoints[Random.Range(0, m_NPCPoints.Count)];
+		}
+		return null;
+	}
 
-            if (index < spawnPointsNum)
-            {
-                return allSpawnPoints[index];
-            }
-        }
+	public SpawnPoint GetFreeSpawnPoint()
+	{
+		List<SpawnPoint> allSpawnPoints = m_SpawnPoints[0];
+		int spawnPointsNum = allSpawnPoints.Count;
+		if (0 < spawnPointsNum)
+		{
+			int index = Random.Range(0, spawnPointsNum);
 
-        return null;
-    }
+			while (index < spawnPointsNum && allSpawnPoints[index].IsUsed == true)
+			{
+				++index;
+			}
+
+			if (index < spawnPointsNum)
+			{
+				return allSpawnPoints[index];
+			}
+		}
+
+		return null;
+	}
+
+	public void GenerateMission()
+	{
+		int rand = Random.Range(0, m_Locations.Count);
+		TargetLocation = m_Locations[rand];
+		TargetLocation.SetTarget(true);
+		OnMissionStarted.Invoke(TargetLocation);
+	}
+
+	public void CompleteActiveMission()
+	{
+		TargetLocation.SetTarget(false);
+		TargetLocation = null;
+		OnMissionCompleted.Invoke();
+		GenerateMission();
+	}
 }

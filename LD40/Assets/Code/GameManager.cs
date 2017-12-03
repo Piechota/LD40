@@ -44,6 +44,11 @@ public class GameManager : ASingleton<GameManager>
 		IsGameTimerPaused = false;
 	}
 
+	private void Start()
+	{
+		POIManager.Instance.GenerateMission();
+	}
+
 	private void Update()
 	{
 		bool shouldUpdateTimer = !IsGameTimerPaused && !IsGameOver;

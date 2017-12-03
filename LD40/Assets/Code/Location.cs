@@ -8,6 +8,8 @@ public class Location : MonoBehaviour
 	private void Awake()
 	{
 		m_Collider.OnTriggerEntered.AddListener(HandleCollision);
+		SetTarget(false);
+		POIManager.Instance.RegisterLocation(this);
 	}
 
 	private void Update()
@@ -20,12 +22,20 @@ public class Location : MonoBehaviour
 		m_Collider.OnTriggerEntered.RemoveListener(HandleCollision);
 	}
 
+	public void SetTarget(bool set)
+	{
+		m_Collider.gameObject.SetActive(set);
+	}
+
 	private void HandleCollision(Collider col)
 	{
 		if (col.gameObject.layer == PlayerController.LAYER)
 		{
-			PlayerController player = GameManager.Instance.Player;
-			// #TODO LS allow interaction
+			if (POIManager.Instance.TargetLocation == this)
+			{
+				//PlayerController player = GameManager.Instance.Player;
+				POIManager.Instance.CompleteActiveMission();
+			}
 		}
 	}
 }

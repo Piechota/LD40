@@ -13,6 +13,7 @@ public class GirlAI : CachedMonoBehaviour
 
 	[SerializeField]
 	private Material m_ConeMaterial;
+	private Material m_ConeMaterialInstance;
 	[SerializeField]
 	private Color m_ConeMaterialIdle = Color.magenta;
 	[SerializeField]
@@ -46,6 +47,7 @@ public class GirlAI : CachedMonoBehaviour
 
 	private void Awake()
 	{
+		m_ConeMaterialInstance = new Material(m_ConeMaterial);
 		m_Agent = GetComponent<NavMeshAgent>();
 		PrepareStateMachine();
 	}
@@ -197,8 +199,8 @@ public class GirlAI : CachedMonoBehaviour
 		Vector3 pos0 = CachedTransform.position;
 		float coneRadius = fieldOfView.RaysDistance;
 		GL.Begin(GL.TRIANGLES);
-		m_ConeMaterial.SetPass(0);
-		m_ConeMaterial.SetColor(TINT_COLOR_PROPERTY, color);
+		m_ConeMaterialInstance.SetPass(0);
+		m_ConeMaterialInstance.SetColor(TINT_COLOR_PROPERTY, color);
 		GL.Color(Color.white);
 
 		for (int i = 0; i < triangleNum; ++i)

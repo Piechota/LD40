@@ -1,0 +1,22 @@
+fileFormatVersion: 2
+guid: ae4f5425be4e0cb4295506cbbad5ad4b
+timeCreated: 1512307559
+licenseType: Free
+TrueTypeFontImporter:
+  externalObjects: {}
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: Coffee Shop
+  fontNames:
+  - Coffee Shop
+  fallbackFontReferences: []
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
