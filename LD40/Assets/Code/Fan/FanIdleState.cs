@@ -6,23 +6,33 @@ public class FanIdleState : AFanState
 	private Vector3 m_TargetForward;
 	private readonly static Vector2 m_RotationDelay = new Vector2(3f, 5f);
 	private const float m_RotationSpeed = 5f;
+    private readonly static Vector2 m_IdleRandom = new Vector2(6f,10f);
+    private float m_IdleTime;
 
-	public FanIdleState(GirlAI partner) : base(EFanStateID.Idle, partner)
+    public FanIdleState(GirlAI partner) : base(EFanStateID.Idle, partner)
 	{
 	}
 
 	protected override void HandleEnter(AState prevState)
 	{
 		m_Fan.SetConeActive(true);
+        m_IdleTime = Random.Range(m_IdleRandom.x, m_IdleRandom.y);
 	}
 
 	protected override void HandleUpdate()
 	{
 		base.HandleUpdate();
 
-		UpdateTargetRotation();
 		m_Fan.DetectPlayer();
-	}
+		UpdateTargetRotation();
+
+        m_IdleTime -= GameManager.Instance.DeltaTime;
+        if ( m_IdleTime < 0f )
+        {
+            m_Fan.SetRoamingState();
+        }
+
+    }
 
 	private void UpdateTargetRotation()
 	{

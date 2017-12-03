@@ -73,15 +73,7 @@ public class GirlAI : CachedMonoBehaviour
         gameObject.SetActive(true);
         IsInitialized = true;
 		UIManager.Instance.CreateFanMarker(this);
-
-		if (Random.Range(0, 1f) > 0.5f)
-		{
-			m_FSM.TransitionTo(m_IdleState);
-		}
-		else
-		{
-			m_FSM.TransitionTo(m_RoamingState);
-		}
+		m_FSM.TransitionTo(m_IdleState);
 	}
 
 	public void Uninitialize()
@@ -166,7 +158,16 @@ public class GirlAI : CachedMonoBehaviour
 		m_Agent.speed = speed;
 	}
 
-	private void HandlePlayerSpotted()
+    public void SetIdleState()
+    {
+        m_FSM.TransitionTo(m_IdleState);
+    }
+    public void SetRoamingState()
+    {
+        m_FSM.TransitionTo(m_RoamingState);
+    }
+
+    private void HandlePlayerSpotted()
 	{
 		m_FSM.TransitionTo(m_SpottedState);
 	}

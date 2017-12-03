@@ -25,15 +25,14 @@ public class FanRoamingState : AFanState
 	protected override void HandleUpdate()
 	{
 		base.HandleUpdate();
+		m_Fan.DetectPlayer();
 
 		m_Fan.SetTargetDestination(m_TargetPoint);
 		float dist = Vector3.Distance(m_Fan.CachedTransform.position, m_TargetPoint);
 		if (dist <= TARGET_CHANGE_DISTANCE)
 		{
-			RandomizeTargetPoint();
-		}
-
-		m_Fan.DetectPlayer();
+            m_Fan.SetIdleState();
+        }
 	}
 
 	protected override void HandleLeave(AState nextState)
@@ -44,9 +43,18 @@ public class FanRoamingState : AFanState
 
 	public void RandomizeTargetPoint()
 	{
-		Vector3 pos = m_Fan.CachedTransform.position + Random.insideUnitSphere * TARGET_DISTANCE;
-		NavMeshHit navHit;
-		NavMesh.SamplePosition(pos, out navHit, TARGET_DISTANCE, NavMesh.AllAreas);
-		m_TargetPoint = navHit.position;
-	}
+        Transform worldBox = GameManager.Instance.WorldBox.transform;
+        Vector3 worldBoxScale = worldBox.localScale;
+        Vector3 worldBoxPosition = worldBox.position;
+        NavMeshHit hitInfo;
+        Vector3 offset = Vector3.zero;
+        offset.x = worldBoxScale.x * (0.5f * (Random.value * 2f - 1f));
+        offset.z = worldBoxScale.z * (0.5f * (Random.value * 2f - 1f));
+
+        Vector3 targetPoint = worldBoxPosition + offset;
+        if (NavMesh.SamplePosition(targetPoint, out hitInfo, 2f, NavMesh.AllAreas))
+        {
+		    m_TargetPoint = hitInfo.position;
+        }
+    }
 }
