@@ -21,29 +21,33 @@ public class GirlsManager : ASingleton<GirlsManager>
 		CurrentSpawnTime -= GameManager.Instance.DeltaTime;
 		if (CurrentSpawnTime < 0f)
 		{
-			SpawnGirl();
+			SpawnGirl(1);
 			CurrentSpawnTime = SpawnDelay;
 		}
 
 		CheckPlayerExposed();
 	}
 
-	private void SpawnGirl()
+	public void SpawnGirl(int spawnNum)
 	{
         Transform worldBox = GameManager.Instance.WorldBox.transform;
-        Vector3 offset = worldBox.localScale;
-        offset.y = 0f;
-        offset.x *= 0.5f * ( Random.value * 2f - 1f);
-        offset.z *= 0.5f * ( Random.value * 2f - 1f);
+        Vector3 worldBoxScale = worldBox.localScale;
+        Vector3 worldBoxPosition = worldBox.position;
+        Vector3 offset = Vector3.zero;
+        NavMeshHit hitInfo;
+        for (int i = 0; i < spawnNum; ++i)
+        {
+            offset.x = worldBoxScale.x * ( 0.5f * (Random.value * 2f - 1f) );
+            offset.z = worldBoxScale.z * ( 0.5f * (Random.value * 2f - 1f) );
 
-		Vector3 spawnPosition = worldBox.position + offset;
-		NavMeshHit hitInfo;
-		if (NavMesh.SamplePosition(spawnPosition, out hitInfo, 2f, NavMesh.AllAreas))
-		{
-			GirlAI girl = Instantiate(GirlPrefab, hitInfo.position, Random.rotation).GetComponent<GirlAI>();
-			girl.Initialize();
-			m_ActiveFans.Add(girl);
-		}
+            Vector3 spawnPosition = worldBoxPosition + offset;
+            if (NavMesh.SamplePosition(spawnPosition, out hitInfo, 2f, NavMesh.AllAreas))
+            {
+                GirlAI girl = Instantiate(GirlPrefab, hitInfo.position, Random.rotation).GetComponent<GirlAI>();
+                girl.Initialize();
+                m_ActiveFans.Add(girl);
+            }
+        }
 	}
 
 	private void CheckPlayerExposed()

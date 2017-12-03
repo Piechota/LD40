@@ -13,29 +13,24 @@ public class CrowdManager : ASingleton<CrowdManager>
     public Vector2 MaxWaitTime;
     [SerializeField]
     private int m_StartNPCNum;
-    [SerializeField]
-    private float m_DistanceFromPlayer;
 
     public void SpawnNPC(int spawnNum)
     {
-        Vector3 playerPosition = -GameManager.Instance.Player.CachedTransform.position;
-        Vector3 dir = Vector3.zero;
-        float cameraY = Camera.main.transform.position.y;
+        Transform worldBox = GameManager.Instance.WorldBox.transform;
+        Vector3 worldBoxScale = worldBox.localScale;
+        Vector3 worldBoxPosition = worldBox.position;
+        Vector3 offset = Vector3.zero;
+        NavMeshHit hitInfo;
         for (int i = 0; i < spawnNum; ++i)
         {
-            Vector2 offset = Random.insideUnitCircle;
-            offset.Normalize();
-            dir.x = offset.x;
-            dir.y = offset.y * Camera.main.aspect;
-            dir.z = cameraY;
+            offset.x = worldBoxScale.x * (0.5f * (Random.value * 2f - 1f));
+            offset.z = worldBoxScale.z * (0.5f * (Random.value * 2f - 1f));
 
-            Vector3 positionWS = Camera.main.ViewportToWorldPoint(dir);
-            positionWS.y = 0f;
-
-            Vector3 position = positionWS + (Random.value * m_DistanceFromPlayer) * (positionWS + playerPosition).normalized;
-            NPC npc = Instantiate(m_NPCPrefab).GetComponent<NPC>();
-
-            npc.Init(position);
+            Vector3 spawnPosition = worldBoxPosition + offset;
+            if (NavMesh.SamplePosition(spawnPosition, out hitInfo, 2f, NavMesh.AllAreas))
+            {
+                Instantiate(m_NPCPrefab, hitInfo.position, Random.rotation);
+            }
         }
     }
 

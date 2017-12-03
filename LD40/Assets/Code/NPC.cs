@@ -8,15 +8,10 @@ public class NPC : CachedMonoBehaviour {
     [SerializeField]
     private GameObject[] m_Meshes;
 
-    private float m_WaitTime;
+    private float m_WaitTime = -1f;
     private NavMeshAgent m_Agent;
     private float m_LastDistance;
     private float m_LastDistanceTime;
-    public void Init( Vector3 position )
-    {
-        CachedTransform.position = position;
-        m_WaitTime = -1f;
-    }
     // Use this for initialization
     void Start () {
         m_Agent = GetComponent<NavMeshAgent>();
