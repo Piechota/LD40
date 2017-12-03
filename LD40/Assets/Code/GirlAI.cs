@@ -31,8 +31,7 @@ public class GirlAI : CachedMonoBehaviour
 	[SerializeField]
 	private float m_FollowingDistance;
 
-	private SpawnPoint m_OriginPoint;
-	private List<SpawnPoint> m_DestinationPoint;
+    private SpawnPoint m_OriginPoint;
 
 	private bool m_PlayerDetected = false;
 	private bool m_ShowCone = false;
@@ -60,13 +59,12 @@ public class GirlAI : CachedMonoBehaviour
 	{
 	}
 
-	public void Initialize(SpawnPoint spawnPoint, List<SpawnPoint> destinationPoints)
-	{
-		m_OriginPoint = spawnPoint;
-		m_DestinationPoint = destinationPoints;
-		m_OriginPoint.IsUsed = true;
-		gameObject.SetActive(true);
-		IsInitialized = true;
+	public void Initialize(SpawnPoint spawnPoint)
+    {
+        m_OriginPoint = spawnPoint;
+        m_OriginPoint.IsUsed = true;
+        gameObject.SetActive(true);
+        IsInitialized = true;
 
 		m_FSM.TransitionTo(m_IdleState.Id);
 		m_IdleState.OnPlayerSpotted.AddListener(HandlePlayerSpotted);
