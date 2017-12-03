@@ -6,7 +6,7 @@ public class UIManager : ASingleton<UIManager>
 	private CanvasGroup m_GameOverGroup;
 
 	[SerializeField]
-	private UIPartnerTimer m_PartnerTimerPrefab;
+	private UIFanMarker m_FanMarkerPrefab;
 
 	private void Awake()
 	{
@@ -21,10 +21,10 @@ public class UIManager : ASingleton<UIManager>
 		}
 	}
 
-	public void CreatePartnerTimer(GirlAI girl)
+	public void CreateMarker(GirlAI fan)
 	{
-		UIPartnerTimer timer = Instantiate(m_PartnerTimerPrefab, CachedTransform);
-		timer.Initialize(girl);
+		UIFanMarker marker = Instantiate(m_FanMarkerPrefab, CachedTransform);
+		marker.Initialize(fan);
 	}
 
 	public void ShowGameOverPanel()

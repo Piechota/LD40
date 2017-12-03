@@ -109,7 +109,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_GameOverGroup: {fileID: 225182716187151886}
-  m_PartnerTimerPrefab: {fileID: 114753666936744718, guid: b5d0d025f36113b4ba00a43cc375a371,
+  m_FanMarkerPrefab: {fileID: 114753666936744718, guid: b5d0d025f36113b4ba00a43cc375a371,
     type: 2}
 --- !u!114 &114663774920117688
 MonoBehaviour:

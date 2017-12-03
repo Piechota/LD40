@@ -7,8 +7,6 @@ public class PlayerLocomotionController : APlayerComponent
 	[SerializeField]
 	private float m_RunSpeed = 10f;
 	[SerializeField]
-	private float m_EscortSpeed = 4f;
-	[SerializeField]
 	private float m_Acceleration = 10f;
 	[SerializeField]
 	private float m_Deceleration = 15f;
@@ -62,7 +60,7 @@ public class PlayerLocomotionController : APlayerComponent
 
 	private void UpdateVelocity()
 	{
-		float movementMod = m_Player.IsEscorting ? m_EscortSpeed : m_RunSpeed;
+		float movementMod = m_RunSpeed;
 		float targetSpeed = m_TargetDirection.magnitude * movementMod;
 		Vector3 targetVelocity = m_TargetDirection * targetSpeed;
 

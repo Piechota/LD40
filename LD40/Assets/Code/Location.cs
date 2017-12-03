@@ -25,10 +25,7 @@ public class Location : MonoBehaviour
 		if (col.gameObject.layer == PlayerController.LAYER)
 		{
 			PlayerController player = GameManager.Instance.Player;
-			if (player.IsEscorting)
-			{
-				player.PerformDate(this);
-			}
+			// #TODO LS allow interaction
 		}
 	}
 }

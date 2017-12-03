@@ -15,21 +15,14 @@ public class GirlAI : CachedMonoBehaviour
 	[SerializeField]
 	public Material ConeMaterial;
 
-	private float m_WaitTimer = 0f;
-	private float m_WaitDuration = 10f;
-	public float TimerValue { get { return Mathf.Clamp01(m_WaitTimer / m_WaitDuration); } }
-
 	public bool IsInitialized { get; private set; }
 
-	private bool m_PlayerDetected;
-	public bool IsPaired { get { return m_FSM.CurrentStateId == (int)EPartnerStateID.Pair; } }
-	public bool IsAngry { get { return m_FSM.CurrentStateId == (int)EPartnerStateID.Angry; } }
+	public bool HasSpotted { get { return m_FSM.CurrentStateId == (int)EFanStateID.Spotted; } }
 
 	private FiniteStateMachine m_FSM;
 	public FiniteStateMachine FSM { get { return m_FSM; } }
-	private PartnerIdleState m_IdleState;
-	private PartnerPairState m_FollowState;
-	private PartnerAngryState m_AngryState;
+	private FanIdleState m_IdleState;
+	private FanSpottedState m_SpottedState;
 
 	private NavMeshAgent m_Agent;
 	public NavMeshAgent Agent { get { return m_Agent; } }
@@ -38,8 +31,11 @@ public class GirlAI : CachedMonoBehaviour
 	[SerializeField]
 	private float m_FollowingDistance;
 
-    private SpawnPoint m_OriginPoint;
-    private List<SpawnPoint> m_DestinationPoint;
+	private SpawnPoint m_OriginPoint;
+	private List<SpawnPoint> m_DestinationPoint;
+
+	private bool m_PlayerDetected = false;
+	private bool m_ShowCone = false;
 
 	private void Awake()
 	{
@@ -52,44 +48,55 @@ public class GirlAI : CachedMonoBehaviour
 		m_FSM.Update();
 	}
 
+	private void OnRenderObject()
+	{
+		if (m_ShowCone)
+		{
+			DrawCone(m_PlayerDetected ? Color.red : Color.blue);
+		}
+	}
+
 	private void OnDestroy()
 	{
 	}
 
 	public void Initialize(SpawnPoint spawnPoint, List<SpawnPoint> destinationPoints)
-    {
-        m_OriginPoint = spawnPoint;
-        m_DestinationPoint = destinationPoints;
-        m_OriginPoint.IsUsed = true;
-        gameObject.SetActive(true);
-        IsInitialized = true;
-		m_WaitTimer = m_WaitDuration;
+	{
+		m_OriginPoint = spawnPoint;
+		m_DestinationPoint = destinationPoints;
+		m_OriginPoint.IsUsed = true;
+		gameObject.SetActive(true);
+		IsInitialized = true;
 
 		m_FSM.TransitionTo(m_IdleState.Id);
-		m_IdleState.OnWaitFinished.AddListener(HandleIdleWaitFinished);
-		UIManager.Instance.CreatePartnerTimer(this);
-    }
+		m_IdleState.OnPlayerSpotted.AddListener(HandlePlayerSpotted);
+		UIManager.Instance.CreateMarker(this);
+	}
 
-    public void Uninitialize()
+	public void Uninitialize()
 	{
 		IsInitialized = false;
-		StopPair();
 		m_FSM.Reset();
-		m_IdleState.OnWaitFinished.RemoveListener(HandleIdleWaitFinished);
+		m_IdleState.OnPlayerSpotted.RemoveListener(HandlePlayerSpotted);
 	}
 
 	private void PrepareStateMachine()
 	{
 		m_FSM = new FiniteStateMachine();
 
-		m_IdleState = new PartnerIdleState(this);
+		m_IdleState = new FanIdleState(this);
 		m_FSM.AddState(m_IdleState);
 
-		m_FollowState = new PartnerPairState(this);
-		m_FSM.AddState(m_FollowState);
+		m_SpottedState = new FanSpottedState(this);
+		m_FSM.AddState(m_SpottedState);
+	}
 
-		m_AngryState = new PartnerAngryState(this);
-		m_FSM.AddState(m_AngryState);
+	public bool DetectPlayer()
+	{
+		m_PlayerDetected = GirlsManager.Instance.FieldOfView.TestCollision(CachedTransform.position, CachedTransform.forward);
+		m_ShowCone = true;
+
+		return m_PlayerDetected;
 	}
 
 	private void DrawCone(Color color)
@@ -128,35 +135,11 @@ public class GirlAI : CachedMonoBehaviour
 		GL.End();
 	}
 
-	private void OnRenderObject()
-	{
-		if (m_FSM.CurrentStateId != (int)EPartnerStateID.Pair)
-		{
-			m_PlayerDetected = GirlsManager.Instance.FieldOfView.TestCollision(CachedTransform.position, CachedTransform.forward);
-			DrawCone(m_PlayerDetected ? Color.red : Color.blue);
-
-			if (m_PlayerDetected && GameManager.Instance.Player.IsEscorting)
-			{
-				GameManager.Instance.SetGameOver();
-			}
-		}
-	}
-
 	public void FollowPlayer()
 	{
 		PlayerController player = GameManager.Instance.Player;
 		Vector3 playerPosition = player.CachedTransform.position;
-		Vector3 positionRight = playerPosition + player.CachedTransform.right * m_FollowingDistance;
-		Vector3 positionLeft = playerPosition - player.CachedTransform.right * m_FollowingDistance;
-
-		if (Vector3.SqrMagnitude(CachedTransform.position - positionRight) < Vector3.SqrMagnitude(CachedTransform.position - positionLeft))
-		{
-			m_Agent.SetDestination(positionRight);
-		}
-		else
-		{
-			m_Agent.SetDestination(positionLeft);
-		}
+		m_Agent.SetDestination(playerPosition);
 	}
 
 	public void SetTargetForward(Vector3 forward)
@@ -164,50 +147,27 @@ public class GirlAI : CachedMonoBehaviour
 		CachedTransform.forward = forward;
 	}
 
-	public void StartPair()
-	{
-		m_FSM.TransitionTo(m_FollowState);
-		OnPairStarted.Invoke();
-	}
-
-	public void StopPair()
-	{
-		if (m_WaitTimer > 0)
-		{
-			m_FSM.TransitionTo(m_IdleState);
-		}
-		else
-		{
-			m_FSM.TransitionTo(m_AngryState);
-		}
-
-		OnPairStopped.Invoke();
-	}
-
 	public void StartFollowing()
 	{
 		m_Agent.isStopped = false;
 		m_OriginPoint.IsUsed = false;
+		m_ShowCone = false;
 	}
 
 	public void StopFollowing()
 	{
 		m_Agent.isStopped = true;
+		m_ShowCone = true;
 	}
 
-	public void UpdateWaitTimer()
+	public void Release()
 	{
-		m_WaitTimer -= GameManager.Instance.DeltaTime;
-    }
+		GirlsManager.Instance.AddGirlToPool(this);
+		m_OriginPoint.IsUsed = false; //just in case
+	}
 
-    public void DateFinished()
-    {
-        GirlsManager.Instance.AddGirlToPool(this);
-        m_OriginPoint.IsUsed = false; //just in case
-    }
-
-	private void HandleIdleWaitFinished()
+	private void HandlePlayerSpotted()
 	{
-		m_FSM.TransitionTo(m_AngryState);
+		m_FSM.TransitionTo(m_SpottedState);
 	}
 }
