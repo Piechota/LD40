@@ -6,6 +6,8 @@ public class Location : CachedMonoBehaviour
 	private Transform m_MarkerSpawnPoint;
 	public Transform MarkerSpawnPoint { get { return m_MarkerSpawnPoint; } }
 
+    public AudioSource BejbeAudio { get; set; }
+
 	[SerializeField]
 	private EventCollider m_Collider;
 
@@ -15,7 +17,9 @@ public class Location : CachedMonoBehaviour
 	{
 		m_Collider.OnTriggerEntered.AddListener(HandleCollision);
 		SetTarget(false);
-		POIManager.Instance.RegisterLocation(this);
+        BejbeAudio = GetComponent<AudioSource>();
+
+        POIManager.Instance.RegisterLocation(this);
 	}
 
 	private void Update()
