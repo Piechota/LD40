@@ -14,6 +14,7 @@ public class FanIdleState : AFanState
 	{
 		m_Fan.SetConeActive(true);
         m_IdleTime = Random.Range(m_Fan.Params.IdleRandomTime.x, m_Fan.Params.IdleRandomTime.y);
+        m_Fan.Agent.avoidancePriority = 1;
 	}
 
 	protected override void HandleUpdate()
@@ -50,5 +51,6 @@ public class FanIdleState : AFanState
 	protected override void HandleLeave(AState nextState)
 	{
 		m_Fan.SetConeActive(false);
-	}
+        m_Fan.Agent.avoidancePriority = 99;
+    }
 }
