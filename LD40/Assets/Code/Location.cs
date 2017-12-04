@@ -15,6 +15,8 @@ public class Location : CachedMonoBehaviour
 	private ELocationType m_Type;
 	public ELocationType Type { get { return m_Type; } }
 
+    public AudioSource BejbeAudio { get; set; }
+
 	[SerializeField]
 	private EventCollider m_Collider;
 
@@ -24,7 +26,9 @@ public class Location : CachedMonoBehaviour
 	{
 		m_Collider.OnTriggerEntered.AddListener(HandleCollision);
 		SetTarget(false);
-		POIManager.Instance.RegisterLocation(this);
+        BejbeAudio = GetComponent<AudioSource>();
+
+        POIManager.Instance.RegisterLocation(this);
 	}
 
 	private void Update()

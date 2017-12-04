@@ -14,6 +14,7 @@ public class FanAutographedState : AFanState
     {
         m_Fan.SetConeActive(false);
         m_Time = Random.Range(m_Fan.Params.AutographedTime.x, m_Fan.Params.AutographedTime.y);
+        GirlsManager.Instance.RemoveSpotted(m_Fan);
     }
 
     protected override void HandleUpdate()

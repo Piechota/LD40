@@ -53,6 +53,10 @@ public class GirlsManager : ASingleton<GirlsManager>
     {
         m_SpottedFans.Add(girl);
     }
+    public void RemoveSpotted( GirlAI girl )
+    {
+        m_SpottedFans.Remove(girl);
+    }
 
     public void ClearSpotted()
     {
