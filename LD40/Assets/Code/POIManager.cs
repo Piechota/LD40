@@ -66,7 +66,7 @@ public class POIManager : ASingleton<POIManager>
 
 		TargetLocation = m_Locations[rand];
 		TargetLocation.SetTarget(true);
-        TargetLocation.BejbeAudio.Play();
+        TargetLocation.Loop.Play();
 
         MissionTimer = m_MissionDuration;
 		UIManager.Instance.ShowLocationMarker(TargetLocation);

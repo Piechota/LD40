@@ -52,7 +52,8 @@ public class GameConcertState : AGameState
         m_PlayerPointID = 0;
 
         GameManager.Instance.Player.LocomotionActive = false;
-        m_AudioVolume = m_ConcertLocation.BejbeAudio.volume;
+        m_AudioVolume = m_ConcertLocation.Bejbe.volume;
+        m_ConcertLocation.Bejbe.Play();
     }
 
     protected override void HandleUpdate()
@@ -63,10 +64,13 @@ public class GameConcertState : AGameState
         UpdatePlayerPosition();
 
         const float p = 0.4f;
+        float x = (2f * (m_Timer / CONCERT_DURATION) - 1f);
+        float bejbeFade = Mathf.Clamp01( 1.5f * (-(x * x) + 1f) );
         float fade = 1f - (m_Timer - CONCERT_DURATION * (1f - p)) / (CONCERT_DURATION * p);
         if (m_ConcertLocation)
         {
-            m_ConcertLocation.BejbeAudio.volume = m_AudioVolume * fade;
+            m_ConcertLocation.Bejbe.volume = bejbeFade;
+            m_ConcertLocation.Loop.volume = fade;
         }
 
         if (m_Timer > CONCERT_DURATION)
@@ -93,8 +97,12 @@ public class GameConcertState : AGameState
         GirlsManager.Instance.SetGirlsBlind(false);
         GirlsManager.Instance.SpawnGirl(5);
         GameManager.Instance.Player.LocomotionActive = true;
-        m_ConcertLocation.BejbeAudio.Stop();
-        m_ConcertLocation.BejbeAudio.volume = m_AudioVolume;
+        m_ConcertLocation.Bejbe.Stop();
+        m_ConcertLocation.Bejbe.volume = m_AudioVolume;
+
+        m_ConcertLocation.Loop.Stop();
+        m_ConcertLocation.Loop.volume = m_AudioVolume;
+
         m_ConcertLocation = null;
     }
 
