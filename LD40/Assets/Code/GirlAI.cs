@@ -10,6 +10,9 @@ public class GirlAI : CachedMonoBehaviour
 	[SerializeField]
 	private FanParams m_Params;
 	public FanParams Params { get { return m_Params; } }
+	[SerializeField]
+	private ParticleSystem m_HeartParticles;
+	public ParticleSystem HeartParticles { get { return m_HeartParticles; } }
 
 	[SerializeField]
 	private Material m_ConeMaterial;
@@ -44,11 +47,11 @@ public class GirlAI : CachedMonoBehaviour
 
 	private void Awake()
 	{
+		m_HeartParticles.Stop();
 		m_ConeMaterialInstance = new Material(m_ConeMaterial);
 		m_Agent = GetComponent<NavMeshAgent>();
 		PrepareStateMachine();
         Blind = false;
-
     }
 
 	private void Update()

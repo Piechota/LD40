@@ -9,6 +9,7 @@ public class FanSpottedState : AFanState
 	protected override void HandleEnter(AState prevState)
 	{
 		m_Fan.UnlockNavigation();
+		m_Fan.HeartParticles.Play();
         GirlsManager.Instance.SetSpotted(m_Fan);
 	}
 
@@ -35,6 +36,7 @@ public class FanSpottedState : AFanState
 
 	protected override void HandleLeave(AState nextState)
 	{
+		m_Fan.HeartParticles.Stop();
 		m_Fan.LockNavigation();
 	}
 }
