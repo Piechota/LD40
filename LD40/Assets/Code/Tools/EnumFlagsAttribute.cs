@@ -1,7 +1,6 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿#if UNITY_EDITOR
 using UnityEditor;
+using UnityEngine;
 
 public class EnumFlagsAttribute : PropertyAttribute
 {
@@ -16,3 +15,4 @@ public class EnumFlagsAttributeDrawer : PropertyDrawer
         _property.intValue = EditorGUI.MaskField(_position, _label, _property.intValue, _property.enumNames);
     }
 }
+#endif
