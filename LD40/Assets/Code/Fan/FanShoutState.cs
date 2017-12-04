@@ -11,6 +11,7 @@ public class FanShoutState : AFanState
     {
         ShoutTime = m_Fan.Params.ShoutTime;
         Shout();
+		m_Fan.SetExclamationMarkVisible(true);
     }
 
     protected override void HandleUpdate()
@@ -25,6 +26,7 @@ public class FanShoutState : AFanState
 
     protected override void HandleLeave(AState nextState)
     {
+		m_Fan.SetExclamationMarkVisible(false);
     }
 
     private void Shout()
