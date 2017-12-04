@@ -6,8 +6,11 @@ public class GameConcertState : AGameState
 
 	private float m_Timer = 0f;
 	private Location m_ConcertLocation;
-
+    private float m_PlayerSpeed = 0f;
 	private const float CONCERT_DURATION = 4f;
+
+    private Vector3[] m_PlayerPoints = new Vector3[3];
+    private int m_PlayerPointID = 0;
 
 	public GameConcertState() : base(EGameState.Concert)
 	{
@@ -22,14 +25,32 @@ public class GameConcertState : AGameState
 		POIManager.Instance.SetCutsceneCameraActive(true);
         GirlsManager.Instance.SetGirlsBlind(true);
         GirlsManager.Instance.ClearSpotted();
-	}
 
-	protected override void HandleUpdate()
+        float distanceInBuilding = 5f;
+        float distance = 0.5f + 2f * distanceInBuilding + Vector3.Distance(GameManager.Instance.Player.CachedTransform.position, m_ConcertLocation.MarkerSpawnPoint.position);
+        m_PlayerSpeed = distance / CONCERT_DURATION;
+
+        m_PlayerPoints[0] = m_ConcertLocation.MarkerSpawnPoint.position;
+        m_PlayerPoints[1] = m_PlayerPoints[0] + distanceInBuilding * m_ConcertLocation.MarkerSpawnPoint.forward;
+        m_PlayerPoints[2] = m_PlayerPoints[0];
+
+        m_PlayerPoints[0].y = 0f;
+        m_PlayerPoints[1].y = 0f;
+        m_PlayerPoints[2].y = 0f;
+
+        m_PlayerPointID = 0;
+
+        GameManager.Instance.Player.LocomotionActive = false;
+    }
+
+    protected override void HandleUpdate()
 	{
 		base.HandleUpdate();
 
 		m_Timer += Time.deltaTime;
-		if (m_Timer > CONCERT_DURATION)
+        UpdatePlayerPosition();
+
+        if (m_Timer > CONCERT_DURATION)
 		{
 			OnConcertFinished.Invoke();
 		}
@@ -44,10 +65,41 @@ public class GameConcertState : AGameState
 		POIManager.Instance.GenerateMission();
         GirlsManager.Instance.SetGirlsBlind(false);
         GirlsManager.Instance.SpawnGirl(5);
+        GameManager.Instance.Player.LocomotionActive = true;
     }
 
     public void SetLocation(Location location)
 	{
 		m_ConcertLocation = location;
 	}
+
+    private void UpdatePlayerPosition()
+    {
+        float rotateSpeed = 200f;
+        Vector3 nextPoint = m_PlayerPoints[m_PlayerPointID];
+        Vector3 playerPosition = GameManager.Instance.Player.CachedTransform.position;
+        float playerY = playerPosition.y;
+        playerPosition.y = 0f;
+
+        float distance = Vector3.Distance(playerPosition, nextPoint);
+        float offset = m_PlayerSpeed * Time.deltaTime;
+
+        Vector3 dir = (nextPoint - playerPosition).normalized;
+        playerPosition += Mathf.Min(distance, offset) * dir;
+        if ( distance < offset )
+        {
+            if ( m_PlayerPointID + 1 < m_PlayerPoints.Length )
+            {
+                ++m_PlayerPointID;
+            }
+        }
+
+
+        float t = Time.deltaTime * rotateSpeed / Vector3.Angle(GameManager.Instance.Player.Input.DirectionVector, dir);
+        Vector3 lookVec = Vector3.Slerp(GameManager.Instance.Player.Input.DirectionVector, dir, t);
+
+        playerPosition.y = playerY;
+        GameManager.Instance.Player.CachedTransform.position = playerPosition;
+        GameManager.Instance.Player.Input.DirectionVector = lookVec;
+    }
 }

@@ -26,6 +26,7 @@ public class PlayerController : CachedMonoBehaviour
 		}
 	}
 
+    public bool LocomotionActive = true;
 	private PlayerLocomotionController m_Locomotion;
 	public PlayerLocomotionController Locomotion
 	{
@@ -39,8 +40,9 @@ public class PlayerController : CachedMonoBehaviour
 		}
 	}
 
+    public bool AnimationActive = true;
 	private PlayerAnimationController m_Animation;
-	public PlayerAnimationController Animation
+    public PlayerAnimationController Animation
 	{
 		get
 		{
@@ -91,8 +93,14 @@ public class PlayerController : CachedMonoBehaviour
             Input.UpdateBehaviour();
         }
 
-		Locomotion.UpdateBehaviour();
-		Animation.UpdateBehaviour();
+        if (LocomotionActive)
+        {
+            Locomotion.UpdateBehaviour();
+        }
+        if (AnimationActive)
+        {
+            Animation.UpdateBehaviour();
+        }
 
         m_AutographCooldown -= GameManager.Instance.DeltaTime;
         UIManager.Instance.UpdateUICoolDown(GetAutographNorm());
