@@ -22,7 +22,16 @@ public class GameConcertState : AGameState
 		m_Mgr.Player.SetInputLock(true);
 
 		m_Timer = 0f;
-		POIManager.Instance.SetCutsceneCameraActive(true);
+
+		if (m_ConcertLocation.Type == ELocationType.Back)
+		{
+			POIManager.Instance.SetCutsceneCameraBackActive(true);
+		}
+		else
+		{
+			POIManager.Instance.SetCutsceneCameraAngleActive(true);
+		}
+
         GirlsManager.Instance.SetGirlsBlind(true);
         GirlsManager.Instance.ClearSpotted();
 
@@ -60,7 +69,16 @@ public class GameConcertState : AGameState
 	{
 		m_Mgr.SetGameTimerPause(false);
 		m_Mgr.Player.SetInputLock(false);
-		POIManager.Instance.SetCutsceneCameraActive(false);
+
+		if (m_ConcertLocation.Type == ELocationType.Back)
+		{
+			POIManager.Instance.SetCutsceneCameraBackActive(false);
+		}
+		else
+		{
+			POIManager.Instance.SetCutsceneCameraAngleActive(false);
+		}
+
 		POIManager.Instance.GenerateMission(m_ConcertLocation.ID);
         GirlsManager.Instance.SetGirlsBlind(false);
         GirlsManager.Instance.SpawnGirl(5);

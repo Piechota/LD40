@@ -13,11 +13,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_CustomBlends:
   - m_From: PlayerCamera
-    m_To: CutsceneCamera
+    m_To: '**ANY CAMERA**'
     m_Blend:
       m_Style: 1
       m_Time: 1
-  - m_From: CutsceneCamera
+  - m_From: '**ANY CAMERA**'
     m_To: PlayerCamera
     m_Blend:
       m_Style: 1

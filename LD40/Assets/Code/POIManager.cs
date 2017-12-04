@@ -8,7 +8,9 @@ public class POIManager : ASingleton<POIManager>
 	public readonly AEvent OnMissionCompleted = new AEvent();
 
 	[SerializeField]
-	private CinemachineVirtualCamera m_CutsceneCamera;
+	private CinemachineVirtualCamera m_CutsceneCameraBack;
+	[SerializeField]
+	private CinemachineVirtualCamera m_CutsceneCameraAngle;
 
 	private List<Location> m_Locations = new List<Location>();
 	public Location TargetLocation { get; private set; }
@@ -83,8 +85,13 @@ public class POIManager : ASingleton<POIManager>
 		TargetLocation = null;
 	}
 
-	public void SetCutsceneCameraActive(bool set)
+	public void SetCutsceneCameraBackActive(bool set)
 	{
-		m_CutsceneCamera.gameObject.SetActive(set);
+		m_CutsceneCameraBack.gameObject.SetActive(set);
+	}
+
+	public void SetCutsceneCameraAngleActive(bool set)
+	{
+		m_CutsceneCameraAngle.gameObject.SetActive(set);
 	}
 }
