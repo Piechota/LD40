@@ -16,7 +16,7 @@ public class POIManager : ASingleton<POIManager>
 	public Location TargetLocation { get; private set; }
 
 	public float MissionTimer { get; private set; }
-	private float m_MissionDuration = 60f;
+	private float m_MissionDuration = 45f;
 	public float MissionTimerValue { get { return MissionTimer / m_MissionDuration; } }
 
 	public int MissionCounter { get; private set; }
