@@ -13,6 +13,7 @@ public class FanParams : ScriptableObject
 	[Header("Spotted")]
 	public float RunSpeed = 11f;
 	public float SpottedAttackDistance = 1.5f;
+	public Vector2 SqueakDelay = new Vector2(0.5f, 1f);
 
     [Header("Shout")]
     public float ShoutRadius = 10f;
