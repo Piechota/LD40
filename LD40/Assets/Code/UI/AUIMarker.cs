@@ -6,6 +6,9 @@ public abstract class AUIMarker : CachedUIBehaviour
 	private Transform m_Target;
 	private Camera m_MainCamera;
 
+	protected Vector3 m_ScreenPoint = new Vector3();
+	protected Vector3 m_ClampedScreenPoint = new Vector3();
+
 	protected virtual Vector3 VERTICAL_OFFSET { get { return new Vector3(0, 2, 0); }  }
 
 	protected virtual void Update()
@@ -37,17 +40,17 @@ public abstract class AUIMarker : CachedUIBehaviour
 	private void UpdatePositioning()
 	{
 		Vector3 pivotPoint = m_Target.position + VERTICAL_OFFSET;
-		Vector3 screenPoint = m_MainCamera.WorldToScreenPoint(pivotPoint);
+		m_ScreenPoint = m_MainCamera.WorldToScreenPoint(pivotPoint);
 		float halfWidth = CachedTransform.rect.width / 2f;
 		float halfHeight = CachedTransform.rect.height / 2f;
 
-		if (screenPoint.z < 0)
+		if (m_ScreenPoint.z < 0)
 		{
-			screenPoint *= -1;
+			m_ScreenPoint *= -1;
 		}
 
-		screenPoint.x = Mathf.Clamp(screenPoint.x, m_MainCamera.pixelRect.x + halfWidth, m_MainCamera.pixelRect.width - halfWidth + m_MainCamera.pixelRect.x);
-		screenPoint.y = Mathf.Clamp(screenPoint.y, m_MainCamera.pixelRect.y + halfHeight, m_MainCamera.pixelRect.height - halfHeight + m_MainCamera.pixelRect.y);
-		transform.position = screenPoint;
+		m_ClampedScreenPoint.x = Mathf.Clamp(m_ScreenPoint.x, m_MainCamera.pixelRect.x + halfWidth, m_MainCamera.pixelRect.width - halfWidth + m_MainCamera.pixelRect.x);
+		m_ClampedScreenPoint.y = Mathf.Clamp(m_ScreenPoint.y, m_MainCamera.pixelRect.y + halfHeight, m_MainCamera.pixelRect.height - halfHeight + m_MainCamera.pixelRect.y);
+		transform.position = m_ClampedScreenPoint;
 	}
 }

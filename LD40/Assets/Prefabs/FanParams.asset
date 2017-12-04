@@ -16,10 +16,11 @@ MonoBehaviour:
   IdleRotationSpeed: 11
   IdleRotationDelay: {x: 3, y: 5}
   IdleRandomTime: {x: 6, y: 10}
-  RunSpeed: 9
+  RunSpeed: 11
   SpottedAttackDistance: 1.5
+  SqueakDelay: {x: 0.7, y: 1.2}
   ShoutRadius: 10
   ShoutTime: 0.5
-  AutographedTime: {x: 3, y: 5}
+  AutographedTime: {x: 2, y: 3}
   AutographedRotationDelay: {x: 0.2, y: 0.5}
   AutographedRotationSpeed: 20
