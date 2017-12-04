@@ -3,8 +3,7 @@
 [RequireComponent(typeof(Animator))]
 public class PlayerAnimationController : APlayerComponent
 {
-	[SerializeField]
-	private Transform m_ModelTransform;
+	public Transform m_ModelTransform;
 
 	[SerializeField]
 	private GameObject m_HiddenBody;

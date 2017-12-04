@@ -35,7 +35,8 @@ public class POIManager : ASingleton<POIManager>
 
 	public void RegisterLocation(Location loc)
 	{
-		m_Locations.Add(loc);
+        loc.ID = m_Locations.Count;
+        m_Locations.Add(loc);
 	}
 
 	public void RegisterNPCPoint(NPCPoint npcPoint)
@@ -52,10 +53,15 @@ public class POIManager : ASingleton<POIManager>
 		return null;
 	}
 
-	public void GenerateMission()
+	public void GenerateMission( int lastLocation )
 	{
 		UIManager.Instance.UpdateMissionCounter(MissionCounter);
 		int rand = Random.Range(0, m_Locations.Count);
+        if (rand == lastLocation)
+        {
+            rand = (rand + 1) % m_Locations.Count;
+        }
+
 		TargetLocation = m_Locations[rand];
 		TargetLocation.SetTarget(true);
 
@@ -67,7 +73,7 @@ public class POIManager : ASingleton<POIManager>
 
 	public void CompleteActiveMission()
 	{
-		MissionCounter++;
+		++MissionCounter;
 
 		UIManager.Instance.ShowLocationMarker(null);
 		TargetLocation.SetTarget(false);

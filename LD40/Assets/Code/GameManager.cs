@@ -56,7 +56,7 @@ public class GameManager : ASingleton<GameManager>
 
 	private void Start()
 	{
-		POIManager.Instance.GenerateMission();
+		POIManager.Instance.GenerateMission(-1);
 	}
 
 	private void Update()
