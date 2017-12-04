@@ -13,6 +13,8 @@ public class GirlAI : CachedMonoBehaviour
 	[SerializeField]
 	private ParticleSystem m_HeartParticles;
 	public ParticleSystem HeartParticles { get { return m_HeartParticles; } }
+	[SerializeField]
+	private GameObject m_ExclamationMark;
 
     [SerializeField]
     public AudioClip[] m_Squeaking;
@@ -204,6 +206,12 @@ public class GirlAI : CachedMonoBehaviour
             SetTargetDestination(position);
         }
     }
+
+	public void SetExclamationMarkVisible(bool set)
+	{
+		m_ExclamationMark.SetActive(set);
+	}
+
     public void GetAutographed()
     {
         m_FSM.TransitionTo(m_AutographedState);

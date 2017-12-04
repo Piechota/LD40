@@ -11,6 +11,23 @@ Prefab:
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 1180166628288774}
   m_IsPrefabParent: 1
+--- !u!1 &1151632306690726
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4614960172779258}
+  - component: {fileID: 33466123537907694}
+  - component: {fileID: 23433995704272526}
+  m_Layer: 0
+  m_Name: exclamation_mark
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
 --- !u!1 &1155363033641136
 GameObject:
   m_ObjectHideFlags: 1
@@ -197,11 +214,12 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1180166628288774}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -13.193748, y: 0.1, z: -1.1201248}
+  m_LocalPosition: {x: 12.7, y: 0.1, z: -23.4}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4307627320633112}
   - {fileID: 4103512386290062}
+  - {fileID: 4614960172779258}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -231,6 +249,19 @@ Transform:
   m_Father: {fileID: 4005541002487792}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &4614960172779258
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1151632306690726}
+  m_LocalRotation: {x: -0.00000013240823, y: 0.7071068, z: -0.7071068, w: -0.00000013240823}
+  m_LocalPosition: {x: -0.11, y: 2.9, z: 0.01}
+  m_LocalScale: {x: 144.97508, y: 144.97508, z: 144.97508}
+  m_Children: []
+  m_Father: {fileID: 4313140070391548}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 90, y: 180.00002, z: 0}
 --- !u!4 &4800428181767616
 Transform:
   m_ObjectHideFlags: 1
@@ -306,6 +337,40 @@ MeshRenderer:
   m_ReflectionProbeUsage: 1
   m_Materials:
   - {fileID: 2100000, guid: f22eedb04c44d3747b5b7b3fa2f93203, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 0
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+--- !u!23 &23433995704272526
+MeshRenderer:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1151632306690726}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_Materials:
+  - {fileID: 2100000, guid: 24a5fd068c71e4a4dab35b5af419c881, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -407,6 +472,13 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1678090502779452}
   m_Mesh: {fileID: 4300000, guid: 707805161278a5843a7380041a68f290, type: 3}
+--- !u!33 &33466123537907694
+MeshFilter:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1151632306690726}
+  m_Mesh: {fileID: 4300000, guid: a74692a5440d71d4884a0cf10ce19087, type: 3}
 --- !u!33 &33495664042134424
 MeshFilter:
   m_ObjectHideFlags: 1
@@ -514,6 +586,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Params: {fileID: 11400000, guid: 2d517a9893feb644783844c646addb46, type: 2}
   m_HeartParticles: {fileID: 198455318921622972}
+  m_ExclamationMark: {fileID: 1151632306690726}
   m_Squeaking:
   - {fileID: 8300000, guid: 898edd6047eef504eab32ad4077aba5b, type: 3}
   - {fileID: 8300000, guid: 7af57a3223e2b124d80f5be6e1df8435, type: 3}
@@ -755,7 +828,7 @@ ParticleSystem:
   moveWithTransform: 0
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 1
-  randomSeed: 932992305
+  randomSeed: 2066602708
   InitialModule:
     serializedVersion: 3
     enabled: 1
