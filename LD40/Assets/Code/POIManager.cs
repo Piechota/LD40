@@ -57,21 +57,24 @@ public class POIManager : ASingleton<POIManager>
 
 	public void GenerateMission( int lastLocation )
 	{
-		UIManager.Instance.UpdateMissionCounter(MissionCounter);
-		int rand = Random.Range(0, m_Locations.Count);
-        if (rand == lastLocation)
+        if (UIManager.Instance)
         {
-            rand = (rand + 1) % m_Locations.Count;
+            UIManager.Instance.UpdateMissionCounter(MissionCounter);
+            int rand = Random.Range(0, m_Locations.Count);
+            if (rand == lastLocation)
+            {
+                rand = (rand + 1) % m_Locations.Count;
+            }
+
+            TargetLocation = m_Locations[rand];
+            TargetLocation.SetTarget(true);
+            TargetLocation.Loop.Play();
+
+            MissionTimer = m_MissionDuration;
+            UIManager.Instance.ShowLocationMarker(TargetLocation);
+
+            OnMissionStarted.Invoke(TargetLocation);
         }
-
-		TargetLocation = m_Locations[rand];
-		TargetLocation.SetTarget(true);
-        TargetLocation.Loop.Play();
-
-        MissionTimer = m_MissionDuration;
-		UIManager.Instance.ShowLocationMarker(TargetLocation);
-
-		OnMissionStarted.Invoke(TargetLocation);
 	}
 
 	public void CompleteActiveMission()
