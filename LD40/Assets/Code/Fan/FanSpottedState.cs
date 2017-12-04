@@ -2,6 +2,9 @@
 
 public class FanSpottedState : AFanState
 {
+	private float m_SqueakTimer = 0f;
+	private float m_SqueakDelay = 0f;
+
 	public FanSpottedState(GirlAI fan) : base(EFanStateID.Spotted, fan)
 	{
 	}
@@ -27,8 +30,15 @@ public class FanSpottedState : AFanState
 
         if ( !m_Fan.m_AudioSource.isPlaying )
         {
-            int clipID = Random.Range(0, m_Fan.m_Squeaking.Length);
-            m_Fan.m_AudioSource.PlayOneShot(m_Fan.m_Squeaking[clipID] );
+			m_SqueakTimer += GameManager.Instance.DeltaTime;
+			if (m_SqueakTimer > m_SqueakDelay)
+			{
+				m_SqueakTimer = 0f;
+				m_SqueakDelay = Random.Range(m_Fan.Params.SqueakDelay.x, m_Fan.Params.SqueakDelay.y);
+
+				int clipID = Random.Range(0, m_Fan.m_Squeaking.Length);
+				m_Fan.m_AudioSource.PlayOneShot(m_Fan.m_Squeaking[clipID] );
+			}
         }
 	}
 
