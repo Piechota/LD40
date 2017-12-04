@@ -173,7 +173,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1110833525092214}
   m_LocalRotation: {x: 0.14452665, y: -0.37797198, z: 0.059864894, w: 0.9125051}
-  m_LocalPosition: {x: 12.91, y: 2, z: -26.59}
+  m_LocalPosition: {x: 14.41, y: 2.5, z: -28.09}
   m_LocalScale: {x: 1, y: 1.0000002, z: 1.0000002}
   m_Children:
   - {fileID: 4400642809913520}
@@ -238,8 +238,8 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1040031571195246}
-  m_LocalRotation: {x: 0.47696945, y: -0.0000000033991436, z: -0.0000000011351967,
-    w: 0.8789199}
+  m_LocalRotation: {x: 0.4769567, y: -0.0000000037918344, z: -0.0000000012661913,
+    w: 0.8789269}
   m_LocalPosition: {x: 10.41, y: 20, z: -37.09}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -253,8 +253,8 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1204558355002524}
-  m_LocalRotation: {x: 0.47696945, y: -0.0000000033991436, z: -0.0000000011351967,
-    w: 0.8789199}
+  m_LocalRotation: {x: 0.4769567, y: -0.0000000037918344, z: -0.0000000012661913,
+    w: 0.8789269}
   m_LocalPosition: {x: 10.41, y: 20, z: -37.09}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
@@ -268,7 +268,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1609573923686458}
   m_LocalRotation: {x: 0.1564345, y: -0, z: -0, w: 0.98768836}
-  m_LocalPosition: {x: 10.41, y: 2, z: -28.09}
+  m_LocalPosition: {x: 10.41, y: 2.5, z: -30.09}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4404841638678592}
@@ -582,7 +582,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_BindingMode: 1
-  m_FollowOffset: {x: 0, y: 2, z: -4}
+  m_FollowOffset: {x: 0, y: 2.5, z: -6}
   m_XDamping: 1
   m_YDamping: 1
   m_ZDamping: 1
@@ -601,7 +601,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_BindingMode: 1
-  m_FollowOffset: {x: 2.5, y: 2, z: -2.5}
+  m_FollowOffset: {x: 4, y: 2.5, z: -4}
   m_XDamping: 1
   m_YDamping: 1
   m_ZDamping: 1
