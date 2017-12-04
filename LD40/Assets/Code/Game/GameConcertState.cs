@@ -62,7 +62,7 @@ public class GameConcertState : AGameState
 		m_Mgr.SetGameTimerPause(false);
 		m_Mgr.Player.SetInputLock(false);
 		POIManager.Instance.SetCutsceneCameraActive(false);
-		POIManager.Instance.GenerateMission();
+		POIManager.Instance.GenerateMission(m_ConcertLocation.ID);
         GirlsManager.Instance.SetGirlsBlind(false);
         GirlsManager.Instance.SpawnGirl(5);
         GameManager.Instance.Player.LocomotionActive = true;

@@ -9,6 +9,8 @@ public class Location : CachedMonoBehaviour
 	[SerializeField]
 	private EventCollider m_Collider;
 
+    public int ID { get; set; }
+
 	private void Awake()
 	{
 		m_Collider.OnTriggerEntered.AddListener(HandleCollision);
