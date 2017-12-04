@@ -489,6 +489,8 @@ MonoBehaviour:
   m_LocationMarker: {fileID: 114869580692602070}
   m_FanMarkerPrefab: {fileID: 114753666936744718, guid: b5d0d025f36113b4ba00a43cc375a371,
     type: 2}
+  m_TimerLabel: {fileID: 114326219724833606}
+  m_MissionCounter: {fileID: 114842649557068866}
   m_AutographCooldown: {fileID: 114130298817000428}
 --- !u!114 &114316536298534580
 MonoBehaviour:
@@ -1096,7 +1098,7 @@ MonoBehaviour:
   m_outlineColor:
     serializedVersion: 2
     rgba: 4278190080
-  m_fontSize: 16.8
+  m_fontSize: 15
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -1114,7 +1116,7 @@ MonoBehaviour:
   m_enableWordWrapping: 1
   m_wordWrappingRatios: 0.4
   m_overflowMode: 0
-  m_firstOverflowCharacterIndex: -1
+  m_firstOverflowCharacterIndex: 0
   m_linkedTextComponent: {fileID: 0}
   m_isLinkedTextComponent: 0
   m_enableKerning: 1
@@ -1795,8 +1797,8 @@ RectTransform:
   m_Father: {fileID: 224082118815664918}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.15, y: 0.54}
-  m_AnchorMax: {x: 0.85, y: 0.61}
+  m_AnchorMin: {x: 0.15, y: 0.55}
+  m_AnchorMax: {x: 0.85, y: 0.6}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}

@@ -12,9 +12,12 @@ public class POIManager : ASingleton<POIManager>
 
 	private List<Location> m_Locations = new List<Location>();
 	public Location TargetLocation { get; private set; }
-	private float m_MissionTimer = 0f;
+
+	public float MissionTimer { get; private set; }
 	private float m_MissionDuration = 60f;
-	public float MissionTimerValue { get { return m_MissionTimer / m_MissionDuration; } }
+	public float MissionTimerValue { get { return MissionTimer / m_MissionDuration; } }
+
+	public int MissionCounter { get; private set; }
 
 	private List<NPCPoint> m_NPCPoints = new List<NPCPoint>();
 
@@ -22,8 +25,8 @@ public class POIManager : ASingleton<POIManager>
 	{
 		if (TargetLocation != null)
 		{
-			m_MissionTimer -= GameManager.Instance.DeltaTime;
-			if (m_MissionTimer <= 0)
+			MissionTimer -= GameManager.Instance.DeltaTime;
+			if (MissionTimer <= 0)
 			{
 				GameManager.Instance.SetGameOver();
 			}
@@ -51,11 +54,12 @@ public class POIManager : ASingleton<POIManager>
 
 	public void GenerateMission()
 	{
+		UIManager.Instance.UpdateMissionCounter(MissionCounter);
 		int rand = Random.Range(0, m_Locations.Count);
 		TargetLocation = m_Locations[rand];
 		TargetLocation.SetTarget(true);
 
-		m_MissionTimer = m_MissionDuration;
+		MissionTimer = m_MissionDuration;
 		UIManager.Instance.ShowLocationMarker(TargetLocation);
 
 		OnMissionStarted.Invoke(TargetLocation);
@@ -63,8 +67,11 @@ public class POIManager : ASingleton<POIManager>
 
 	public void CompleteActiveMission()
 	{
+		MissionCounter++;
+
 		UIManager.Instance.ShowLocationMarker(null);
 		TargetLocation.SetTarget(false);
+
 		OnMissionCompleted.Invoke();
 		GameManager.Instance.StartConcert(TargetLocation);
 		TargetLocation = null;

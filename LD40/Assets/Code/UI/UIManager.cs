@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using TMPro;
+using UnityEngine;
 
 public class UIManager : ASingleton<UIManager>
 {
@@ -11,11 +12,20 @@ public class UIManager : ASingleton<UIManager>
 	private UIFanMarker m_FanMarkerPrefab;
 
 	[SerializeField]
+	private TextMeshProUGUI m_TimerLabel;
+	[SerializeField]
+	private TextMeshProUGUI m_MissionCounter;
+	[SerializeField]
 	private UICoolDown m_AutographCooldown;
 
 	private void Awake()
 	{
 		GameManager.Instance.OnGameOver.AddListener(ShowGameOverPanel);
+	}
+
+	private void Update()
+	{
+		UpdateMissionTimer();
 	}
 
 	private void OnDestroy()
@@ -49,9 +59,29 @@ public class UIManager : ASingleton<UIManager>
     {
         if (m_AutographCooldown)
         {
-            m_AutographCooldown.UpdateCoolDown(val);
+            m_AutographCooldown.UpdateCoolDown(1 - val);
         }
     }
+
+	public void UpdateMissionTimer()
+	{
+		int timer = Mathf.RoundToInt(POIManager.Instance.MissionTimer);
+		int mins = Mathf.FloorToInt(timer / 60);
+		int secs = timer % 60;
+		string secDigit = "";
+		if (secs < 10)
+		{
+			secDigit = "0";
+		}
+
+		m_TimerLabel.color = (timer < 10) ? new Color(1f, 0.7f, 0.7f) : Color.white;
+		m_TimerLabel.text = string.Format("0{0}:{1}{2}", mins, secDigit, secs);
+	}
+
+	public void UpdateMissionCounter(int count)
+	{
+		m_MissionCounter.text = string.Format("<b>{0}</b> concerts given", count);
+	}
 
 	public void ShowGameOverPanel()
 	{
