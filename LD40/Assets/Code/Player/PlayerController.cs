@@ -92,6 +92,7 @@ public class PlayerController : CachedMonoBehaviour
         }
 
 		Locomotion.UpdateBehaviour();
+		Animation.UpdateBehaviour();
 
         m_AutographCooldown -= GameManager.Instance.DeltaTime;
         UIManager.Instance.UpdateUICoolDown(GetAutographNorm());
