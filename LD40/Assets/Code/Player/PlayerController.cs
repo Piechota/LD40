@@ -6,7 +6,7 @@
 public class PlayerController : CachedMonoBehaviour
 {
     [SerializeField]
-    private GameObject m_AutographPrefab;
+    private ParticleSystem m_AutographPrefab;
     [SerializeField]
     private float m_AutographRadius;
     [SerializeField]
@@ -126,7 +126,8 @@ public class PlayerController : CachedMonoBehaviour
     {
         if ( m_AutographPrefab)
         {
-            Instantiate(m_AutographPrefab, CachedTransform.position, CachedTransform.rotation);
+            ParticleSystem p = Instantiate(m_AutographPrefab, CachedTransform.position + Vector3.up, CachedTransform.rotation);
+			p.collision.SetPlane(0, GameManager.Instance.Floor);
         }
 
         Collider[] girls = Physics.OverlapSphere(CachedTransform.position, m_AutographRadius, 1 << 9);

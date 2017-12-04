@@ -240,7 +240,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4149009536413960}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4064723021980062
 Transform:
@@ -269,8 +269,8 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 4195124132712360}
   - {fileID: 4038126618355662}
+  - {fileID: 4195124132712360}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -287,7 +287,7 @@ Transform:
   - {fileID: 4881677425444972}
   - {fileID: 4064723021980062}
   m_Father: {fileID: 4149009536413960}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4294863234664746
 Transform:
@@ -777,7 +777,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c8825a3699d69bc4d8229e810c9ebf81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_AutographPrefab: {fileID: 0}
+  m_AutographPrefab: {fileID: 198013428760767420, guid: cb9c9974d7b42bb4a98a2e9d58eaff50,
+    type: 2}
   m_AutographRadius: 5
   m_AutographDelay: 10
 --- !u!114 &114634228454147076

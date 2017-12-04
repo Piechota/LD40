@@ -4,6 +4,7 @@ public class GameManager : ASingleton<GameManager>
 {
 	public AEvent OnGameOver = new AEvent();
     public Transform WorldBox;
+	public Transform Floor;
 
     private PlayerController m_Player;
 	public PlayerController Player
