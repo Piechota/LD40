@@ -1,6 +1,11 @@
 fileFormatVersion: 2
+<<<<<<< HEAD
 guid: e04807fee2bccb24198dce9923101abf
 timeCreated: 1512425175
+=======
+guid: 69dc896404f2975439231a3170792923
+timeCreated: 1512425108
+>>>>>>> skin shader
 licenseType: Free
 NativeFormatImporter:
   externalObjects: {}
