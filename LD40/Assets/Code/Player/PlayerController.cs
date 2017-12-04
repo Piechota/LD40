@@ -10,8 +10,6 @@ public class PlayerController : CachedMonoBehaviour
     [SerializeField]
     private float m_AutographRadius;
     [SerializeField]
-    private UICoolDown m_UICoolDown;
-    [SerializeField]
     private float m_AutographDelay = 10f;
     private float m_AutographCooldown = 0f;
 
@@ -93,11 +91,10 @@ public class PlayerController : CachedMonoBehaviour
             Input.UpdateBehaviour();
         }
 
-        Locomotion.UpdateBehaviour();
-        Animation.UpdateBehaviour();
+		Locomotion.UpdateBehaviour();
 
         m_AutographCooldown -= GameManager.Instance.DeltaTime;
-        UpdateUICoolDown();
+        UIManager.Instance.UpdateUICoolDown(GetAutographNorm());
         if ( Input.ShootAutograph && m_AutographCooldown < 0f)
         {
             ShootAutograph();
@@ -111,7 +108,7 @@ public class PlayerController : CachedMonoBehaviour
 		Animation.Initialize(this);
 
         m_AutographCooldown = 0f;
-        UpdateUICoolDown();
+        UIManager.Instance.UpdateUICoolDown(GetAutographNorm());
     }
 
 	public void SetInputLock(bool set)
@@ -141,16 +138,8 @@ public class PlayerController : CachedMonoBehaviour
         m_AutographCooldown = m_AutographDelay;
     }
 
-    public float GetAutographNorm()
+    private float GetAutographNorm()
     {
         return Mathf.Clamp01(m_AutographCooldown / m_AutographDelay);
-    }
-
-    private void UpdateUICoolDown()
-    {
-        if (m_UICoolDown)
-        {
-            m_UICoolDown.UpdateCoolDown(GetAutographNorm());
-        }
     }
 }

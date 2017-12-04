@@ -10,6 +10,9 @@ public class UIManager : ASingleton<UIManager>
 	[SerializeField]
 	private UIFanMarker m_FanMarkerPrefab;
 
+	[SerializeField]
+	private UICoolDown m_AutographCooldown;
+
 	private void Awake()
 	{
 		GameManager.Instance.OnGameOver.AddListener(ShowGameOverPanel);
@@ -41,6 +44,14 @@ public class UIManager : ASingleton<UIManager>
 			m_LocationMarker.gameObject.SetActive(false);
 		}
 	}
+
+    public void UpdateUICoolDown(float val)
+    {
+        if (m_AutographCooldown)
+        {
+            m_AutographCooldown.UpdateCoolDown(val);
+        }
+    }
 
 	public void ShowGameOverPanel()
 	{

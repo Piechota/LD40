@@ -46,8 +46,8 @@ public abstract class AUIMarker : CachedUIBehaviour
 			screenPoint *= -1;
 		}
 
-		screenPoint.x = Mathf.Clamp(screenPoint.x, halfWidth, Screen.width - halfWidth);
-		screenPoint.y = Mathf.Clamp(screenPoint.y, halfHeight, Screen.height - halfHeight);
+		screenPoint.x = Mathf.Clamp(screenPoint.x, m_MainCamera.pixelRect.x + halfWidth, m_MainCamera.pixelRect.width - halfWidth + m_MainCamera.pixelRect.x);
+		screenPoint.y = Mathf.Clamp(screenPoint.y, m_MainCamera.pixelRect.y + halfHeight, m_MainCamera.pixelRect.height - halfHeight + m_MainCamera.pixelRect.y);
 		transform.position = screenPoint;
 	}
 }
