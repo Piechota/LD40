@@ -9,9 +9,10 @@ public class GirlsManager : ASingleton<GirlsManager>
     [SerializeField]
     private int SpawnOnAwakeNum = 10;
 
-	private List<GirlAI> m_ActiveFans = new List<GirlAI>();
+    private List<GirlAI> m_Girls = new List<GirlAI>();
+    private List<GirlAI> m_SpottedFans = new List<GirlAI>();
 
-	private void Awake()
+    private void Awake()
 	{
         SpawnGirl(SpawnOnAwakeNum);
 	}
@@ -38,24 +39,51 @@ public class GirlsManager : ASingleton<GirlsManager>
             {
                 GirlAI girl = Instantiate(GirlPrefab, hitInfo.position, Random.rotation).GetComponent<GirlAI>();
                 girl.Initialize();
-                m_ActiveFans.Add(girl);
+                m_Girls.Add(girl);
             }
         }
 	}
 
 	private void CheckPlayerExposed()
 	{
-		bool result = false;
-		for (int i = 0; i < m_ActiveFans.Count; ++i)
-		{
-			GirlAI fan = m_ActiveFans[i];
-			if (fan != null && fan.HasSpotted)
-			{
-				result = true;
-				break;
-			}
-		}
-
-		GameManager.Instance.Player.Animation.SetExposed(result);
+		GameManager.Instance.Player.Animation.SetExposed(0 < m_SpottedFans.Count);
 	}
+
+    public void SetSpotted( GirlAI girl )
+    {
+        m_SpottedFans.Add(girl);
+    }
+
+    public void ClearSpotted()
+    {
+        Transform worldBox = GameManager.Instance.WorldBox.transform;
+        Vector3 worldBoxScale = worldBox.localScale;
+        Vector3 worldBoxPosition = worldBox.position;
+        Vector3 offset = Vector3.zero;
+        NavMeshHit hitInfo;
+        int spottedCount = m_SpottedFans.Count;
+        for (int i = 0; i < spottedCount; ++i)
+        {
+            GirlAI girl = m_SpottedFans[i];
+            offset.x = worldBoxScale.x * (0.5f * (Random.value * 2f - 1f));
+            offset.z = worldBoxScale.z * (0.5f * (Random.value * 2f - 1f));
+
+            Vector3 spawnPosition = worldBoxPosition + offset;
+            if (NavMesh.SamplePosition(spawnPosition, out hitInfo, 100f, NavMesh.AllAreas))
+            {
+                girl.SetRoamingState();
+                girl.SetTargetDestination(hitInfo.position);
+            }
+        }
+        m_SpottedFans.Clear();
+    }
+
+    public void SetGirlsBlind( bool value )
+    {
+        int girlsCount = m_Girls.Count;
+        for ( int i = 0; i < girlsCount; ++i)
+        {
+            m_Girls[i].Blind = value;
+        }
+    }
 }

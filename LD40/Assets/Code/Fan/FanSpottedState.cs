@@ -9,6 +9,7 @@ public class FanSpottedState : AFanState
 	protected override void HandleEnter(AState prevState)
 	{
 		m_Fan.UnlockNavigation();
+        GirlsManager.Instance.SetSpotted(m_Fan);
 	}
 
 	protected override void HandleUpdate()

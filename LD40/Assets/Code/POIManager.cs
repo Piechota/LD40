@@ -68,7 +68,6 @@ public class POIManager : ASingleton<POIManager>
 		OnMissionCompleted.Invoke();
 		GameManager.Instance.StartConcert(TargetLocation);
 		TargetLocation = null;
-        	GirlsManager.Instance.SpawnGirl(5);
 	}
 
 	public void SetCutsceneCameraActive(bool set)

@@ -20,6 +20,8 @@ public class GameConcertState : AGameState
 
 		m_Timer = 0f;
 		POIManager.Instance.SetCutsceneCameraActive(true);
+        GirlsManager.Instance.SetGirlsBlind(true);
+        GirlsManager.Instance.ClearSpotted();
 	}
 
 	protected override void HandleUpdate()
@@ -40,9 +42,11 @@ public class GameConcertState : AGameState
 		m_Mgr.Player.SetInputLock(false);
 		POIManager.Instance.SetCutsceneCameraActive(false);
 		POIManager.Instance.GenerateMission();
-	}
+        GirlsManager.Instance.SetGirlsBlind(false);
+        GirlsManager.Instance.SpawnGirl(5);
+    }
 
-	public void SetLocation(Location location)
+    public void SetLocation(Location location)
 	{
 		m_ConcertLocation = location;
 	}

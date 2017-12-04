@@ -23,6 +23,7 @@ public class GirlAI : CachedMonoBehaviour
 
 	public float SpotValue { get; private set; }
 	public bool HasSpotted { get { return m_FSM.CurrentStateId == (int)EFanStateID.Spotted; } }
+    public bool Blind { get; set; }
 
 	private FiniteStateMachine m_FSM;
 	public FiniteStateMachine FSM { get { return m_FSM; } }
@@ -46,7 +47,9 @@ public class GirlAI : CachedMonoBehaviour
 		m_ConeMaterialInstance = new Material(m_ConeMaterial);
 		m_Agent = GetComponent<NavMeshAgent>();
 		PrepareStateMachine();
-	}
+        Blind = false;
+
+    }
 
 	private void Update()
 	{
@@ -107,8 +110,8 @@ public class GirlAI : CachedMonoBehaviour
 
     public void DetectPlayer()
 	{
-		m_PlayerDetected = GirlsManager.Instance.FieldOfView.TestCollision(CachedTransform.position, CachedTransform.forward);
-		m_ShowCone = true;
+		m_PlayerDetected = !Blind && GirlsManager.Instance.FieldOfView.TestCollision(CachedTransform.position, CachedTransform.forward);
+		m_ShowCone = !Blind;
 
 		float spotValue = GameManager.Instance.DeltaTime * SPOT_SPEED;
 		if (m_PlayerDetected)
