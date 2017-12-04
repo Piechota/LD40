@@ -58,7 +58,6 @@ public class GameConcertState : AGameState
 
 	protected override void HandleLeave(AState nextState)
 	{
-		m_ConcertLocation = null;
 		m_Mgr.SetGameTimerPause(false);
 		m_Mgr.Player.SetInputLock(false);
 		POIManager.Instance.SetCutsceneCameraActive(false);
@@ -66,6 +65,7 @@ public class GameConcertState : AGameState
         GirlsManager.Instance.SetGirlsBlind(false);
         GirlsManager.Instance.SpawnGirl(5);
         GameManager.Instance.Player.LocomotionActive = true;
+		m_ConcertLocation = null;
     }
 
     public void SetLocation(Location location)

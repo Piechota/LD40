@@ -24,6 +24,12 @@ public class FanSpottedState : AFanState
 		{
 			player.ReceiveAttack();
 		}
+
+        if ( !m_Fan.m_AudioSource.isPlaying )
+        {
+            int clipID = Random.Range(0, m_Fan.m_Squeaking.Length);
+            m_Fan.m_AudioSource.PlayOneShot(m_Fan.m_Squeaking[clipID] );
+        }
 	}
 
 	protected override void HandleFixedUpdate()

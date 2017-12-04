@@ -14,7 +14,12 @@ public class GirlAI : CachedMonoBehaviour
 	private ParticleSystem m_HeartParticles;
 	public ParticleSystem HeartParticles { get { return m_HeartParticles; } }
 
-	[SerializeField]
+    [SerializeField]
+    public AudioClip[] m_Squeaking;
+    [HideInInspector]
+    public AudioSource m_AudioSource;
+
+    [SerializeField]
 	private Material m_ConeMaterial;
 	private Material m_ConeMaterialInstance;
 	[SerializeField]
@@ -50,7 +55,9 @@ public class GirlAI : CachedMonoBehaviour
 		m_HeartParticles.Stop();
 		m_ConeMaterialInstance = new Material(m_ConeMaterial);
 		m_Agent = GetComponent<NavMeshAgent>();
-		PrepareStateMachine();
+        m_AudioSource = GetComponent<AudioSource>();
+
+        PrepareStateMachine();
         Blind = false;
     }
 
