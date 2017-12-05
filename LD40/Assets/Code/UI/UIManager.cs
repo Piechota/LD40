@@ -4,6 +4,10 @@ using UnityEngine;
 public class UIManager : ASingleton<UIManager>
 {
 	[SerializeField]
+	private UIMessages m_Messages;
+	public UIMessages Messages { get { return m_Messages; } }
+
+	[SerializeField]
 	private CanvasGroup m_GameOverGroup;
 	[SerializeField]
 	private TextMeshProUGUI m_LastedText;

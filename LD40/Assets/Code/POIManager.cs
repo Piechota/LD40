@@ -59,7 +59,6 @@ public class POIManager : ASingleton<POIManager>
 	{
         if (UIManager.Instance)
         {
-            UIManager.Instance.UpdateMissionCounter(MissionCounter);
             int rand = Random.Range(0, m_Locations.Count);
             if (rand == lastLocation)
             {
@@ -72,6 +71,12 @@ public class POIManager : ASingleton<POIManager>
 
             MissionTimer = m_MissionDuration;
             UIManager.Instance.ShowLocationMarker(TargetLocation);
+
+            UIManager.Instance.UpdateMissionCounter(MissionCounter);
+			if (MissionCounter > 0)
+			{
+				UIManager.Instance.Messages.ShowRandomMessage();
+			}
 
             OnMissionStarted.Invoke(TargetLocation);
         }

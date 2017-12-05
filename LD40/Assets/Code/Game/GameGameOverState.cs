@@ -9,6 +9,7 @@ public class GameGameOverState : AGameState
 
 	protected override void HandleEnter(AState prevState)
 	{
+		UIManager.Instance.Messages.ShowFailMessage();
 		m_Mgr.SetGameTimerPause(true);
 		m_Mgr.Player.SetInputLock(true);
 	}
