@@ -37,6 +37,8 @@ public class GirlAI : CachedMonoBehaviour
 
     public ParticleSystem FlashParticle;
     public AudioClip FlashSound;
+    public Vector2 FlashSpawn = new Vector2(1f, 2f);
+    private float m_CurrentFlashSpawn;
 
     private FiniteStateMachine m_FSM;
 	public FiniteStateMachine FSM { get { return m_FSM; } }
@@ -68,7 +70,9 @@ public class GirlAI : CachedMonoBehaviour
 
 	private void Update()
 	{
-		m_FSM.Update();
+        m_CurrentFlashSpawn -= GameManager.Instance.DeltaTime;
+
+        m_FSM.Update();
 	}
 
 	private void FixedUpdate()
@@ -268,7 +272,11 @@ public class GirlAI : CachedMonoBehaviour
 
     public void Flash()
     {
-        Instantiate(FlashParticle, CachedTransform.position + Vector3.up * 1.5f, CachedTransform.rotation);
-        m_AudioSource.PlayOneShot(FlashSound);
+        if (m_CurrentFlashSpawn < 0f)
+        {
+            Instantiate(FlashParticle, CachedTransform.position + Vector3.up * 1.5f, CachedTransform.rotation);
+            m_AudioSource.PlayOneShot(FlashSound);
+            m_CurrentFlashSpawn = Random.Range(FlashSpawn.x, FlashSpawn.y);
+        }
     }
 }
