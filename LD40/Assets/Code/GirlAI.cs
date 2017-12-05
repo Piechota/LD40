@@ -35,7 +35,10 @@ public class GirlAI : CachedMonoBehaviour
 	public bool HasSpotted { get { return m_FSM.CurrentStateId == (int)EFanStateID.Spotted; } }
     public bool Blind { get; set; }
 
-	private FiniteStateMachine m_FSM;
+    public ParticleSystem FlashParticle;
+    public AudioClip FlashSound;
+
+    private FiniteStateMachine m_FSM;
 	public FiniteStateMachine FSM { get { return m_FSM; } }
 	private FanIdleState m_IdleState;
 	private FanRoamingState m_RoamingState;
@@ -262,4 +265,10 @@ public class GirlAI : CachedMonoBehaviour
 		}
 		GL.End();
 	}
+
+    public void Flash()
+    {
+        Instantiate(FlashParticle, CachedTransform.position + Vector3.up * 1.5f, CachedTransform.rotation);
+        m_AudioSource.PlayOneShot(FlashSound);
+    }
 }
