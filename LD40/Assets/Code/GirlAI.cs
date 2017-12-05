@@ -35,7 +35,12 @@ public class GirlAI : CachedMonoBehaviour
 	public bool HasSpotted { get { return m_FSM.CurrentStateId == (int)EFanStateID.Spotted; } }
     public bool Blind { get; set; }
 
-	private FiniteStateMachine m_FSM;
+    public ParticleSystem FlashParticle;
+    public AudioClip FlashSound;
+    public Vector2 FlashSpawn = new Vector2(1f, 2f);
+    private float m_CurrentFlashSpawn;
+
+    private FiniteStateMachine m_FSM;
 	public FiniteStateMachine FSM { get { return m_FSM; } }
 	private FanIdleState m_IdleState;
 	private FanRoamingState m_RoamingState;
@@ -65,7 +70,9 @@ public class GirlAI : CachedMonoBehaviour
 
 	private void Update()
 	{
-		m_FSM.Update();
+        m_CurrentFlashSpawn -= GameManager.Instance.DeltaTime;
+
+        m_FSM.Update();
 	}
 
 	private void FixedUpdate()
@@ -262,4 +269,14 @@ public class GirlAI : CachedMonoBehaviour
 		}
 		GL.End();
 	}
+
+    public void Flash()
+    {
+        if (m_CurrentFlashSpawn < 0f)
+        {
+            Instantiate(FlashParticle, CachedTransform.position + Vector3.up * 1.5f, CachedTransform.rotation);
+            m_AudioSource.PlayOneShot(FlashSound);
+            m_CurrentFlashSpawn = Random.Range(FlashSpawn.x, FlashSpawn.y);
+        }
+    }
 }

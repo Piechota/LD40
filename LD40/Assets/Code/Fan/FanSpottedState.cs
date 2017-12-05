@@ -26,6 +26,7 @@ public class FanSpottedState : AFanState
 		if (dist <= m_Fan.Params.SpottedAttackDistance)
 		{
 			player.ReceiveAttack();
+            m_Fan.Flash();
 		}
 
         if ( !m_Fan.m_AudioSource.isPlaying )

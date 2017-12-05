@@ -603,6 +603,9 @@ MonoBehaviour:
   m_ConeMaterial: {fileID: 2100000, guid: c04256198372af643990d7263307a071, type: 2}
   m_ConeMaterialIdle: {r: 1, g: 0, b: 1, a: 0.5019608}
   m_ConeMaterialSpotted: {r: 1, g: 0, b: 0, a: 1}
+  FlashParticle: {fileID: 198955629806709096, guid: baa0eb696d6a73c418da7624f2aaecfe,
+    type: 2}
+  FlashSound: {fileID: 8300000, guid: ea77f9c57683bef4f999763d224aae90, type: 3}
 --- !u!114 &114608322145296632
 MonoBehaviour:
   m_ObjectHideFlags: 1
