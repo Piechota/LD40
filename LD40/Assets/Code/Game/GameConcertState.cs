@@ -7,7 +7,7 @@ public class GameConcertState : AGameState
 	private float m_Timer = 0f;
 	private Location m_ConcertLocation;
     private float m_PlayerSpeed = 0f;
-	private const float CONCERT_DURATION = 4f;
+	private const float CONCERT_DURATION = 3.5f;
 
     private Vector3[] m_PlayerPoints = new Vector3[3];
     private int m_PlayerPointID = 0;
