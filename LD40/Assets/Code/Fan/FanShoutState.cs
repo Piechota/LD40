@@ -12,6 +12,8 @@ public class FanShoutState : AFanState
         ShoutTime = m_Fan.Params.ShoutTime;
         Shout();
 		m_Fan.SetExclamationMarkVisible(true);
+        int clipID = Random.Range(0, m_Fan.m_Squeaking.Length);
+        m_Fan.m_AudioSource.PlayOneShot(m_Fan.m_Squeaking[clipID]);
     }
 
     protected override void HandleUpdate()
