@@ -863,6 +863,7 @@ MonoBehaviour:
   m_AutographRadius: 5
   m_AutographDelay: 10
   AutographSound: {fileID: 8300000, guid: 04aefac2f8321ea4d918d0050307b7d3, type: 3}
+  SMSSound: {fileID: 8300000, guid: b9d6187ec350c1848a03e939981725c7, type: 3}
   LocomotionActive: 1
   AnimationActive: 1
 --- !u!114 &114634228454147076

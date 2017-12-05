@@ -76,6 +76,7 @@ public class POIManager : ASingleton<POIManager>
 			if (MissionCounter > 0)
 			{
 				UIManager.Instance.Messages.ShowRandomMessage();
+                GameManager.Instance.Player.SMS();
 			}
 
             OnMissionStarted.Invoke(TargetLocation);

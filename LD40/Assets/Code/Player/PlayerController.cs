@@ -16,6 +16,7 @@ public class PlayerController : CachedMonoBehaviour
     private AudioSource m_AudioSource;
 
     public AudioClip AutographSound;
+    public AudioClip SMSSound;
 
     private PlayerInputController m_Input;
     public PlayerInputController Input
@@ -154,5 +155,9 @@ public class PlayerController : CachedMonoBehaviour
     private float GetAutographNorm()
     {
         return Mathf.Clamp01(m_AutographCooldown / m_AutographDelay);
+    }
+    public void SMS()
+    {
+        m_AudioSource.PlayOneShot(SMSSound);
     }
 }
