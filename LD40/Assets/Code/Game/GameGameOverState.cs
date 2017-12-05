@@ -3,6 +3,7 @@ using UnityEngine.SceneManagement;
 
 public class GameGameOverState : AGameState
 {
+    private float m_Time = 0f;
 	public GameGameOverState() : base(EGameState.GameOver)
 	{
 	}
@@ -11,13 +12,15 @@ public class GameGameOverState : AGameState
 	{
 		m_Mgr.SetGameTimerPause(true);
 		m_Mgr.Player.SetInputLock(true);
+        m_Time = 1f;
 	}
 
 	protected override void HandleUpdate()
 	{
 		base.HandleUpdate();
-
-		if (Input.anyKey)
+        m_Time -= Time.deltaTime;
+        Debug.Log(m_Time);
+		if (m_Time < 0f && Input.anyKeyDown)
 		{
 			SceneManager.LoadScene(0);
 		}

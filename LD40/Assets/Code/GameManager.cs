@@ -91,8 +91,11 @@ public class GameManager : ASingleton<GameManager>
 
 	public void SetGameOver()
 	{
-		m_FSM.TransitionTo(m_GameOverState);
-		OnGameOver.Invoke();
+        if (m_FSM.CurrentStateId != (int)EGameState.GameOver)
+        {
+            m_FSM.TransitionTo(m_GameOverState);
+            OnGameOver.Invoke();
+        }
 	}
 
 	public void SetGameTimerPause(bool set)
