@@ -5,6 +5,8 @@ public class UIManager : ASingleton<UIManager>
 {
 	[SerializeField]
 	private CanvasGroup m_GameOverGroup;
+	[SerializeField]
+	private TextMeshProUGUI m_LastedText;
 
 	[SerializeField]
 	private UILocationMarker m_LocationMarker;
@@ -74,7 +76,7 @@ public class UIManager : ASingleton<UIManager>
 			secDigit = "0";
 		}
 
-		m_TimerLabel.color = (timer < 10) ? new Color(1f, 0.7f, 0.7f) : Color.white;
+		m_TimerLabel.color = (timer < 10) ? new Color(1f, 0.5f, 0.5f) : Color.white;
 		m_TimerLabel.text = string.Format("0{0}:{1}{2}", mins, secDigit, secs);
 	}
 
@@ -86,5 +88,6 @@ public class UIManager : ASingleton<UIManager>
 	public void ShowGameOverPanel()
 	{
 		m_GameOverGroup.alpha = 1;
+		m_LastedText.text = string.Format("You gave <b>{0}</b> concerts before your short career was over and newer, younger artists took your place.", POIManager.Instance.MissionCounter);
 	}
 }
