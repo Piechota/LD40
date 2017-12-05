@@ -63,10 +63,9 @@ public class GameConcertState : AGameState
 		m_Timer += Time.deltaTime;
         UpdatePlayerPosition();
 
-        const float p = 0.1f;
-        float x = (2f * (m_Timer / CONCERT_DURATION) - 1f);
-        float bejbeFade = Mathf.Clamp01( 1.5f * (-(x * x) + 1f) );
-        float fade = 1f - (m_Timer / (CONCERT_DURATION * p));
+        float p = m_Timer / CONCERT_DURATION;
+        float bejbeFade = GameManager.Instance.BejbeFade.Evaluate(p);
+        float fade = GameManager.Instance.LoopFade.Evaluate(p);
         if (m_ConcertLocation)
         {
             m_ConcertLocation.Bejbe.volume = bejbeFade;
