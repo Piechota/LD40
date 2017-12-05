@@ -6,6 +6,9 @@ public class GameManager : ASingleton<GameManager>
     public Transform WorldBox;
 	public Transform Floor;
 
+    public AnimationCurve LoopFade;
+    public AnimationCurve BejbeFade;
+
     private PlayerController m_Player;
 	public PlayerController Player
 	{
