@@ -13,6 +13,10 @@ public class PlayerController : CachedMonoBehaviour
     private float m_AutographDelay = 10f;
     private float m_AutographCooldown = 0f;
 
+    private AudioSource m_AudioSource;
+
+    public AudioClip AutographSound;
+
     private PlayerInputController m_Input;
     public PlayerInputController Input
 	{
@@ -72,6 +76,7 @@ public class PlayerController : CachedMonoBehaviour
 	private void Awake()
 	{
 		Reset();
+        m_AudioSource = GetComponent<AudioSource>();
     }
 
 	private void OnDestroy()
@@ -133,6 +138,7 @@ public class PlayerController : CachedMonoBehaviour
         {
             ParticleSystem p = Instantiate(m_AutographPrefab, CachedTransform.position + Vector3.up, CachedTransform.rotation);
 			p.collision.SetPlane(0, GameManager.Instance.Floor);
+            m_AudioSource.PlayOneShot(AutographSound);
         }
 
         Collider[] girls = Physics.OverlapSphere(CachedTransform.position, m_AutographRadius, 1 << 9);
